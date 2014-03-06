@@ -20,7 +20,9 @@ package eu.m4gkbeatz.androidtoolkit.settings;
 import java.io.*;
 
 /**
- *
+ * SettingsManager.
+ * The Universal Android Toolkit settings manager manages all the IO of any and all preferences used by UAT.
+ * The values are saved to the class via the getter- and setter methods and the actual save is then triggered by the save method.
  * @author beatsleigher
  */
 @SuppressWarnings({"FieldMayBeFinal"})
@@ -222,5 +224,43 @@ public class SettingsManager {
      * @return true if yes, false if not.
      */
     public boolean useAdvancedUI() { return useAdvancedUI; }
+    
+    /**
+     * Sets the getUpdates variable.
+     * If set to <i>true</i>, then the program will check for updates, before loading the UI.
+     * The updates will then be shown by a JOptionPane, which will then trigger the downloader method to download the file.
+     * @param bool 
+     */
+    public void setGetUpdates(boolean bool) { this.getUpdates = bool; }
+    
+    /**
+     * Sets the variable checkForDevicesOnStartup.
+     * If set to <i>true</i>, then the loaded UI will check for any and all connected devices and will display them in a JList.
+     * @param bool 
+     */
+    public void setCheckForDevicesOnStartup(boolean bool) { this.checkForDevicesOnStartup = bool; }
+    
+    /**
+     * Sets the variable autoLoadDeviceInfo.
+     * If set to <i>true</i>, then the loaded UI will load the first device's information immediately..
+     * @param bool 
+     */
+    public void setAutoLoadDeviceInfo(boolean bool) { this.autoLoadDeviceInfo = bool; }
+    
+    /**
+     * Sets the variable saveLogs.
+     * If set to <i>true</i>, then the program will automatically save any and all created logs to a log file.
+     * This preference is locked until the RC state.
+     * @param bool 
+     */
+    public void setSaveLogs(boolean bool) { this.saveLogs = bool; }
+    
+    /**
+     * Sets the variable advancedUI.
+     * If set to <i>true</i>, the program will load the advanced UI on startup, instead of the simple UI.
+     * Using the advanced UI is only recommended, when using advanced commands, and getting/modifying sensitive device information, such as build props.
+     * @param bool 
+     */
+    public void setUseAdvancedUI(boolean bool) { this.useAdvancedUI = bool; }
     
 }

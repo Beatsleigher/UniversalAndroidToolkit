@@ -14,11 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package eu.m4gkbeatz.androidtoolkit.main;
 
-import eu.m4gkbeatz.androidtoolkit.logging.LogLevel;
-import eu.m4gkbeatz.androidtoolkit.logging.Logger;
+import eu.m4gkbeatz.androidtoolkit.logging.*;
 import eu.m4gkbeatz.androidtoolkit.settings.SettingsManager;
 import eu.m4gkbeatz.androidtoolkit.splash.SplashScreen;
 import eu.m4gkbeatz.androidtoolkit.ui.*;
@@ -32,29 +30,25 @@ import java.io.*;
  */
 @SuppressWarnings({"UnusedAssignment", "CallToPrintStackTrace"})
 public class Main {
-    
+
     public static void main(String[] args) {
-        /* Set the GTK+ look and feel */
+        /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            /*for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-             if ("Nimbus".equals(info.getName())) {
-             javax.swing.UIManager.setLookAndFeel(info.getClassName());
-             break;
-             }
-             }*/
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-        } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            try {
-                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-            } catch (Exception _ex) {
-
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
             }
+
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            System.err.println("Error setting default Look and Feel.\n" + ex.toString());
         }
+
         //</editor-fold>
 
         /* Create and display the form */
@@ -66,16 +60,16 @@ public class Main {
                     public void run() {
                         Logger log = null;
                         SettingsManager settings = null;
-                        
+
                         SplashScreen splash = new SplashScreen();
                         splash.setVisible(true);
                         splash.setLocationRelativeTo(null);
                         splash.setStatus("Loading Settings and Logger...");
-                        
+
                         try {
                             settings = new SettingsManager();
                             log = new Logger(settings);
-                            
+
                             log.setVisible(true);
                             log.log(LogLevel.FINE, "Universal Android Toolkit has started.");
                             log.log(LogLevel.FINE, "Settings and logger have been loaded.");
@@ -99,11 +93,11 @@ public class Main {
                             System.err.println("Error while starting Universal Android Toolkit for Linux.");
                             ex.printStackTrace();
                         }
-                        
+
                     }
                 }.start();
             }
         });
     }
-    
+
 }
