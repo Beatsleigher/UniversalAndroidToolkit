@@ -17,18 +17,17 @@
 package eu.m4gkbeatz.androidtoolkit.settings;
 
 import eu.m4gkbeatz.androidtoolkit.logging.*;
-import java.awt.Desktop;
 
+import javax.swing.*;
+import java.awt.Desktop;
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.logging.Level;
+import java.net.*;
 
 /**
  *
  * @author beatsleigher
  */
-public class SettingsUI extends javax.swing.JFrame {
+public class SettingsUI extends JFrame {
 
     SettingsManager settings = null;
     Logger log = null;
@@ -49,14 +48,25 @@ public class SettingsUI extends javax.swing.JFrame {
         initComponents();
         this.settings = settings;
         this.log = log;
+        this.setLocationRelativeTo(null);
+        this.setIconImage(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/settings-icon.png")).getImage());
+        load();
     }
 
     /**
      * Loads all the settings from the Settings Manager and displays them in
      * form of text or checks.
      */
-    private void load() { /*Load Settings*/
-
+    @SuppressWarnings("ConvertToTryWithResources")
+    private void load() { 
+        /*Load available LAFs.*/
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+            model.addElement(info.getName());
+        }
+        jComboBox1.setModel(model);
+        
+        /*Load Settings*/
         if (settings.useAdvancedUI()) {
             jRadioButton1.setSelected(false);
             jRadioButton2.setSelected(true);
@@ -98,10 +108,13 @@ public class SettingsUI extends javax.swing.JFrame {
             jCheckBox4.setSelected(false);
             loadDeviceInfo = false;
         }
+        
+        jComboBox1.setSelectedItem(settings.getLookAndFeel());
 
         try {
             /*Load Version Info*/
-            BufferedReader reader = new BufferedReader(new FileReader(this.getClass().getResource("/uat.ver").getFile()));
+            BufferedReader reader = new BufferedReader(new FileReader(this.getClass().getResource("/eu/m4gkbeatz/uat.ver").getFile()));
+            @SuppressWarnings("UnusedAssignment")
             String line = null;
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("\tProgram version: ")) {
@@ -120,6 +133,8 @@ public class SettingsUI extends javax.swing.JFrame {
                 jTextField2.setText("False. All warranties are void.");
             } else {
                 log.log(LogLevel.SEVERE, "ERROR: Error loading version info!\n" + ex.toString());
+                jTextField1.setText("n/a");
+                jTextField2.setText("n/a");
             }
         }
     }
@@ -141,6 +156,8 @@ public class SettingsUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
+        jLabel11 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
@@ -202,31 +219,48 @@ public class SettingsUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("UAT Look and Feel");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nimbus", "Windows", "GTK+", "CDE/Motif", "Metal" }));
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jRadioButton2))
-                        .addGap(0, 55, Short.MAX_VALUE)))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(325, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jRadioButton1))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jRadioButton2)))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jRadioButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jRadioButton2)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -275,7 +309,7 @@ public class SettingsUI extends javax.swing.JFrame {
                 .addComponent(jCheckBox1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox2)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -299,7 +333,7 @@ public class SettingsUI extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("General", jPanel1);
@@ -376,7 +410,7 @@ public class SettingsUI extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox4)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -400,7 +434,7 @@ public class SettingsUI extends javax.swing.JFrame {
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Device Management", jPanel2);
@@ -499,7 +533,7 @@ public class SettingsUI extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Miscellaneous", jPanel3);
@@ -508,11 +542,11 @@ public class SettingsUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -524,6 +558,7 @@ public class SettingsUI extends javax.swing.JFrame {
         settings.setSaveLogs(saveLogs);
         settings.setGetUpdates(checkForUpdates);
         settings.setUseAdvancedUI(loadAdvancedUI);
+        settings.setLookAndFeel(jComboBox1.getSelectedItem().toString());
         try {
             settings.saveSettings();
         } catch (IOException ex) {
@@ -607,8 +642,10 @@ public class SettingsUI extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

@@ -50,18 +50,15 @@ public class AdvancedUI extends JFrame {
      * Creates new form AdvancedUI
      * @param settings
      * @param log
+     * @param adbController
      */
-    public AdvancedUI(SettingsManager settings, Logger log) {
+    public AdvancedUI(SettingsManager settings, Logger log, ADBController adbController) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setIconImage(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/icon.png")).getImage());
         this.log = log;
         this.settings = settings;
-        try {
-            this.adbController = new ADBController();
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error creating instance of ADBController from JDroidLib!\n" + ex.toString());
-        }
+        this.adbController = adbController;
         devices = new AdvancedDevices(adbController, log);
         devices.setVisible(true);
         this.setTitle("Advanced UI | Welcome, " + System.getProperty("user.name") + ". | Universal Android Toolkit");
@@ -648,13 +645,10 @@ public class AdvancedUI extends JFrame {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                        .addComponent(jButton21)
-                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBox1, 0, 138, Short.MAX_VALUE))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                    .addComponent(jButton21, javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jTextField8, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.CENTER, 0, 138, Short.MAX_VALUE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
@@ -846,7 +840,7 @@ public class AdvancedUI extends JFrame {
                         .addComponent(jSeparator15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 22, Short.MAX_VALUE))
+                        .addGap(0, 10, Short.MAX_VALUE))
                     .addComponent(jSeparator16)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()

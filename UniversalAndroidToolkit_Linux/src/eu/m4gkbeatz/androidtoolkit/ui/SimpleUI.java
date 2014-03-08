@@ -17,17 +17,14 @@
 package eu.m4gkbeatz.androidtoolkit.ui;
 
 import eu.m4gkbeatz.androidtoolkit.logging.*;
-import eu.m4gkbeatz.androidtoolkit.settings.SettingsManager;
+import eu.m4gkbeatz.androidtoolkit.settings.*;
+import eu.m4gkbeatz.androidtoolkit.io.*;
 
 import JDroidLib.android.controllers.ADBController;
-import JDroidLib.android.device.Battery;
 import JDroidLib.enums.RebootTo;
-import eu.m4gkbeatz.androidtoolkit.io.APKFilter;
-import eu.m4gkbeatz.androidtoolkit.io.IMGFilter;
 
 import java.io.*;
 import java.util.*;
-import java.util.logging.Level;
 import javax.swing.*;
 
 /**
@@ -48,16 +45,17 @@ public class SimpleUI extends JFrame {
      *
      * @param settings
      * @param log
+     * @param adbController
      */
-    public SimpleUI(SettingsManager settings, Logger log) {
+    public SimpleUI(SettingsManager settings, Logger log, ADBController adbController) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.settings = settings;
         this.log = log;
         this.setTitle("Universal Android Toolkit | Welcome, " + System.getProperty("user.name") + ". | Simple UI");
         this.setIconImage(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/icon.png")).getImage());
+        this.adbController = adbController;
         try {
-            adbController = new ADBController();
             adbController.startServer();
         } catch (IOException ex) {
             log.log(LogLevel.SEVERE, "ERROR: Error creating instance of ADBController!\n" + ex.toString());
@@ -77,10 +75,11 @@ public class SimpleUI extends JFrame {
         }
         jList1.setSelectedIndex(0);
         String devSerial = jList1.getSelectedValue().toString();
-        if (!devSerial.equals("")) {
-             // (Sorry, that part's being a dick.) if (settings.autoLoadDeviceInfo()) {
+        if (!devSerial.equals("") && settings.autoLoadDeviceInfo()) {
+            if (settings.autoLoadDeviceInfo()) {
                 log.log(LogLevel.INFO, "Loading battery level from device " + devSerial);
-                getBattery(devSerial); //}
+                getBattery(devSerial);
+            }
         }
     }
 
@@ -140,32 +139,40 @@ public class SimpleUI extends JFrame {
         }.start();
         return 0;
     }
-    
+
     /**
      * Gets battery of device selected in jList1.
+     *
      * @param serial of the device, from which to get the info.
      */
-    private void getBattery(String serial) {
-        try {
-            Battery battery = adbController.getDevice(serial).getBattery();
-            int batteryLevel = battery.getLevel();
-            if (batteryLevel <= 25) {
-                jLabel1.setIcon(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery_empty-32.png")));
-            } else if (batteryLevel <= 50) {
-                jLabel1.setIcon(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/quarter-32.png")));
-            } else if (batteryLevel <= 75) {
-                jLabel1.setIcon(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery_half-32.png")));
-            } else if (batteryLevel < 100) {
-                jLabel1.setIcon(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery_third-32.png")));
-            } else if (batteryLevel == 100) {
-                jLabel1.setIcon(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery_full-32.png")));
-            } else {
-                jLabel1.setIcon(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery-32.png")));
+    private void getBattery(final String serial) {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    int batteryLevel = adbController.getDevice(serial).getBattery().getLevel();
+                    if (batteryLevel <= 25) {
+                        jLabel1.setIcon(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery_empty-32.png")));
+                    } else if (batteryLevel <= 50) {
+                        jLabel1.setIcon(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery_quarter-32.png")));
+                    } else if (batteryLevel <= 75) {
+                        jLabel1.setIcon(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery_half-32.png")));
+                    } else if (batteryLevel < 100) {
+                        jLabel1.setIcon(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery_third-32.png")));
+                    } else if (batteryLevel == 100) {
+                        jLabel1.setIcon(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery_full-32.png")));
+                    } else {
+                        jLabel1.setIcon(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery-32.png")));
+                    }
+                    jLabel1.setText(batteryLevel + "%");
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error getting battery level from device!");
+                    log.log(LogLevel.SEVERE, "Error message: " + ex.toString());
+                    log.log(LogLevel.INFO, "Printing stack trace to standard error stream.");
+                    ex.printStackTrace(System.err);
+                }
             }
-            jLabel1.setText(batteryLevel + "%");
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error getting battery level from device!\n" + ex.toString());
-        }
+        }.start();
     }
 
     /**
@@ -242,6 +249,8 @@ public class SimpleUI extends JFrame {
         jMenu4 = new javax.swing.JMenu();
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem13 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -254,7 +263,7 @@ public class SimpleUI extends JFrame {
         jToolBar1.setMinimumSize(new java.awt.Dimension(100, 14));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery-32.png"))); // NOI18N
-        jLabel1.setText("100%");
+        jLabel1.setText("n/a");
         jToolBar1.add(jLabel1);
 
         jScrollPane2.setViewportView(jList2);
@@ -411,31 +420,27 @@ public class SimpleUI extends JFrame {
                                     .addComponent(jButton1))
                                 .addGap(30, 30, 30)))
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(47, 47, 47)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                    .addComponent(jButton4)
-                                    .addComponent(jButton3))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jButton4)
+                            .addComponent(jButton3)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(46, 46, 46)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                    .addComponent(jButton6)
-                                    .addComponent(jButton5))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jButton6)
+                            .addComponent(jButton5)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(224, 224, 224)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(236, 236, 236))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(365, 365, 365)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(95, 95, 95)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -779,6 +784,19 @@ public class SimpleUI extends JFrame {
 
         jMenuBar1.add(jMenu2);
 
+        jMenu5.setText("UAT");
+
+        jMenuItem13.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem13.setText("Settings");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem13);
+
+        jMenuBar1.add(jMenu5);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -820,46 +838,65 @@ public class SimpleUI extends JFrame {
     //<editor-fold defaultstate="collapsed" desc="Android Tab">
     /**
      * Starts ADB server.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        try {
-            log.log(LogLevel.INFO, "Starting ADB server... ");
-            adbController.startServer();
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while trying to start the server!\n" + ex.toString());
-        }
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    log.log(LogLevel.INFO, "Starting ADB server... ");
+                    adbController.startServer();
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while trying to start the server!\n" + ex.toString());
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * Stops ADB server.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        try {
-            log.log(LogLevel.INFO, "Stopping ADB server... ");
-            adbController.stopServer();
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while trying to stop server!\n" + ex.toString());
-        }
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    log.log(LogLevel.INFO, "Stopping ADB server... ");
+                    adbController.stopServer();
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while trying to stop server!\n" + ex.toString());
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * Restarts ADB server.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        try {
-            log.log(LogLevel.INFO, "Restarting ADB server... ");
-            adbController.restartServer();
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while trying to restart ADB server!\n" + ex.toString());
-        }
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    log.log(LogLevel.INFO, "Restarting ADB server... ");
+                    adbController.restartServer();
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while trying to restart ADB server!\n" + ex.toString());
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
      * Allows users to execute custom ADB commands. Can be quite useful.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         log.log(LogLevel.INFO, "Loading custom ADB command execution window...");
@@ -868,10 +905,11 @@ public class SimpleUI extends JFrame {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     /**
-     * Allows users to connect wirelessly to their device.
-     * This feature is pretty experimental, as I don't know if all the information will be processed.
-     * We'll see.
-     * @param evt 
+     * Allows users to connect wirelessly to their device. This feature is
+     * pretty experimental, as I don't know if all the information will be
+     * processed. We'll see.
+     *
+     * @param evt
      */
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         log.log(LogLevel.FINE, "Loading TCP connection utility...");
@@ -880,9 +918,10 @@ public class SimpleUI extends JFrame {
     }//GEN-LAST:event_jButton11ActionPerformed
 
     /**
-     * Loads all connected devices.
-     * The first device, will also have battery stats loaded.
-     * @param evt 
+     * Loads all connected devices. The first device, will also have battery
+     * stats loaded.
+     *
+     * @param evt
      */
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         log.log(LogLevel.FINE, "Loading devices and battery level of device[0]...");
@@ -893,46 +932,65 @@ public class SimpleUI extends JFrame {
 
     /**
      * Allows user to easily reboot device to Android OS.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        log.log(LogLevel.INFO, "Rebooting device " + jList1.getSelectedValue().toString() + " to Android OS.");
-        try {
-            log.log(LogLevel.INFO, "ADB Output" + adbController.rebootDevice(jList1.getSelectedValue().toString(), RebootTo.ANDROID));
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while rebooting device to Android OS!\n" + ex.toString());
-        }
+        new Thread() {
+            @Override
+            public void run() {
+                log.log(LogLevel.INFO, "Rebooting device " + jList1.getSelectedValue().toString() + " to Android OS.");
+                try {
+                    log.log(LogLevel.INFO, "ADB Output" + adbController.rebootDevice(jList1.getSelectedValue().toString(), RebootTo.ANDROID));
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while rebooting device to Android OS!\n" + ex.toString());
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton13ActionPerformed
 
     /**
      * Allows user to easily reboot device to recovery mode. (CWM/TWRP)
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        log.log(LogLevel.INFO, "Rebooting device " + jList1.getSelectedValue().toString() + " to Recovery Mode.");
-        try {
-            log.log(LogLevel.INFO, "ADB Output" + adbController.rebootDevice(jList1.getSelectedValue().toString(), RebootTo.RECOVERY));
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while rebooting device to Recovery Mode!\n" + ex.toString());
-        }
+        new Thread() {
+            @Override
+            public void run() {
+                log.log(LogLevel.INFO, "Rebooting device " + jList1.getSelectedValue().toString() + " to Recovery Mode.");
+                try {
+                    log.log(LogLevel.INFO, "ADB Output" + adbController.rebootDevice(jList1.getSelectedValue().toString(), RebootTo.RECOVERY));
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while rebooting device to Recovery Mode!\n" + ex.toString());
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton14ActionPerformed
 
     /**
      * Allows user to easily reboot device to bootloader.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        log.log(LogLevel.INFO, "Rebooting device " + jList1.getSelectedValue().toString() + " to Android OS.");
-        try {
-            log.log(LogLevel.INFO, "ADB Output" + adbController.rebootDevice(jList1.getSelectedValue().toString(), RebootTo.BOOTLOADER));
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while rebooting device to Android OS!\n" + ex.toString());
-        }
+        new Thread() {
+            @Override
+            public void run() {
+                log.log(LogLevel.INFO, "Rebooting device " + jList1.getSelectedValue().toString() + " to Android OS.");
+                try {
+                    log.log(LogLevel.INFO, "ADB Output" + adbController.rebootDevice(jList1.getSelectedValue().toString(), RebootTo.BOOTLOADER));
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while rebooting device to Android OS!\n" + ex.toString());
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton15ActionPerformed
 
     /**
      * Allows user to select an APK to install to device.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFileChooser apkChooser = new JFileChooser();
@@ -940,27 +998,36 @@ public class SimpleUI extends JFrame {
         apkChooser.setApproveButtonText("Install this APK.");
         apkChooser.setDialogTitle("Select an Android Application Package (.apk) to install to device.");
         int dialogRes = apkChooser.showOpenDialog(null);
-        if (dialogRes == JOptionPane.OK_OPTION)
+        if (dialogRes == JOptionPane.OK_OPTION) {
             jTextField1.setText(apkChooser.getSelectedFile().toString());
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * Installs selected APK to device.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        log.log(LogLevel.FINE, "Installing application " + jTextField1.getText() + " to device " + jList1.getSelectedValue().toString());
-        try {
-            log.log(LogLevel.INFO, "ADB Output: " + adbController.executeADBCommand(false, false, jList1.getSelectedValue().toString(), 
-                    new String[]{"install", jTextField1.getText()}));
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while installing application!\n" + ex.toString());
-        }
+        new Thread() {
+            @Override
+            public void run() {
+                log.log(LogLevel.FINE, "Installing application " + jTextField1.getText() + " to device " + jList1.getSelectedValue().toString());
+                try {
+                    log.log(LogLevel.INFO, "ADB Output: " + adbController.executeADBCommand(false, false, jList1.getSelectedValue().toString(),
+                            new String[]{"install", jTextField1.getText()}));
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while installing application!\n" + ex.toString());
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
-     * Allows user to select any file/folder to push to the device and index[0] on JList1.
-     * @param evt 
+     * Allows user to select any file/folder to push to the device and index[0]
+     * on JList1.
+     *
+     * @param evt
      */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         JFileChooser fileChooser = new JFileChooser();
@@ -968,28 +1035,37 @@ public class SimpleUI extends JFrame {
         fileChooser.setApproveButtonText("Push this File...");
         fileChooser.setDialogTitle("Select a File/Folder to Push to Device...");
         int dialogRes = fileChooser.showOpenDialog(null);
-        if (dialogRes == JOptionPane.OK_OPTION)
+        if (dialogRes == JOptionPane.OK_OPTION) {
             jTextField2.setText(fileChooser.getSelectedFile().toString());
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * Pushes file/folder to device.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        log.log(LogLevel.INFO, "Pushing File " + jTextField2.getText() + " to device. Prompting user for destination...");
-        String destination = JOptionPane.showInputDialog(null, "Please enter the location on your device, to which you'd\nlike to push the file to.", "Enter File Destination", JOptionPane.INFORMATION_MESSAGE);
-        try {
-            log.log(LogLevel.INFO, "ADB Output:\n" + adbController.executeADBCommand(false, false, jList1.getSelectedValue().toString(), 
-                    new String[]{"push", jTextField2.getText(), destination}));
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while pushing file to device " + jList1.getSelectedValue().toString() + "!\n" + ex.toString());
-        }
+        new Thread() {
+            @Override
+            public void run() {
+                log.log(LogLevel.INFO, "Pushing File " + jTextField2.getText() + " to device. Prompting user for destination...");
+                String destination = JOptionPane.showInputDialog(null, "Please enter the location on your device, to which you'd\nlike to push the file to.", "Enter File Destination", JOptionPane.INFORMATION_MESSAGE);
+                try {
+                    log.log(LogLevel.INFO, "ADB Output:\n" + adbController.executeADBCommand(false, false, jList1.getSelectedValue().toString(),
+                            new String[]{"push", jTextField2.getText(), destination}));
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while pushing file to device " + jList1.getSelectedValue().toString() + "!\n" + ex.toString());
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
-     * Allows user to select a destination on the computer, for the file to pull from device.
-     * @param evt 
+     * Allows user to select a destination on the computer, for the file to pull
+     * from device.
+     *
+     * @param evt
      */
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         JFileChooser fileChooser = new JFileChooser();
@@ -997,30 +1073,39 @@ public class SimpleUI extends JFrame {
         fileChooser.setApproveButtonText("Pull the File Here...");
         fileChooser.setDialogTitle("Select a File/Folder to Push Pulled File to...");
         int dialogRes = fileChooser.showOpenDialog(null);
-        if (dialogRes == JOptionPane.OK_OPTION)
+        if (dialogRes == JOptionPane.OK_OPTION) {
             jTextField2.setText(fileChooser.getSelectedFile().toString());
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * Pulls selected file from device.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-       log.log(LogLevel.INFO, "Pushing File " + jTextField3.getText() + " to device. Prompting user for file to pull...");
-        String file = JOptionPane.showInputDialog(null, "Please enter the file on your device, to which you'd\nlike to pull to your computer.", "Enter File Source", JOptionPane.INFORMATION_MESSAGE);
-        try {
-            log.log(LogLevel.INFO, "ADB Output:\n" + adbController.executeADBCommand(false, false, jList1.getSelectedValue().toString(), 
-                    new String[]{"pull", file, jTextField3.getText()}));
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while pushing file to device " + jList1.getSelectedValue().toString() + "!\n" + ex.toString());
-        }
+        new Thread() {
+            @Override
+            public void run() {
+                log.log(LogLevel.INFO, "Pushing File " + jTextField3.getText() + " to device. Prompting user for file to pull...");
+                String file = JOptionPane.showInputDialog(null, "Please enter the file on your device, to which you'd\nlike to pull to your computer.", "Enter File Source", JOptionPane.INFORMATION_MESSAGE);
+                try {
+                    log.log(LogLevel.INFO, "ADB Output:\n" + adbController.executeADBCommand(false, false, jList1.getSelectedValue().toString(),
+                            new String[]{"pull", file, jTextField3.getText()}));
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while pushing file to device " + jList1.getSelectedValue().toString() + "!\n" + ex.toString());
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton6ActionPerformed
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Fastboot Tab">
     /**
-     * Allows user to select a recovery image (.img) to flash to device via fastboot.
-     * @param evt 
+     * Allows user to select a recovery image (.img) to flash to device via
+     * fastboot.
+     *
+     * @param evt
      */
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
         JFileChooser imgChooser = new JFileChooser();
@@ -1028,29 +1113,37 @@ public class SimpleUI extends JFrame {
         imgChooser.setDialogTitle("Select a Recovery Image...");
         imgChooser.setFileFilter(new IMGFilter());
         int dialogRes = imgChooser.showOpenDialog(null);
-        if (dialogRes == JOptionPane.OK_OPTION)
+        if (dialogRes == JOptionPane.OK_OPTION) {
             jTextField4.setText(imgChooser.getAcceptAllFileFilter().toString());
+        }
     }//GEN-LAST:event_jButton16ActionPerformed
 
     /**
      * Flashes selected recovery image to device.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        log.log(LogLevel.INFO, "Flashing image " + jTextField4.getText() + " to device (fastboot) " + jList2.getSelectedValue().toString());
-        String serial = jList2.getSelectedValue().toString();
-        try {
-            log.log(LogLevel.INFO, "Fastboot Output: " + adbController.executeFastbootCommand(serial, 
-                    new String[]{"flash", "recovery", jTextField4.getText()}));
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while flashing recovery image to device " + jList2.getSelectedValue().toString() + "!\n" + ex.toString());
-        }
+        new Thread() {
+            @Override
+            public void run() {
+                log.log(LogLevel.INFO, "Flashing image " + jTextField4.getText() + " to device (fastboot) " + jList2.getSelectedValue().toString());
+                String serial = jList2.getSelectedValue().toString();
+                try {
+                    log.log(LogLevel.INFO, "Fastboot Output: " + adbController.executeFastbootCommand(serial,
+                            new String[]{"flash", "recovery", jTextField4.getText()}));
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while flashing recovery image to device " + jList2.getSelectedValue().toString() + "!\n" + ex.toString());
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton17ActionPerformed
 
     /**
-     * Loads all devices connected via fastboot.
-     * Does not load battery information.
-     * @param evt 
+     * Loads all devices connected via fastboot. Does not load battery
+     * information.
+     *
+     * @param evt
      */
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
         getFastbootDevs();
@@ -1058,7 +1151,8 @@ public class SimpleUI extends JFrame {
 
     /**
      * Allows user to execute custom fastboot commands.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         ExecuteFastbootCMD execute = new ExecuteFastbootCMD(adbController, log);
@@ -1067,51 +1161,70 @@ public class SimpleUI extends JFrame {
 
     /**
      * Reboots device from fastboot to Android.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
-        String serial = jList2.getSelectedValue().toString();
-        try {
-            log.log(LogLevel.INFO, "Rebooting device" + serial + " from fastboot to Android.");
-            adbController.rebootDeviceFastboot(serial, RebootTo.ANDROID);
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while rebooting device from fastboot to Android!");
-        }
+        new Thread() {
+            @Override
+            public void run() {
+                String serial = jList2.getSelectedValue().toString();
+                try {
+                    log.log(LogLevel.INFO, "Rebooting device" + serial + " from fastboot to Android.");
+                    adbController.rebootDeviceFastboot(serial, RebootTo.ANDROID);
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while rebooting device from fastboot to Android!");
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton20ActionPerformed
 
     /**
      * Reboots device from fastboot to Recovery (I think...).
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-        String serial = jList2.getSelectedValue().toString();
-        try {
-            log.log(LogLevel.INFO, "Rebooting device" + serial + " from fastboot to Recovery.");
-            adbController.rebootDeviceFastboot(serial, RebootTo.RECOVERY);
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while rebooting device from fastboot to Recovery!");
-        }
+        new Thread() {
+            @Override
+            public void run() {
+                String serial = jList2.getSelectedValue().toString();
+                try {
+                    log.log(LogLevel.INFO, "Rebooting device" + serial + " from fastboot to Recovery.");
+                    adbController.rebootDeviceFastboot(serial, RebootTo.RECOVERY);
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while rebooting device from fastboot to Recovery!");
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton21ActionPerformed
 
     /**
      * Reboots device's bootloader.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-        String serial = jList2.getSelectedValue().toString();
-        try {
-            log.log(LogLevel.INFO, "Rebooting device" + serial + " from fastboot to Android.");
-            adbController.rebootDeviceFastboot(serial, RebootTo.BOOTLOADER);
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while rebooting device from fastboot to bootloader!");
-        }
+        new Thread() {
+            @Override
+            public void run() {
+                String serial = jList2.getSelectedValue().toString();
+                try {
+                    log.log(LogLevel.INFO, "Rebooting device" + serial + " from fastboot to Android.");
+                    adbController.rebootDeviceFastboot(serial, RebootTo.BOOTLOADER);
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while rebooting device from fastboot to bootloader!");
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton22ActionPerformed
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="ADB Menu">
     /**
      * Starts the ADB server.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         jButton7.doClick();
@@ -1119,7 +1232,8 @@ public class SimpleUI extends JFrame {
 
     /**
      * Stops the ADB server.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         jButton8.doClick();
@@ -1127,7 +1241,8 @@ public class SimpleUI extends JFrame {
 
     /**
      * Allows user to execute custom commands.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         jButton10.doClick();
@@ -1135,7 +1250,8 @@ public class SimpleUI extends JFrame {
 
     /**
      * Allows user to connect to device via TCP.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         jButton11.doClick();
@@ -1143,7 +1259,8 @@ public class SimpleUI extends JFrame {
 
     /**
      * Loads all connected devices.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         jButton12.doClick();
@@ -1151,7 +1268,8 @@ public class SimpleUI extends JFrame {
 
     /**
      * Reboots device to Android.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         jButton13.doClick();
@@ -1159,7 +1277,8 @@ public class SimpleUI extends JFrame {
 
     /**
      * Reboots device to recovery.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         jButton14.doClick();
@@ -1167,17 +1286,19 @@ public class SimpleUI extends JFrame {
 
     /**
      * Reboots device to bootloader.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         jButton15.doClick();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
      //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Fastboot Menu">
     /**
      * Allows user to execute command.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         jButton18.doClick();
@@ -1185,7 +1306,8 @@ public class SimpleUI extends JFrame {
 
     /**
      * Loads all connected fastboot devices.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         jButton19.doClick();
@@ -1193,7 +1315,8 @@ public class SimpleUI extends JFrame {
 
     /**
      * Reboots device to Android.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         jButton20.doClick();
@@ -1201,13 +1324,24 @@ public class SimpleUI extends JFrame {
 
     /**
      * Reboots device's bootloader.
-     * @param evt 
+     *
+     * @param evt
      */
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
         jButton22.doClick();
     }//GEN-LAST:event_jMenuItem12ActionPerformed
-   //</editor-fold>
-    
+    //</editor-fold>
+
+    /**
+     * Opens up Settings menu.
+     *
+     * @param evt
+     */
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        new SettingsUI(settings, log).setVisible(true);
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
@@ -1244,11 +1378,13 @@ public class SimpleUI extends JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

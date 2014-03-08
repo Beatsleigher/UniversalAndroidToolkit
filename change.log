@@ -1,0 +1,25 @@
+Change log for Universal Android Toolkit
+
+Beta 0.6
+Added SettingsUI class
+Added full functionality to SettingsUI.
+Added ability to change LAF to custom. (Lists all installed LAFs, allows user to choose.)
+Added (semi) fix for UI freezing when executing commands (placed all methods in seperate threads).
+Added menu (and shortcut) to SettingsUI in SimpleUI.
+
+Beta 0.5.1
+Changed default look and feel to Nimbus, to ensure cross-platform look-alike.
+Changed the way Universal Android Toolkit works with JDroidLib.
+Fixed some brainfarts.
+
+Beta 0.2 - 0.4
+Added AdvancedUI class
+Minor bug fixes
+
+Beta 0.1
+Merged all projects (Win, Mac, Linux) into one.
+Added JDroidLib
+Added SettingsManager, SimpleUI, ConnectWirelessy and ExecuteCMD classes
+Added controls for SimpleUI, added methods.
+Added battery level metre (I'm British, so DON'T correct me.)
+Released first Java beta.

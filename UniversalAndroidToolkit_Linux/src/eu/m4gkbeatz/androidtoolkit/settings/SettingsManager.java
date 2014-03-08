@@ -14,35 +14,50 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package eu.m4gkbeatz.androidtoolkit.settings;
 
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
- * SettingsManager.
- * The Universal Android Toolkit settings manager manages all the IO of any and all preferences used by UAT.
- * The values are saved to the class via the getter- and setter methods and the actual save is then triggered by the save method.
+ * SettingsManager. The Universal Android Toolkit settings manager manages all
+ * the IO of any and all preferences used by UAT. The values are saved to the
+ * class via the getter- and setter methods and the actual save is then
+ * triggered by the save method.
+ *
  * @author beatsleigher
  */
 @SuppressWarnings({"FieldMayBeFinal"})
 public class SettingsManager {
-    
+
+    /*Look and Feel Constants*/
+    private final String nimbus = "Nimbus";
+    private final String metal = "Metal";
+    private final String system = "System";
+    private final String windoze = "Windows";
+    private final String gtk_plus = "GTK+";
+
+    // Variables used in class.
     private File file = null;
-    private BufferedReader fileReader = null, stringReader = null;
+    private BufferedReader fileReader = null;
     private BufferedWriter fileWriter = null;
-    
+
+    // Actual settings variables.
     private boolean getUpdates = true;
     private boolean checkForDevicesOnStartup = true;
     private boolean autoLoadDeviceInfo = true;
     private boolean saveLogs = true;
     private boolean useAdvancedUI = false;
-    
+    private String lookAndFeel = "Nimbus";
+
     private void save() throws IOException {
         fileWriter = new BufferedWriter(new FileWriter(file));
-        String settings = 
-        //<editor-fold defaultstate="collapsed" desc="Da String">
-                  "### Universal Android Toolkit Settings File ###\n"
+        String settings
+                = //<editor-fold defaultstate="collapsed" desc="Da String">
+                "### Universal Android Toolkit Settings File ###\n"
                 + "# Index:\n"
                 + "# # => Comment: Used for disabling settings, allowing them to stay at the defaults.\n"
                 + "# \t Will also be used to mark settings, their use and development stage.\n"
@@ -95,6 +110,15 @@ public class SettingsManager {
                 + "###################################\n"
                 + "pref::[name=useAdvancedUI, value=" + useAdvancedUI + "]\n\n"
                 //
+                + "###################################\n"
+                + "# Preference \"lookAndFeel\"      #\n"
+                + "# This controls the way Universal #\n"
+                + "# Android Toolkit looks and       #\n"
+                + "# behaves. Please use the provided#\n"
+                + "# tools to change this setting.   #\n"
+                + "###################################\n"
+                + "pref::[name=lookAndFeel, value=" + lookAndFeel + "]\n\n"
+                //
                 + "### EOF ###\n\n"
                 //
                 + "##############################\n"
@@ -115,12 +139,12 @@ public class SettingsManager {
         fileWriter.write(settings);
         fileWriter.close();
     }
-    
+
     public SettingsManager() throws IOException {
         file = new File(System.getProperty("user.home") + "/.androidtoolkit/prefs/settings.bin");
         load();
     }
-    
+
     private void load() throws IOException {
         if (!file.exists()) {
             file.getParentFile().mkdirs();
@@ -128,14 +152,19 @@ public class SettingsManager {
             save();
             try {
                 Thread.sleep(100);
-            } catch (InterruptedException ex) {}
+            } catch (InterruptedException ex) {
+            }
         }
         fileReader = new BufferedReader(new FileReader(file));
         @SuppressWarnings("UnusedAssignment")
         String line = "";
         while ((line = fileReader.readLine()) != null) {
-            if (line.equals("### EOF ###")) break;
-            if (line.startsWith("#")) continue;
+            if (line.equals("### EOF ###")) {
+                break;
+            }
+            if (line.startsWith("#")) {
+                continue;
+            }
             if (line.startsWith("pref::")) {
                 if (line.contains("name=getUpdates")) {
                     System.out.print("Found pref: getUpdates");
@@ -172,95 +201,138 @@ public class SettingsManager {
                     System.out.println(" = " + arr0[0]);
                     continue;
                 }
-                
+                if (line.contains("name=lookAndFeel")) {
+                    System.out.print("Found pref: lookAndFeel");
+                    String[] arr = line.split("value="), arr0 = arr[1].split("]");
+                    lookAndFeel = arr0[0];
+                    System.out.println(" = " + lookAndFeel);
+                    for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                        if (arr0[0].equals(info.getName())) {
+                            try {
+                                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+                                Logger.getLogger(SettingsManager.class.getName()).log(Level.SEVERE, null, "ERROR: Error setting requested LAF!\n" + ex);
+                            }
+                            break;
+                        }
+                    }
+                }
+
             }
         }
     }
-    
+
     /**
-     * Loads settings and reads values into respective variables.
-     * Makes use of @see #code load()
-     * @throws IOException 
+     * Loads settings and reads values into respective variables. Makes use of
+     * @see #code load()
+     *
+     * @throws IOException
      */
-    public void loadSettings() throws IOException {
-        load();
-    }
-    
+    public void loadSettings() throws IOException { load(); }
+
     /**
-     * Saves settings read from variables and writes these into file.
-     * Makes use of @see #code save()
-     * @throws IOException 
+     * Saves settings read from variables and writes these into file. Makes use
+     * of @see #code save()
+     *
+     * @throws IOException
      */
-    public void saveSettings() throws IOException {
-        save();
-    }
-    
+    public void saveSettings() throws IOException { save(); }
+
     /**
      * Determines whether the program should download updates automatically.
-     * @return  true if yes, false if not.
+     *
+     * @return true if yes, false if not.
      */
     public boolean getUpdates() { return getUpdates; }
-    
+
     /**
-     * Determines whether the program should check for devices when UI has loaded.
+     * Determines whether the program should check for devices when UI has
+     * loaded.
+     *
      * @return true if yes, false if not.
      */
     public boolean checkForDevicesOnStartup() { return checkForDevicesOnStartup; }
-    
+
     /**
-     * Determines whether the program should automatically download device information form device.
+     * Determines whether the program should automatically download device
+     * information form device.
+     *
      * @return true if yes, false if not.
      */
     public boolean autoLoadDeviceInfo() { return autoLoadDeviceInfo; }
-    
+
     /**
-     * Determines whether the program should automatically save logs to a log file or not.
+     * Determines whether the program should automatically save logs to a log
+     * file or not.
+     *
      * @return true if yes, false if not,.
      */
     public boolean saveLogs() { return saveLogs; }
-    
+
     /**
-     * Determine whether the program should load the advanced UI over the simple UI.
+     * Determine whether the program should load the advanced UI over the simple
+     * UI.
+     *
      * @return true if yes, false if not.
      */
     public boolean useAdvancedUI() { return useAdvancedUI; }
     
     /**
-     * Sets the getUpdates variable.
-     * If set to <i>true</i>, then the program will check for updates, before loading the UI.
-     * The updates will then be shown by a JOptionPane, which will then trigger the downloader method to download the file.
-     * @param bool 
+     * Gets the look and feel used by Universal Android Toolkit and
+     * @return the LAF as string.
+     */
+    public String getLookAndFeel() { return lookAndFeel; }
+
+    /**
+     * Sets the getUpdates variable. If set to <i>true</i>, then the program
+     * will check for updates, before loading the UI. The updates will then be
+     * shown by a JOptionPane, which will then trigger the downloader method to
+     * download the file.
+     *
+     * @param bool
      */
     public void setGetUpdates(boolean bool) { this.getUpdates = bool; }
-    
+
     /**
-     * Sets the variable checkForDevicesOnStartup.
-     * If set to <i>true</i>, then the loaded UI will check for any and all connected devices and will display them in a JList.
-     * @param bool 
+     * Sets the variable checkForDevicesOnStartup. If set to <i>true</i>, then
+     * the loaded UI will check for any and all connected devices and will
+     * display them in a JList.
+     *
+     * @param bool
      */
     public void setCheckForDevicesOnStartup(boolean bool) { this.checkForDevicesOnStartup = bool; }
-    
+
     /**
-     * Sets the variable autoLoadDeviceInfo.
-     * If set to <i>true</i>, then the loaded UI will load the first device's information immediately..
-     * @param bool 
+     * Sets the variable autoLoadDeviceInfo. If set to <i>true</i>, then the
+     * loaded UI will load the first device's information immediately..
+     *
+     * @param bool
      */
     public void setAutoLoadDeviceInfo(boolean bool) { this.autoLoadDeviceInfo = bool; }
-    
+
     /**
-     * Sets the variable saveLogs.
-     * If set to <i>true</i>, then the program will automatically save any and all created logs to a log file.
-     * This preference is locked until the RC state.
-     * @param bool 
+     * Sets the variable saveLogs. If set to <i>true</i>, then the program will
+     * automatically save any and all created logs to a log file. This
+     * preference is locked until the RC state.
+     *
+     * @param bool
      */
     public void setSaveLogs(boolean bool) { this.saveLogs = bool; }
-    
+
     /**
-     * Sets the variable advancedUI.
-     * If set to <i>true</i>, the program will load the advanced UI on startup, instead of the simple UI.
-     * Using the advanced UI is only recommended, when using advanced commands, and getting/modifying sensitive device information, such as build props.
-     * @param bool 
+     * Sets the variable advancedUI. If set to <i>true</i>, the program will
+     * load the advanced UI on startup, instead of the simple UI. Using the
+     * advanced UI is only recommended, when using advanced commands, and
+     * getting/modifying sensitive device information, such as build props.
+     *
+     * @param bool
      */
     public void setUseAdvancedUI(boolean bool) { this.useAdvancedUI = bool; }
     
+    /**
+     * Sets the look and feel used by Universal Android Toolkit.
+     * @param laf new look and feel.
+     */
+    public void setLookAndFeel(String laf) { this.lookAndFeel = laf; }
+
 }

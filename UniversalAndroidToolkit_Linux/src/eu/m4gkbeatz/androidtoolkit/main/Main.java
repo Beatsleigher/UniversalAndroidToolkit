@@ -14,15 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package eu.m4gkbeatz.androidtoolkit.main;
 
-import eu.m4gkbeatz.androidtoolkit.logging.*;
+import eu.m4gkbeatz.androidtoolkit.logging.LogLevel;
+import eu.m4gkbeatz.androidtoolkit.logging.Logger;
 import eu.m4gkbeatz.androidtoolkit.settings.SettingsManager;
 import eu.m4gkbeatz.androidtoolkit.splash.SplashScreen;
 import eu.m4gkbeatz.androidtoolkit.ui.*;
 
-import javax.swing.*;
+import javax.swing.UIManager;
 import java.io.*;
+import javax.swing.ImageIcon;
+
+import net.lingala.zip4j.exception.ZipException;
+
+import JDroidLib.android.controllers.ADBController;
 
 /**
  *
@@ -30,25 +37,30 @@ import java.io.*;
  */
 @SuppressWarnings({"UnusedAssignment", "CallToPrintStackTrace"})
 public class Main {
-
+    
     public static void main(String[] args) {
-        /* Set the Nimbus look and feel */
+        /* Set the GTK+ look and feel */
+        // This is disabled, but is kept for future reference.
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
+        /*try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+             if ("Nimbus".equals(info.getName())) {
+             javax.swing.UIManager.setLookAndFeel(info.getClassName());
+             break;
+             }
+             }
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            try {
+                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            } catch (Exception _ex) {
+
             }
-
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            System.err.println("Error setting default Look and Feel.\n" + ex.toString());
-        }
-
+        }*/
         //</editor-fold>
 
         /* Create and display the form */
@@ -60,44 +72,45 @@ public class Main {
                     public void run() {
                         Logger log = null;
                         SettingsManager settings = null;
-
+                        ADBController adbController = null;
+                        
                         SplashScreen splash = new SplashScreen();
                         splash.setVisible(true);
                         splash.setLocationRelativeTo(null);
                         splash.setStatus("Loading Settings and Logger...");
-
+                        
                         try {
                             settings = new SettingsManager();
                             log = new Logger(settings);
-
+                            adbController = new ADBController();
+                            
                             log.setVisible(true);
                             log.log(LogLevel.FINE, "Universal Android Toolkit has started.");
                             log.log(LogLevel.FINE, "Settings and logger have been loaded.");
-                            Thread.sleep(200);
-                            splash.setStatus("Loading UI...");
-                            log.log(LogLevel.INFO, "Loading UI...");
-                            Thread.sleep(200);
+                            Thread.sleep(500);
                             splash.setStatus("Welcome, " + System.getProperty("user.name") + ".");
                             splash.setImg(new ImageIcon(Main.class.getResource("/eu/m4gkbeatz/androidtoolkit/resources/icon.png")));
                             Thread.sleep(500);
                             if (settings.useAdvancedUI()) {
-                                AdvancedUI ui = new AdvancedUI(settings, log);
+                                log.log(LogLevel.INFO, "Loading advanced UI...");
+                                AdvancedUI ui = new AdvancedUI(settings, log, adbController);
                                 ui.setVisible(true);
                             } else {
-                                SimpleUI ui = new SimpleUI(settings, log);
+                                log.log(LogLevel.INFO, "Loading simple UI...");
+                                SimpleUI ui = new SimpleUI(settings, log, adbController);
                                 ui.setVisible(true);
                             }
                             log.log(LogLevel.INFO, "Destroying splash...");
                             splash.dispose();
-                        } catch (IOException | InterruptedException ex) {
+                        } catch (IOException | InterruptedException | ZipException ex) {
                             System.err.println("Error while starting Universal Android Toolkit for Linux.");
-                            ex.printStackTrace();
+                            ex.printStackTrace(System.err);
                         }
-
+                        
                     }
                 }.start();
             }
         });
     }
-
+    
 }
