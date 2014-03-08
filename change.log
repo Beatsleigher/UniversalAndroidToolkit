@@ -8,6 +8,9 @@ Added (semi) fix for UI freezing when executing commands (placed all methods in 
 Added menu (and shortcut) to SettingsUI in SimpleUI.
 Changed layout of controls in SimpleUI (used JPanels to make things neater.)
 Added dialog box when closing SettingsUI, noting that a restart of the program is required after settings have been saved.
+Added new icons to display battery temp. and health.
+Hid old/unused icons via a [.]. Only works on BSD-Like systems (Linux, Mac OS!)
+Added JLabels to display battery information, added controls for advanced fastboot functionality.
 
 Beta 0.5.1
 Changed default look and feel to Nimbus, to ensure cross-platform look-alike.
