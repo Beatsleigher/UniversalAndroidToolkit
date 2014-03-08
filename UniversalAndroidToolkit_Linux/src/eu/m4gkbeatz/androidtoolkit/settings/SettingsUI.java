@@ -564,6 +564,8 @@ public class SettingsUI extends JFrame {
         } catch (IOException ex) {
             log.log(LogLevel.SEVERE, "ERROR: Error while saving program settings!\n" + ex.toString());
         }
+        JOptionPane.showMessageDialog(null, "INFORMATION: Your settings have been saved, however,\n"
+                + "some (or all) of these will only become active, once the program has been restarted.", "Restart Required.", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_formWindowClosing
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed

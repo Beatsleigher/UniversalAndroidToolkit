@@ -6,6 +6,8 @@ Added full functionality to SettingsUI.
 Added ability to change LAF to custom. (Lists all installed LAFs, allows user to choose.)
 Added (semi) fix for UI freezing when executing commands (placed all methods in seperate threads).
 Added menu (and shortcut) to SettingsUI in SimpleUI.
+Changed layout of controls in SimpleUI (used JPanels to make things neater.)
+Added dialog box when closing SettingsUI, noting that a restart of the program is required after settings have been saved.
 
 Beta 0.5.1
 Changed default look and feel to Nimbus, to ensure cross-platform look-alike.
