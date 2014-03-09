@@ -23,7 +23,6 @@ import eu.m4gkbeatz.androidtoolkit.settings.SettingsManager;
 import eu.m4gkbeatz.androidtoolkit.splash.SplashScreen;
 import eu.m4gkbeatz.androidtoolkit.ui.*;
 
-import javax.swing.UIManager;
 import java.io.*;
 import javax.swing.ImageIcon;
 

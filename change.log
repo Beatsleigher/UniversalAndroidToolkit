@@ -11,6 +11,13 @@ Added dialog box when closing SettingsUI, noting that a restart of the program i
 Added new icons to display battery temp. and health.
 Hid old/unused icons via a [.]. Only works on BSD-Like systems (Linux, Mac OS!)
 Added JLabels to display battery information, added controls for advanced fastboot functionality.
+Added JLabels to display root information.
+Added JLabel and a JList to display CPU information.
+Added controls for Build.Prop manager.
+Added control functionality to Android tab in AdvancedUI.
+Added functionality to device info "strip" at the bottom of AdvancedUI.
+Added a menu to the menu bar. - No functionality there, though.
+
 
 Beta 0.5.1
 Changed default look and feel to Nimbus, to ensure cross-platform look-alike.

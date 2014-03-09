@@ -26,6 +26,7 @@ import JDroidLib.android.device.*;
 import eu.m4gkbeatz.androidtoolkit.io.*;
 import eu.m4gkbeatz.androidtoolkit.logging.*;
 import eu.m4gkbeatz.androidtoolkit.settings.SettingsManager;
+import java.util.logging.Level;
 
 /**
  *
@@ -189,12 +190,48 @@ public class AdvancedUI extends JFrame {
         jPanel5 = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel16 = new javax.swing.JPanel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jButton35 = new javax.swing.JButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jLabel31 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
+        jLabel32 = new javax.swing.JLabel();
+        jSeparator18 = new javax.swing.JSeparator();
+        jSeparator19 = new javax.swing.JSeparator();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
+        jButton36 = new javax.swing.JButton();
         jPanel18 = new javax.swing.JPanel();
+        jLabel36 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList();
+        jButton37 = new javax.swing.JButton();
+        jPanel19 = new javax.swing.JPanel();
+        jLabel37 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jSeparator20 = new javax.swing.JSeparator();
+        jButton38 = new javax.swing.JButton();
+        jButton39 = new javax.swing.JButton();
+        jButton40 = new javax.swing.JButton();
+        jButton41 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
+        jLabel38 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
 
@@ -217,8 +254,8 @@ public class AdvancedUI extends JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Advanced UI | Welcome, <user>. | Universal Android Toolkit");
-        setMinimumSize(new java.awt.Dimension(700, 480));
-        setPreferredSize(new java.awt.Dimension(700, 500));
+        setMinimumSize(new java.awt.Dimension(800, 530));
+        setPreferredSize(new java.awt.Dimension(800, 530));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -228,27 +265,26 @@ public class AdvancedUI extends JFrame {
             }
         });
 
-        jToolBar1.setRollover(true);
         jToolBar1.setPreferredSize(new java.awt.Dimension(560, 35));
 
         batteryLevel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery-32.png"))); // NOI18N
-        batteryLevel.setText("100%");
+        batteryLevel.setText("n/a");
         batteryLevel.setToolTipText("");
         jToolBar1.add(batteryLevel);
         jToolBar1.add(jSeparator1);
 
         busybox.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/system/busybox-32.png"))); // NOI18N
-        busybox.setText("BusyBox: true");
+        busybox.setText("BusyBox: n/a");
         jToolBar1.add(busybox);
         jToolBar1.add(jSeparator2);
 
         root.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/system/su-32.png"))); // NOI18N
-        root.setText("Root: true");
+        root.setText("Root: n/a");
         jToolBar1.add(root);
         jToolBar1.add(jSeparator3);
 
         cpuLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/system/cpu-32.png"))); // NOI18N
-        cpuLoad.setText("CPU Load: 1000 / 100 / 100");
+        cpuLoad.setText("CPU Load: n/a");
         jToolBar1.add(cpuLoad);
         jToolBar1.add(jSeparator4);
 
@@ -256,6 +292,11 @@ public class AdvancedUI extends JFrame {
         refreshStats.setFocusable(false);
         refreshStats.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         refreshStats.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        refreshStats.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshStatsActionPerformed(evt);
+            }
+        });
         jToolBar1.add(refreshStats);
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -397,16 +438,46 @@ public class AdvancedUI extends JFrame {
         });
 
         jButton13.setText("Start Server");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
 
         jButton14.setText("Stop Server");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
 
         jButton15.setText("Restart Server");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
 
         jButton16.setText("Execute CMD");
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
 
         jButton17.setText("Connect via TCP");
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
 
         jButton18.setText("Load Devices");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -497,7 +568,7 @@ public class AdvancedUI extends JFrame {
                                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jButton7)
                                     .addComponent(jButton8))))
-                        .addContainerGap(76, Short.MAX_VALUE))))
+                        .addContainerGap(79, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -586,7 +657,7 @@ public class AdvancedUI extends JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
+                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -841,34 +912,32 @@ public class AdvancedUI extends JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 25, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.CENTER, jPanel3Layout.createSequentialGroup()
                         .addComponent(jButton29)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSeparator16))
-                .addContainerGap())
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jSeparator16, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 736, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(22, 22, 22))
+                        .addContainerGap()
+                        .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -903,7 +972,7 @@ public class AdvancedUI extends JFrame {
 
         jTabbedPane1.addTab("Fastboot", jPanel3);
 
-        jPanel14.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel14.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel17.setText("Flash Bootloader");
@@ -943,7 +1012,7 @@ public class AdvancedUI extends JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel15.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel15.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel18.setText("Flash Modem");
@@ -995,7 +1064,7 @@ public class AdvancedUI extends JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
+                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1013,53 +1082,246 @@ public class AdvancedUI extends JFrame {
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jSeparator17)
-                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(221, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Advanced Fastboot", jPanel4);
 
+        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/plug_yellow-32.png"))); // NOI18N
+        jLabel20.setText("Powered by AC:  n/a");
+
+        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/usb_power-32.png"))); // NOI18N
+        jLabel21.setText("Powered by USB: n/a");
+
+        jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery_wireless_charge-32.png"))); // NOI18N
+        jLabel22.setText("Powered Wirelessly: n/a");
+
+        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery-32.png"))); // NOI18N
+        jLabel23.setText("Battery Status: n/a");
+
+        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery_healthy-32.png"))); // NOI18N
+        jLabel24.setText("Battery Health: n/a");
+
+        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery-32.png"))); // NOI18N
+        jLabel25.setText("Battery is Present: n/a");
+
+        jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery_scale-32.png"))); // NOI18N
+        jLabel26.setText("Battery Scale: n/a");
+
+        jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery_voltage-32.png"))); // NOI18N
+        jLabel27.setText("Battery Voltage: n/a");
+
+        jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery_current-32.png"))); // NOI18N
+        jLabel28.setText("(Current) Current: n/a");
+
+        jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery_temp_cold-32.png"))); // NOI18N
+        jLabel29.setText("Battery Temperature: n/a");
+
+        jLabel30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery_technology-32.png"))); // NOI18N
+        jLabel30.setText("Technology: n/a");
+
+        jButton35.setText("Reload");
+
+        jToggleButton1.setText("Reload Automatically");
+
+        jLabel31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/battery/battery-32.png"))); // NOI18N
+        jLabel31.setText("Battery Level: n/a");
+
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
         jPanel16Layout.setHorizontalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 705, Short.MAX_VALUE)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel20)
+                    .addComponent(jLabel21)
+                    .addComponent(jLabel22)
+                    .addComponent(jLabel26)
+                    .addComponent(jLabel27)
+                    .addComponent(jLabel28))
+                .addGap(83, 83, 83)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel31)
+                    .addComponent(jLabel30)
+                    .addComponent(jLabel29)
+                    .addComponent(jLabel25)
+                    .addComponent(jLabel24)
+                    .addComponent(jLabel23))
+                .addContainerGap(259, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jButton35)
+                    .addComponent(jToggleButton1))
+                .addContainerGap())
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 313, Short.MAX_VALUE)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(jLabel23))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel21)
+                    .addComponent(jLabel24))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel25)
+                    .addComponent(jLabel22))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel26)
+                    .addComponent(jLabel29))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel27)
+                    .addComponent(jLabel30))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel28)
+                    .addComponent(jLabel31))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addComponent(jButton35)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jToggleButton1)
+                .addContainerGap())
         );
 
         jTabbedPane2.addTab("Battery Information", jPanel16);
+
+        jLabel32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/system/su-32.png"))); // NOI18N
+        jLabel32.setText("SU Installed: n/a");
+
+        jSeparator19.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jSeparator19.setPreferredSize(new java.awt.Dimension(10, 50));
+
+        jLabel33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/system/su-32.png"))); // NOI18N
+        jLabel33.setText("SU Version: n/a");
+
+        jLabel34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/system/busybox-32.png"))); // NOI18N
+        jLabel34.setText("BusyBox Installed: n/a");
+
+        jLabel35.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/system/busybox-32.png"))); // NOI18N
+        jLabel35.setText("BusyBox Version: n/a");
+
+        jButton36.setText("Reload");
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 705, Short.MAX_VALUE)
+            .addGroup(jPanel17Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel17Layout.createSequentialGroup()
+                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel32)
+                            .addComponent(jLabel33))
+                        .addGap(215, 215, 215)
+                        .addComponent(jSeparator19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel34)
+                            .addComponent(jLabel35))
+                        .addGap(0, 164, Short.MAX_VALUE))
+                    .addComponent(jSeparator18)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel17Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton36)))
+                .addContainerGap())
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 313, Short.MAX_VALUE)
+            .addGroup(jPanel17Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jSeparator18, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator19, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel17Layout.createSequentialGroup()
+                        .addComponent(jLabel32)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel33))
+                    .addGroup(jPanel17Layout.createSequentialGroup()
+                        .addComponent(jLabel34)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel35)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton36)
+                .addContainerGap())
         );
 
         jTabbedPane2.addTab("Root Information", jPanel17);
+
+        jLabel36.setText("CPU Load: n/a");
+
+        jList1.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "n/a" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jList1);
+
+        jButton37.setText("Reload");
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 705, Short.MAX_VALUE)
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel18Layout.createSequentialGroup()
+                        .addComponent(jLabel36)
+                        .addGap(0, 610, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton37)))
+                .addContainerGap())
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 313, Short.MAX_VALUE)
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel36)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addComponent(jButton37)
+                .addContainerGap())
         );
 
         jTabbedPane2.addTab("CPU Information", jPanel18);
+
+        jLabel37.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel37.setText("Coming Soon!");
+
+        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
+        jPanel19.setLayout(jPanel19Layout);
+        jPanel19Layout.setHorizontalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel37, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel19Layout.setVerticalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel37)
+                .addContainerGap(310, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("FileSystem", jPanel19);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -1072,41 +1334,93 @@ public class AdvancedUI extends JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane2)
-                .addContainerGap())
+            .addComponent(jTabbedPane2)
         );
 
         jTabbedPane1.addTab("Device Info", jPanel5);
+
+        jTextArea1.setBackground(new java.awt.Color(0, 0, 255));
+        jTextArea1.setColumns(20);
+        jTextArea1.setForeground(new java.awt.Color(255, 255, 255));
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
+        jSeparator20.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jButton38.setText("Reload From Device");
+
+        jButton39.setText("Reload From File");
+
+        jButton40.setText("Save to Device");
+
+        jButton41.setText("Save to Hard Drive");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 745, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jButton39)
+                    .addComponent(jButton38)
+                    .addComponent(jButton40)
+                    .addComponent(jButton41))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 384, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(111, 111, 111)
+                .addComponent(jButton38)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton39)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton41)
+                .addContainerGap(155, Short.MAX_VALUE))
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator20)
+                    .addComponent(jScrollPane2))
+                .addGap(12, 12, 12))
         );
 
         jTabbedPane1.addTab("Build Properties", jPanel6);
+
+        jLabel38.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel38.setText("Coming Soon!");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 745, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel38, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 384, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel38)
+                .addContainerGap(357, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Device Tweaker", jPanel7);
 
         jMenu1.setText("ADB");
+
+        jMenuItem1.setText("Start Server");
+        jMenu1.add(jMenuItem1);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Fastboot");
@@ -1121,11 +1435,12 @@ public class AdvancedUI extends JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1158,262 +1473,289 @@ public class AdvancedUI extends JFrame {
         if (settings.checkForDevicesOnStartup())
             getDevices();
     }//GEN-LAST:event_formWindowOpened
-    //</editor-fold>
+    //</editor-fold>  
     
     //<editor-fold defaultstate="collapsed" desc="Android Tab">
-    //<editor-fold defaultstate="collapsed" desc="Install Application">
     /**
-     * Allows user to select a .APK to install to (selected) device
+     * Allows user to select an APK to install to device.
      * @param evt 
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFileChooser apkChooser = new JFileChooser();
-        apkChooser.setApproveButtonText("Install this Application");
+        apkChooser.setDialogTitle("Select an APK File to Install to your Device.");
+        apkChooser.setApproveButtonText("Install this Application.");
         apkChooser.setFileFilter(new APKFilter());
-        apkChooser.setDialogTitle("Select a .APK file to install to device...");
         int dialogRes = apkChooser.showOpenDialog(null);
         if (dialogRes == JOptionPane.OK_OPTION)
-            jTextField1.setText(apkChooser.getSelectedFile().toString());
+            jTextField1.setText(apkChooser.getSelectedFile().getAbsolutePath());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
-     * Installs selected application to selected device.
+     * Installs selected APK to user device.
      * @param evt 
      */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        log.log(LogLevel.INFO, "Installing application " + jTextField1.getText() + " to device " + devices.getSelectedADBDevice());
-        try {
-            log.log(LogLevel.INFO, "ADB Output: " + adbController.executeADBCommand(false, false, devices.getSelectedADBDevice(), new String[]{"install", jTextField1.getText()}));
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while installing application!\n" + ex.toString());
-        }
+        log.log(LogLevel.INFO, "Preparing to install app " + jTextField1.getText() + " to device " + devices.getSelectedADBDevice());
+        new Thread() {
+            @Override 
+            public void run() {
+                try {
+                    log.log(LogLevel.INFO, "ADB Output: " + adbController.installApplication(false, devices.getSelectedADBDevice(), jTextField1.getText()));
+                    interrupt();
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error installing application to device!\n" + ex.toString());
+                    interrupt();
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton2ActionPerformed
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Uninstall Application">
+
     /**
-     * Allows user to select an application file from his hard drive, which is then used to uninstall the application from the device.
-     * This method is purely for convenience.
-     * Personally, I added it, because I always find I have apps on my hard drive(s), which I don't need on my device, 
-     * and you never get the ability to just pick an app you have and then just have it removed.
+     * (Will soon) allow users to browse device and select an APK to uninstall.
+     * This feature is not yet available.
      * @param evt 
      */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        JFileChooser apkChooser = new JFileChooser();
-        
-        JOptionPane.showMessageDialog(null, "INFORMATION: Only use this, if you have the application file on your computer.\n"
-                + "This is purely for convenience. Otherwise, you will have to\n"
-                + "1) Wait until the file and app managers are released\n"
-                + "2) Type the application package in, yourself.\n"
-                + "Sorry if you awaited something different. Rest assured, it's on its way!", "Don't Worry - It's Coming!", JOptionPane.INFORMATION_MESSAGE);
-        
-        apkChooser.setApproveButtonText("Select this Application");
-        apkChooser.setFileFilter(new APKFilter());
-        apkChooser.setDialogTitle("Select a .APK file to uninstall from device...");
-        int dialogRes = apkChooser.showOpenDialog(null);
-        if (dialogRes == JOptionPane.OK_OPTION)
-            jTextField2.setText(apkChooser.getSelectedFile().toString());
+        JOptionPane.showMessageDialog(null, "INFORMATION: Sorry, this feature is not yet available in this version\n"
+                + "of Universal Android Toolkit. Please be patient. You may still enter the application manually to uninstall.", "Feature not Implemented.", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
-     * Attempts to uninstall the application selected in the jTextField from  the selected device.
-     * This code may be broken, due to a brain fart, but we'll see...
+     * Uninstalls a selected application from device.
      * @param evt 
      */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        String deviceSerial = devices.getSelectedADBDevice();
-        String[] packageName = jTextField2.getText().split("/|\\\\"); // This is where the brain fart will most likely occur.
-        String pack = packageName[packageName.length - 1];
-        String[] cmd = {"uninstall", pack};
-        log.log(LogLevel.INFO, "Uninstalling " + pack + " from device " + deviceSerial + ".");
-        try {
-            log.log(LogLevel.INFO, "ADB Output: " + adbController.executeADBCommand(false, false, deviceSerial, cmd));
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while uninstalling application from device!\n" + ex.toString());
-        }
+        log.log(LogLevel.FINE, "Preparing to uninstall application " + jTextField2.getText() + " from device " + devices.getSelectedADBDevice());
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    log.log(LogLevel.FINE, "ADB Output: " + adbController.uninstallApplication(false, devices.getSelectedADBDevice(), jTextField2.getText()));
+                    interrupt();
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while uninstalling application from device!\n" + ex.toString());
+                    interrupt();
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton4ActionPerformed
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Push File">
+
     /**
-     * Allows users to select a file from the computer and push (copy) it to the device.
+     * Allows user to select a file or folder from hard drive and then push it to the selected device.
      * @param evt 
      */
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        if (usedPushes == 10) {
-            JOptionPane.showMessageDialog(null, "Me matey. Ye be pushin' some load o' files, thar...", "Arrrrr!", JOptionPane.INFORMATION_MESSAGE);
-            log.log(LogLevel.FINEST, "Achievement Get! Found Easter Egg \"Captain, ahoy!\""); // Dat Minecraft reference...
-        }
-        
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setAcceptAllFileFilterUsed(true);
-        fileChooser.setDialogTitle("Choose a file to push the your device...");
-        fileChooser.setApproveButtonText("Push this File...");
-        
-        int dialogRes = fileChooser.showOpenDialog(null);
-        if (dialogRes == JOptionPane.OK_OPTION)
-            jTextField3.setText(fileChooser.getSelectedFile().toString());
-        
-        usedPushes++;
+       JFileChooser fileChooser = new JFileChooser();
+       fileChooser.setDialogTitle("Select a File or Folder to Push to Device...");
+       fileChooser.setApproveButtonText("Push this File.");
+       int dialogRes = fileChooser.showOpenDialog(null);
+       if (dialogRes == JOptionPane.OK_OPTION)
+           jTextField3.setText(fileChooser.getSelectedFile().getAbsolutePath());
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
-     * Prompts user to input a location to push the selected file to, then pushes file and clears text field.
+     * Attempts to push selected file to selected device.
      * @param evt 
      */
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        log.log(LogLevel.INFO, "Pushing file to device " + devices.getSelectedADBDevice() + ". Prompting user for file destination.");
-        String dest = JOptionPane.showInputDialog(null, "Please enter a destination on the selected device to push the selected file to.", "Choose File Destination", JOptionPane.QUESTION_MESSAGE);
-        String deviceSerial = devices.getSelectedADBDevice();
-        String[] cmd = { "push", jTextField3.getText(), dest };
-        try {
-            boolean remount = false;
-            if (dest.contains("/system")) remount = true;
-            log.log(LogLevel.INFO, "ADB Output: " + adbController.executeADBCommand(false, remount, deviceSerial, cmd));
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while pushing file " + jTextField3.getText() + " to device!\n" + ex.toString());
-        }
+        log.log(LogLevel.INFO, "Preparing to push file " + jTextField3.getText() + " to device " + devices.getSelectedADBDevice());
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    boolean remount = false;
+                    log.log(LogLevel.FINE, "Prompting user to select destination...");
+                    String dest = JOptionPane.showInputDialog(null, "Please enter the location on the device, to push the file to, below.", "Where Should I Push the File to?", JOptionPane.QUESTION_MESSAGE);
+                    if (dest.contains("/system") || dest.contains("/data") || dest.contains("/dev") || dest.contains("/etc") || dest.contains("/proc") || dest.contains("/efs") || dest.contains("/root") || dest.contains("/sys"))
+                        remount = true;
+                    log.log(LogLevel.INFO, "The selected file will be pushed to: " + dest + ".\n"
+                            + "The filesystem will be remounted: " + remount + ".\n"
+                            + "Pushing file...");
+                    log.log(LogLevel.INFO, "ADB Output: " + adbController.executeADBCommand(false, remount, devices.getSelectedADBDevice(), new String[]{"push", jTextField3.getText(), dest}));
+                    interrupt();
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while pushing file to device!\n" + ex.toString());
+                    interrupt();
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton6ActionPerformed
-    //</editor-fold>
-        
-    //<editor-fold defaultstate="collapsed" desc="Pull File">
+
     /**
-     * This will soon allow users to browse their device for files.
+     * Will soon allow users to select a file from the device, and pull said file to the hard drive.
      * @param evt 
      */
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        JOptionPane.showMessageDialog(null, "INFORMATION: Sorry, but this features has not yet been implemented.\n"
-                + "Please try again in a later version of Universal Android Toolkit. \n"
-                + "However, you can still type the location of the file and pull it that way.", "Feature not yet Implemented.", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "INFORMATION: This feature is not yet available.\n"
+                + "However, you can still type the location manually and pull the file that way.", "Feature not yet Implemented.", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
-     * Prompts user to select a destination on the hard drive and attempts to pull selected file.
+     * Pushes selected file to selected device.
      * @param evt 
      */
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        String dest = JOptionPane.showInputDialog(null, "INFORMATION: Please enter a destination on your hard drive to pull the file to.", "Select Destination...", JOptionPane.INFORMATION_MESSAGE);
-        log.log(LogLevel.INFO, "Pulling file " + jTextField4.getText() + " to " + dest + " from device " + devices.getSelectedADBDevice());
-        try {
-            log.log(LogLevel.INFO, "ADB Output: " + adbController.executeADBCommand(false, false, devices.getSelectedADBDevice(), new String[]{"pull", jTextField4.getText(), dest}));
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while pulling file from device!\n" + ex.toString());
-        }
+        log.log(LogLevel.INFO, "Preparing to push file " + jTextField4.getText() + " to device " + devices.getSelectedADBDevice());
+        new Thread() {
+            @Override
+            public void run() {
+                
+            }
+        }.start();
     }//GEN-LAST:event_jButton8ActionPerformed
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Install (root) Application">
+
     /**
-     * Allows user to select a .APK file from the hard drive, which should be installed.
+     * Allows user to select an application file on the hard drive to install (as root app) to device.
      * @param evt 
      */
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         JFileChooser apkChooser = new JFileChooser();
-        apkChooser.setApproveButtonText("Install this Application");
+        apkChooser.setDialogTitle("Select an APK File to Install to your Device.");
+        apkChooser.setApproveButtonText("Install this Application.");
         apkChooser.setFileFilter(new APKFilter());
-        apkChooser.setDialogTitle("Select a .APK file to install to device...");
         int dialogRes = apkChooser.showOpenDialog(null);
         if (dialogRes == JOptionPane.OK_OPTION)
-            jTextField5.setText(apkChooser.getSelectedFile().toString());
+            jTextField1.setText(apkChooser.getSelectedFile().getAbsolutePath());
     }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
-     * Installs selected application to device.
+     * Installs selected application to system partition on device.
      * @param evt 
      */
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        log.log(LogLevel.INFO, "Installing application " + jTextField5.getText() + " to /system/app.");
-        try {
-            log.log(LogLevel.INFO, "ADB Output: " + adbController.executeADBCommand(false, true, devices.getSelectedADBDevice(), new String[]{"push", jTextField5.getText(), "/system/app/"}));
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while installing application as root to device!" + ex.toString());
-        }
+        log.log(LogLevel.INFO, "Preparing to install app " + jTextField1.getText() + " to device " + devices.getSelectedADBDevice());
+        new Thread() {
+            @Override 
+            public void run() {
+                try {
+                    log.log(LogLevel.INFO, "ADB Output: " + adbController.installApplication(true, devices.getSelectedADBDevice(), jTextField5.getText()));
+                    interrupt();
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error installing application to device!\n" + ex.toString());
+                    interrupt();
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton10ActionPerformed
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Uninstall (Root) Application)">
+
     /**
-     * Will soon allow users to select an application from their device to uninstall.
+     * Will soon allow user to select an application from device and delete it.
      * @param evt 
      */
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        JOptionPane.showMessageDialog(null, "INFORMATION: Sorry, but this features has not yet been implemented.\n"
-                + "Please try again in a later version of Universal Android Toolkit. \n"
-                + "However, you can still type the location of the file and pull it that way.", "Feature not yet Implemented.", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "INFORMATION: Sorry, this feature is not yet available in this version\n"
+                + "of Universal Android Toolkit. Please be patient. You may still enter the application manually to uninstall.", "Feature not Implemented.", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     /**
-     * Attempts to uninstall the selected app from the system partition.
+     * Uninstalls selected application from device.
      * @param evt 
      */
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        log.log(LogLevel.INFO, "Uninstalling application " + jTextField6.getText() + " from device " + devices.getSelectedADBDevice());
-        try {
-            log.log(LogLevel.FINE, "ADB Output: " + adbController.executeADBCommand(true, true, devices.getSelectedADBDevice(), new String[]{"rm", jTextField6.getText()}));
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error while uninstalling application from system!\n" + ex.toString());
-        }
+        log.log(LogLevel.FINE, "Preparing to uninstall application " + jTextField2.getText() + " from device " + devices.getSelectedADBDevice());
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    log.log(LogLevel.FINE, "ADB Output: " + adbController.uninstallApplication(true, devices.getSelectedADBDevice(), jTextField6.getText()));
+                    interrupt();
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while uninstalling application from device!\n" + ex.toString());
+                    interrupt();
+                }
+            }
+        }.start();
     }//GEN-LAST:event_jButton12ActionPerformed
-    //</editor-fold>
-    //</editor-fold>
-    
-    //editor-fold defaultstate="collapsed" desc="Fastboot tab">
-    //<editor-fold defaultstate="collapsed" desc="Flash Image">
-    /**
-     * Allows user to select an image file, to flash to system.
-     * @param evt 
-     */
-    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
-        JFileChooser imageChooser = new JFileChooser();
-        imageChooser.setDialogTitle("Please Select an Image to Flash to your Device...");
-        imageChooser.setApproveButtonText("Flash this image.");
-        imageChooser.setFileFilter(new IMGFilter());
-        int dialogRes = imageChooser.showOpenDialog(null);
-        if ((dialogRes == JOptionPane.OK_OPTION) && (imageChooser.getSelectedFile().toString().toLowerCase().endsWith(".img")))
-            jTextField7.setText(imageChooser.getSelectedFile().toString());
-    }//GEN-LAST:event_jButton19ActionPerformed
 
     /**
-     * Flashes selected image to device via fastboot.
-     * Tries to detect image type, via file name. If image type cannot be analyzed, user will be prompted to enter.
+     * Starts ADB Server
      * @param evt 
      */
-    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
-        String img = jTextField7.getText().toLowerCase();
-        String imgType = "";
-        String deviceSerial = devices.getSelectedFastbootDevice();
-        /*Log*/ log.log(LogLevel.INFO, "Flashing image " + img + " to device " + deviceSerial + ". Detecting image type.");
-        String[] cmds = null;
-        // Detect image type.
-        if ((img.contains("recovery")) || (img.contains("cwm")) || (img.contains("twrp")))
-            imgType = "recovery";
-        else if (img.contains("system"))
-            imgType = "system";
-        else if ((img.contains("boot")) || img.contains("kernel"))
-            imgType = "boot";
-        else if (img.contains("userdata"))
-            imgType = "userdata";
-        else if ((img.contains("radio")) || (img.contains("modem")))
-            imgType = "radio";
-        else if (img.contains("bootloader"))
-            imgType = JOptionPane.showInputDialog(null, "WARNING: Image type could not be identified! Please enter the image type below:\n"
-                    + "You have following choices:\n"
-                    + "recovery\n"
-                    + "boot\n"
-                    + "userdata\n"
-                    + "system\n"
-                    + "radio\n"
-                    + "bootloader", "Could not Identify Image!", JOptionPane.WARNING_MESSAGE);
-        /*Log*/ log.log(LogLevel.INFO, "Detected image type: " + imgType);
-        // Prepare commands and flash image.
-        try {
-            cmds = new String[]{"flash", imgType};
-            log.log(LogLevel.INFO, "Fastboot output: " + adbController.executeFastbootCommand(deviceSerial, cmds));
-        } catch (IOException ex) {
-            log.log(LogLevel.SEVERE, "ERROR: Error flashing image to device!\n" + ex.toString());
-        }
-    }//GEN-LAST:event_jButton20ActionPerformed
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        log.log(LogLevel.INFO, "Starting ADB server...");
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    adbController.startServer();
+                    interrupt();
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error starting ADB server!\n" + ex.toString());
+                    interrupt();
+                }
+            }
+        }.start();
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    /**
+     * Stops ADB server.
+     * @param evt 
+     */
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        log.log(LogLevel.INFO, "Stopping ADB server...");
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    adbController.stopServer();
+                    interrupt();
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while stopping ADB server!\n" + ex.toString());
+                    interrupt();
+                }
+            }
+        }.start();
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    /**
+     * Restarts ADB server.
+     * @param evt 
+     */
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        log.log(LogLevel.INFO, "Restarting ADB server...");
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    adbController.restartServer();
+                    interrupt();
+                } catch (IOException ex) {
+                    log.log(LogLevel.SEVERE, "ERROR: Error while restarting ADB server!\n" + ex.toString());
+                    interrupt();
+                }
+            }
+        }.start();
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    /**
+     * Opens dialog, which allows user to execute custom ADB commands.
+     * @param evt 
+     */
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        new ExecuteCMD(adbController, log).setVisible(true);
+    }//GEN-LAST:event_jButton16ActionPerformed
+
+    /**
+     * Opens dialog which allows user to connect wirelessly to a device of choice.
+     * @param evt 
+     */
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        new ConnectDeviceTCP(adbController, log).setVisible(true);
+    }//GEN-LAST:event_jButton17ActionPerformed
+
+    /**
+     * Loads new list of connected devices.
+     * @param evt 
+     */
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        getDevices();
+    }//GEN-LAST:event_jButton18ActionPerformed
     //</editor-fold>
+    
+    private void refreshStatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshStatsActionPerformed
+        loadDeviceInfo(devices.getSelectedADBDevice());
+    }//GEN-LAST:event_refreshStatsActionPerformed
+   
     
     
     
@@ -1423,8 +1765,32 @@ public class AdvancedUI extends JFrame {
    
     private void getDevices() {
         devices.loadDevices();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ex) {
+            log.log(LogLevel.SEVERE, "ERROR: Error while sleeping thread!\n" + ex.toString());
+        }
+        if (settings.autoLoadDeviceInfo()) 
+            loadDeviceInfo(devices.getSelectedADBDevice());
     }
     
+    private void loadDeviceInfo(String deviceSerial) {
+        try {
+            Device device = adbController.getDevice(deviceSerial);
+            batteryLevel.setText(String.valueOf(device.getBattery().getLevel()) + "%");
+            busybox.setText("Busybox installed: " + device.getBusybox().isInstalled());
+            root.setText("SU is installed: " + device.getSU().isInstalled());
+            String cpuLoad = "";
+            String[] load = device.getCPU().getCPULoad();
+            for (int i = 0; i < load.length; i++)
+                cpuLoad += load[i] + " / ";
+            this.cpuLoad.setText("CPU Load: " + cpuLoad);
+        } catch (IOException ex) {
+            log.log(LogLevel.SEVERE, "ERROR: Error while fetching device data!\n" + ex.toString());
+        }
+    }
+    
+    //<editor-fold defaultstate="collapsed" desc="variables (Generated Code)">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel batteryLevel;
     private javax.swing.JLabel busybox;
@@ -1457,7 +1823,14 @@ public class AdvancedUI extends JFrame {
     private javax.swing.JButton jButton32;
     private javax.swing.JButton jButton33;
     private javax.swing.JButton jButton34;
+    private javax.swing.JButton jButton35;
+    private javax.swing.JButton jButton36;
+    private javax.swing.JButton jButton37;
+    private javax.swing.JButton jButton38;
+    private javax.swing.JButton jButton39;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton40;
+    private javax.swing.JButton jButton41;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
@@ -1476,17 +1849,38 @@ public class AdvancedUI extends JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JList jList1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1497,6 +1891,7 @@ public class AdvancedUI extends JFrame {
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1505,6 +1900,8 @@ public class AdvancedUI extends JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
@@ -1514,7 +1911,10 @@ public class AdvancedUI extends JFrame {
     private javax.swing.JSeparator jSeparator15;
     private javax.swing.JSeparator jSeparator16;
     private javax.swing.JSeparator jSeparator17;
+    private javax.swing.JSeparator jSeparator18;
+    private javax.swing.JSeparator jSeparator19;
     private javax.swing.JToolBar.Separator jSeparator2;
+    private javax.swing.JSeparator jSeparator20;
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
@@ -1524,6 +1924,7 @@ public class AdvancedUI extends JFrame {
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
@@ -1540,8 +1941,10 @@ public class AdvancedUI extends JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JButton refreshStats;
     private javax.swing.JLabel root;
     // End of variables declaration//GEN-END:variables
+//</editor-fold>
 }
