@@ -98,13 +98,13 @@ public class AdvancedDevices extends javax.swing.JFrame {
      * Gets the currently selected connected device.
      * @return the serial of that device.
      */
-    public String getSelectedADBDevice() { return jList1.getSelectedValue().toString(); }
+    public Object getSelectedADBDevice() { return jList1.getSelectedValue(); }
     
     /**
      * Gets the currently selected connected device.
      * @return the device's serial.
      */
-    public String getSelectedFastbootDevice() { return jList2.getSelectedValue().toString(); }
+    public Object getSelectedFastbootDevice() { return jList2.getSelectedValue(); }
 
     //<editor-fold defaultstate="collapsed" desc="Variables and other crap that nobody needs to see.">
     /**

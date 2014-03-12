@@ -17,6 +17,10 @@ Added controls for Build.Prop manager.
 Added control functionality to Android tab in AdvancedUI.
 Added functionality to device info "strip" at the bottom of AdvancedUI.
 Added a menu to the menu bar. - No functionality there, though.
+Improved device information-pulling speed.
+Added German translation (sort of...)
+Added new backup engine (Will sort out all sorts of backup, restore and EFS functionality.)
+Added new setting "zipEfs" - Will control whether backed up EFS-partitions should be zipped (compressed).
 
 
 Beta 0.5.1

@@ -16,11 +16,11 @@
  */
 package eu.m4gkbeatz.androidtoolkit.settings;
 
+import eu.m4gkbeatz.androidtoolkit.enums.*;
+
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import java.util.logging.*;
+import javax.swing.*;
 
 /**
  * SettingsManager. The Universal Android Toolkit settings manager manages all
@@ -30,7 +30,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  *
  * @author beatsleigher
  */
-@SuppressWarnings({"FieldMayBeFinal"})
+@SuppressWarnings({"FieldMayBeFinal", "UnnecessaryContinue"})
 public class SettingsManager {
 
     /*Look and Feel Constants*/
@@ -52,7 +52,9 @@ public class SettingsManager {
     private boolean saveLogs = true;
     private boolean useAdvancedUI = false;
     private String lookAndFeel = "Nimbus";
-
+    private Language language = Language.ENGLISH_UK;
+    private boolean zipEfs = false;
+    
     private void save() throws IOException {
         fileWriter = new BufferedWriter(new FileWriter(file));
         String settings
@@ -119,8 +121,6 @@ public class SettingsManager {
                 + "###################################\n"
                 + "pref::[name=lookAndFeel, value=" + lookAndFeel + "]\n\n"
                 //
-                + "### EOF ###\n\n"
-                //
                 + "##############################\n"
                 + "# Preference \"saveLogs\"      #\n"
                 + "# If true, all logs created  #\n"
@@ -134,7 +134,28 @@ public class SettingsManager {
                 + "# Your data will not be      #\n"
                 + "# saved.                     #\n"
                 + "##############################\n"
-                + "pref::[name=saveLogs, value=" + saveLogs + "]\n\n";
+                + "pref::[name=saveLogs, value=" + saveLogs + "]\n\n"
+                //
+                + "##############################\n"
+                + "# Preference \"language\"    #\n"
+                + "# This setting will control  #\n"
+                + "# the language used in the UI#\n"
+                + "# of Universal Android       #\n"
+                + "# Toolkit. This preference   #\n"
+                + "# is disabled until RC.      #\n"
+                + "##############################\n"
+                + "pref::[name=language, value=" + language + "]\n\n"
+                //
+                + "##############################\n"
+                + "# Preference \"zipEfs\"      #\n"
+                + "# If true, UAT will compress #\n"
+                + "# all created EFS-backups.   #\n"
+                + "# These images will NOT be   #\n"
+                + "# CWM- or TWRP-flashable!    #\n"
+                + "##############################\n"
+                + "pref::[name=zipEfs, value=" + zipEfs + "]\n\n"
+                //
+                + "### EOF ###";
         //</editor-fold>
         fileWriter.write(settings);
         fileWriter.close();
@@ -206,16 +227,31 @@ public class SettingsManager {
                     String[] arr = line.split("value="), arr0 = arr[1].split("]");
                     lookAndFeel = arr0[0];
                     System.out.println(" = " + lookAndFeel);
-                    for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                        if (arr0[0].equals(info.getName())) {
+                    for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                        if (lookAndFeel.equals(info.getName())) {
                             try {
-                                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                                UIManager.setLookAndFeel(info.getClassName());
                             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
                                 Logger.getLogger(SettingsManager.class.getName()).log(Level.SEVERE, null, "ERROR: Error setting requested LAF!\n" + ex);
                             }
                             break;
                         }
                     }
+                    continue;
+                }
+                if (line.contains("name=language")) {
+                    System.out.print("Found pref: language");
+                    String[] arr = line.split("value="), arr0 = arr[1].split("]");
+                    language = Language.valueOf(arr0[0]);
+                    System.out.println(" = " + arr0[0]);
+                    continue;
+                }
+                if (line.contains("name=zipEfs")) {
+                    System.out.print("Found pref: zipEfs");
+                    String[] arr = line.split("value="), arr0 = arr[1].split("]");
+                    zipEfs = Boolean.valueOf(arr0[0]);
+                    System.out.println(" = " + arr0[0]);
+                    continue;
                 }
 
             }
@@ -282,6 +318,19 @@ public class SettingsManager {
      * @return the LAF as string.
      */
     public String getLookAndFeel() { return lookAndFeel; }
+    
+    /**
+     * The language used in the UI-portion of Universal Android Toolkit.
+     * @return the language chosen.
+     */
+    public Language getLang() { return language; }
+    
+    /**
+     * This setting controls the behavior when a Samsung EFS-partition is 
+     * backed up. 
+     * @return true, if EFS backups should be zipped. False if not.
+     */
+    public boolean zipEfs() { return zipEfs; }
 
     /**
      * Sets the getUpdates variable. If set to <i>true</i>, then the program
@@ -334,5 +383,17 @@ public class SettingsManager {
      * @param laf new look and feel.
      */
     public void setLookAndFeel(String laf) { this.lookAndFeel = laf; }
+    
+    /**
+     * Applies the chosen language to the properties.
+     * @param lang 
+     */
+    public void setLang(Language lang) { this.language = lang; }
+    
+    /**
+     * Sets the setting zipEfs to user preference.
+     * @param bool the new setting.
+     */
+    public void setZipEfs(boolean bool) { this.zipEfs = bool; }
 
 }

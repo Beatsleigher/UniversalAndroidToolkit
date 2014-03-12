@@ -17,8 +17,8 @@
 
 package eu.m4gkbeatz.androidtoolkit.main;
 
-import eu.m4gkbeatz.androidtoolkit.logging.LogLevel;
-import eu.m4gkbeatz.androidtoolkit.logging.Logger;
+import eu.m4gkbeatz.androidtoolkit.logging.*;
+import eu.m4gkbeatz.androidtoolkit.backup.*;
 import eu.m4gkbeatz.androidtoolkit.settings.SettingsManager;
 import eu.m4gkbeatz.androidtoolkit.splash.SplashScreen;
 import eu.m4gkbeatz.androidtoolkit.ui.*;
@@ -72,8 +72,10 @@ public class Main {
                         Logger log = null;
                         SettingsManager settings = null;
                         ADBController adbController = null;
+                        BackupEngine backupEngine = null;
                         
                         SplashScreen splash = new SplashScreen();
+                        
                         splash.setVisible(true);
                         splash.setLocationRelativeTo(null);
                         splash.setStatus("Loading Settings and Logger...");
@@ -87,12 +89,15 @@ public class Main {
                             log.log(LogLevel.FINE, "Universal Android Toolkit has started.");
                             log.log(LogLevel.FINE, "Settings and logger have been loaded.");
                             Thread.sleep(500);
+                            log.log(LogLevel.INFO, "Loading Backup NGine...");
+                            splash.setStatus("Loading Backup Ngine...");
+                            
                             splash.setStatus("Welcome, " + System.getProperty("user.name") + ".");
                             splash.setImg(new ImageIcon(Main.class.getResource("/eu/m4gkbeatz/androidtoolkit/resources/icon.png")));
                             Thread.sleep(500);
                             if (settings.useAdvancedUI()) {
                                 log.log(LogLevel.INFO, "Loading advanced UI...");
-                                AdvancedUI ui = new AdvancedUI(settings, log, adbController);
+                                AdvancedUI ui = new AdvancedUI(settings, log, adbController, settings.getLang(), backupEngine);
                                 ui.setVisible(true);
                             } else {
                                 log.log(LogLevel.INFO, "Loading simple UI...");
