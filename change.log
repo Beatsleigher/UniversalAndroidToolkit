@@ -21,6 +21,14 @@ Improved device information-pulling speed.
 Added German translation (sort of...)
 Added new backup engine (Will sort out all sorts of backup, restore and EFS functionality.)
 Added new setting "zipEfs" - Will control whether backed up EFS-partitions should be zipped (compressed).
+ - Added AdvancedUI
+ - Added BUILD.PROP editor.
+ - Added new theme (TinyLAF)
+ - Optimized code.
+ - Minimized code.
+ - Added JVM monitor (for debugging purposes)
+ - Added advanced device information
+ - Added advanced device flashing tools.
 
 
 Beta 0.5.1
