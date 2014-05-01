@@ -17,14 +17,18 @@
 
 package eu.m4gkbeatz.androidtoolkit;
 
+import JDroidLib.android.controllers.*;
 import eu.m4gkbeatz.androidtoolkit.logging.Logger;
 import eu.m4gkbeatz.androidtoolkit.settings.SettingsManager;
 import eu.m4gkbeatz.androidtoolkit.splash.*;
+import eu.m4gkbeatz.androidtoolkit.ui.*;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.*;
 import java.util.logging.*;
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
+import net.lingala.zip4j.exception.*;
 
 /**
  * Main class - Universal Android Toolkit's entry point.
@@ -51,17 +55,9 @@ public class Main {
     public static final String VERSION = "Universal Android Toolkit version: 1.0\n"
             + "\tDesigned, Created and Compiled by Beatsleigher.\n"
             + "\thttp://team-m4gkbeatz.eu";
+    public static final String VERSION_NO = "1.0";
     
     public static void main(String[] args) {
-        Logger logger = null;
-        Logger.Level level = null;
-        try {
-            logger = new Logger();
-        } catch (IOException ex) {
-            System.err.println("ERROR: Error while loading UAT log! Application will terminate! (Error Code 1)");
-            ex.printStackTrace(System.err);
-            System.exit(1);
-        }
         
         /*Initial setup - Determine default look and feel*/
         String osName = System.getProperty("os.name");
@@ -90,6 +86,17 @@ public class Main {
             }
         }
         
+        
+        Logger logger = null;
+        Logger.Level level = null;
+        try {
+            logger = new Logger(debug);
+        } catch (IOException ex) {
+            System.err.println("ERROR: Error while loading UAT log! Application will terminate! (Error Code 1)");
+            ex.printStackTrace(System.err);
+            System.exit(1);
+        }
+        
         /*Start actual program*/
         logger.log(level.INFO, "Booting Universal Android Toolkit. Starting Settings engine...(VROOM!)");
         SplashScreen splash = new SplashScreen();
@@ -97,6 +104,8 @@ public class Main {
         splash.setVisible(true);
         
         SettingsManager settings = null;
+        boolean updateAvailable = false;
+        
         try {
             settings = new SettingsManager(debug, ignorePrefs, logger, lafToUse);
         } catch (IOException ex) {
@@ -110,27 +119,81 @@ public class Main {
             logger.log(level.DEBUG, "Settings locked and loaded. Ready to commence launch...");
         
         // Load settings that can be applied here
-        if (settings.showLog())
-            logger.setVisible(true);
-        if (settings.checkForUpdatesOnStartup()) {
-            boolean updateAvailable = checkForUpdates();
-        }
+        logger.log(level.INFO, "Applying settings...");
+        
+        if (debug)
+            logger.log(level.DEBUG, "Attempting to apply look and feel \"" + settings.getLookAndFeel() + "\"");
         
         try {
+            if (debug)
+                logger.log(level.DEBUG, "Disposing of splash screen...");
+            splash.dispose();
+            logger.dispose();
+            if (debug)
+                logger.log(level.DEBUG, "Setting look and feel...");
             for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels())
                 if (info.getName().equals(settings.getLookAndFeel()))
-                    UIManager.setLookAndFeel(info.getName());
+                    UIManager.setLookAndFeel(info.getClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             logger.log(level.ERROR, "An error occurred while attempting to set the wished look and feel. Universal Android Toolkit's appearence may distort!\n"
                     + "\tPlease make sure you correct your input via the settings menu!");
             ex.printStackTrace(System.err);
         }
+        if (debug)
+            logger.log(level.DEBUG, "Setting visibility of splash screen to true again...");
+        splash.setVisible(true);
+        
+        if (settings.showLog())
+            logger.setVisible(true);
+        if (settings.checkForUpdatesOnStartup()) 
+            updateAvailable = checkForUpdates(logger);
+        
+        // Launch JDroidLib main class
+        if (debug)
+            logger.log(level.DEBUG, "Firing up JDroidLib. Prepare for god-damn awesomeness!");
+        ADBController adbController = null;
+        try {
+            adbController = new ADBController();
+        } catch (IOException | ZipException | InterruptedException ex) {
+            logger.log(level.ERROR, "Error while initializing JDroidLib!\n\t\tLaunch will abort (Error code 3!)");
+            ex.printStackTrace(System.err);
+            System.exit(3);
+        }
+        
+        new Thread() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 2000; i++) {}
+                interrupt();
+            }
+        }.start();
+        
+        if (debug)
+            logger.log(level.DEBUG, "Init complete. Creating new instance of main UI...");
+            
+        splash.dispose();
+        
+        new UAT(debug, logger, level, settings, adbController).setVisible(true);
         
     }
     
-    private static boolean checkForUpdates() {
-        boolean returnVal;
-        
+    private static boolean checkForUpdates(Logger logger) {
+        logger.log(Logger.Level.INFO, "Checking for updates for Universal Android Toolkit. Please wait...");
+        BufferedReader reader = null;
+        boolean returnVal = false;
+        try {
+            reader = new BufferedReader(new InputStreamReader(new URL("https://raw.githubusercontent.com/Beatsleigher/UniversalAndroidToolkit/master/version").openStream()));
+            String line = reader.readLine();
+            if (line.equals(VERSION_NO))
+                returnVal = false;
+            else returnVal = true;
+        } catch (IOException ex) {
+            logger.log(Logger.Level.ERROR, "Error occurred while checking for updates!\n\tStack trace was printed to console!");
+            ex.printStackTrace(System.err);
+            logger.log(Logger.Level.INFO, "Update check was aborted! Please check manually.");
+            return false;
+        }
+        logger.log(Logger.Level.INFO, "A new update has been found! You will be notified when you have reached the control window.");
         return returnVal;
     }
     

@@ -1,0 +1,152 @@
+ # English (Great Britain), default language for Universal Android Toolkit
+ 
+ buttons_and_labels {
+      androidTab: {
+	  installButton=Install
+	  uninstallButton=Uninstall
+	  fileManagerButton=File Manager
+	  backupButton=Backup
+	  restoreButton=Restore
+	  exploreRootButton=Explore!
+	  connectButton=Connect...
+	  disconnectButton=Disconnect...
+	  moreButton=More...
+      };
+      
+      fastbootTab: {
+	  formatPartitionButton=Format Partition
+	  erasePartitionButton=Erase Partition
+	  flashPartitionButton=Flash Partition
+	  cleanFlashPartitionButton=Clean-Flash Partition
+	  bootKernelButton=Boot Kernel
+	  unlockBootloaderButton=Unlock Bootloader
+	  relockBootloaderButton=Relock Bootloader
+	  updateDeviceButton=Update Device
+      };
+      
+      deviceTab: {
+	  batteryTab: {
+	      batteryLevelLabel=Battery Level:
+	      batteryHealthLabel=Battery Health:
+	      isInsertedLabel=Is Inserted:
+	      isPoweredByLabel=Is Powered By:
+	      batteryStatusLabel=Battery Status:
+	      batteryScaleLabel=Battery Scale:
+	      batteryVoltageLabel=Battery Voltage:
+	      batteryCurrentLabel=Battery Current:
+	      batteryTempLabel=Battery Temperature:
+	      batteryTechLabel=Battery Technology:
+	  };
+	  
+	  rootTab: {
+	      superUserLabel=Super User:
+	      suVersionLabel=SU Version:
+	      busyboxLabel=Busybox:
+	      busyboxVersionLabel=Busybox Version:
+	      cpuUsageLabel=CPU Usage:
+	  };
+	  
+	  buildPropTab: {
+	      reloadButton=Reload
+	      saveAsButton=Save As...
+	      saveToDeviceButton=Save to Device
+	  };
+	  
+	  fileManagerTab: {
+	      # Nothing here, just yet.
+	  };
+      };
+      
+      toolkitTab: {
+	  preferenceTab: {
+	      refreshButton=Refresh
+	      intervalLabel=Interval:
+	      secondsLabel=s.
+	      checkForUpdatesButton=Check...
+	      autoUpdateButton=Auto-Update
+	      sendLogsButton=Send Logs
+	      showLogButton=Show Log
+	  };
+	  
+	  updateTab: {
+	      updateStatus_nonFound=No Updates Found...
+	      updateStatus_found=An Update is Available!
+	      changelogLabel=Changes:
+	      downloadJarButton=Download Jar File(s)...
+	      downloadRPMButton=Download Installer (.RPM)
+	      downloadDEBButton=Download Installer (.DEB)
+	      downloadEXEButton=Download Bin (.EXE)
+	  };
+      };
+ };
+ 
+ menus {
+      adbMenu: {
+	  startServerItem=Start Server
+	  stopServerItem=Stop Server
+	  restartServerItem=Restart Server
+	  connectDeviceItem=Connect to Device...
+	  rebootItem=Reboot...
+	  toAndroidItem=to Android
+	  toFastbootItem=to Fastboot
+	  toRecoveryItem=to Recovery
+      };
+      
+      fastbootMenu: {
+	  rebootItem=Reboot...
+	  toAndroidItem=to Android
+	  toFastbootItem=to Fastboot
+      };
+      
+      uatMenu: {
+	  checkForUpdatesItem=Check for Updates...
+	  installADBItem=Install ADB to Custom Location...
+	  aboutItem=About
+	  exitItem=Exit UAT.
+      };
+ };
+ 
+ tabs {
+      androidTab=Android
+      fastbootTab=Fastboot
+      deviceTab=Device
+      toolkitTab=Toolkit
+      logcatTab=Logcat
+      dmesgTab=DMESG
+      batteryTab=Battery
+      rootTab=Root and CPU
+      buildPropTab=Build Prop Manager
+      fileManagerTab=File Manager
+      settingsTab=Preferences
+      updatesTab=Updates
+ };
+ 
+ panels {
+      androidTab: {
+	  applicationsPanel=Applications
+	  filesPanel=Files
+	  backupsPanel=Backups
+	  rootingPanel=Rooting
+	  adbTCPPanel=ADB via TCP
+      };
+      
+      fastbootTab: {
+	  formattingPanel=Formatting
+	  flashingPanel=Flashing
+	  bootPanel=Boot
+	  lockStatePanel=Lock State
+	  updatePanel=Update
+      };
+      
+      settingsTab: {
+	  devicesPanel=Devices
+	  updatesPanel=Updates
+	  logsPanel=Logs
+	  themePanel=Theme
+	  languagePanel=Language
+      };
+ };
+ 
+ toolbar {
+      showDevicesButton=Show Devices
+ };

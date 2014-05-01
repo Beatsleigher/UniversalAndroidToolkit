@@ -18,6 +18,7 @@
 package eu.m4gkbeatz.androidtoolkit.settings;
 
 import eu.m4gkbeatz.androidtoolkit.*;
+import eu.m4gkbeatz.androidtoolkit.language.*;
 import eu.m4gkbeatz.androidtoolkit.logging.Logger;
 
 import java.io.*;
@@ -94,29 +95,31 @@ public final class SettingsManager {
                 + "# Preference block 01.\n"
                 + "# Datatype: boolean\n"
                 + "pref::(data=boolean){\n"
-                + "\tpref::[name=refreshDevices, value=" + refreshDevices + "]\n"
-                + "\tpref::[name=checkForUpdatesOnStartup. value=" + checkForUpdatesOnStartup + "]\n"
-                + "\tpref::[name=autoUpdate, value=" + autoUpdate + "]\n"
-                + "\tpref::[name=sendLogs, value=" + sendLogs + "]\n"
-                + "\tpref::[name=showLog, value=" + showLog + "]\n"
+                + "\tpref::[name=refreshDevices, value=" + refreshDevices + "];\n"
+                + "\tpref::[name=checkForUpdatesOnStartup. value=" + checkForUpdatesOnStartup + "];\n"
+                + "\tpref::[name=autoUpdate, value=" + autoUpdate + "];\n"
+                + "\tpref::[name=sendLogs, value=" + sendLogs + "];\n"
+                + "\tpref::[name=showLog, value=" + showLog + "];\n"
                 + "}\n\n"
                 //
                 + "# Preference block 02.\n"
                 + "# Datatype: int\n"
                 + "pref::(data=int){\n"
-                + "\tpref::[name=deviceRefreshInterval, value=" + deviceRefreshInterval + "]\n"
+                + "\tpref::[name=deviceRefreshInterval, value=" + deviceRefreshInterval + "];\n"
                 + "}\n\n"
                 //
                 + "# Preference block 03.\n"
                 + "# Datatype: String\n"
                 + "pref::(data=String){\n"
-                + "\tpref::[name=lookAndFeel, value=" + lookAndFeel + "]\n"
+                + "\tpref::[name=lookAndFeel, value=" + lookAndFeel + "];\n"
+                + "\tpref::[name=language, value=" + language + "];\n"
                 + "}\n\n"
                 //
                 + "# Information block.\n"
                 + "info::{\n"
                 + "\tUAT-Ver:\n"
                 + "\t" + Main.VERSION + "\n"
+                + "}\n\n"
                 //
                 + "# System information block.\n"
                 + "sys::{\n"
@@ -135,6 +138,7 @@ public final class SettingsManager {
     private static boolean autoUpdate = false;
     private static String lookAndFeel = "Nimbus";
     private static boolean sendLogs = true;
+    private static Language language = Language.en_gb;
     private static boolean showLog = true;
     /*Misc. Vars*/
     private boolean debug = false;
@@ -176,32 +180,34 @@ public final class SettingsManager {
             // Load booleans first
             if (line.equals("pref::(data=boolean){")) {
                 //<editor-fold defaultstate="collapsed" desc="">
+                if (debug)
+                    logger.log(level.DEBUG, "Loading boolean-value preferences...");
                 do {
-                    if (line.contains("name=refreshDevices")) {
+                    if (line.contains("name=refreshDevices") && line.endsWith(";")) {
                         String[] arr = line.split("value="); arr = arr[1].split("]");
                         refreshDevices = Boolean.valueOf(arr[0]);
                         if (debug)
                             logger.log(level.DEBUG, "Found pref: refreshDevices == " + arr[0]);
                     }
-                    if (line.contains("name=checkForUpdatesOnStartup")) {
+                    if (line.contains("name=checkForUpdatesOnStartup") && line.endsWith(";")) {
                         String[] arr = line.split("value="); arr = arr[1].split("]");
                         checkForUpdatesOnStartup = Boolean.valueOf(arr[0]);
                         if (debug)
                             logger.log(level.DEBUG, "Found pref: checkForUpdateOnStartup == " + arr[0]);
                     }
-                    if (line.contains("name=autoUpdate")) {
+                    if (line.contains("name=autoUpdate") && line.endsWith(";")) {
                         String[] arr = line.split("value="); arr = arr[1].split("]");
                         autoUpdate = Boolean.valueOf(arr[0]);
                         if (debug)
                             logger.log(level.DEBUG, "Found pref: autoUpdate == " + arr[0]);
                     }
-                    if (line.contains("name=sendLogs")) {
+                    if (line.contains("name=sendLogs") && line.endsWith(";")) {
                         String[] arr = line.split("value="); arr = arr[1].split("]");
                         sendLogs = Boolean.valueOf(arr[0]);
                         if (debug)
                             logger.log(level.DEBUG, "Found pref: sendLogs == " + arr[0]);
                     }
-                    if (line.contains("name=showLog")) {
+                    if (line.contains("name=showLog") && line.endsWith(";")) {
                         String[] arr = line.split("value="); arr = arr[1].split("]");
                         showLog = Boolean.valueOf(arr[0]);
                         if (debug)
@@ -214,8 +220,10 @@ public final class SettingsManager {
             }
             if (line.equals("pref::(data=int){")) {
                 //<editor-fold defaultstate="collapsed" desc="">
+                if (debug)
+                    logger.log(level.DEBUG, "Loading integer-value preferences...");
                 do {
-                    if (line.contains("name=deviceRefreshInterval")) {
+                    if (line.contains("name=deviceRefreshInterval") && line.endsWith(";")) {
                         String[] arr = line.split("value="); arr = arr[1].split("]");
                         deviceRefreshInterval = Integer.valueOf(arr[0]);
                         if (debug)
@@ -226,15 +234,25 @@ public final class SettingsManager {
                 } while (!line.equals("}"));
                 //</editor-fold>
             }
+            
             if (line.equals("pref::(data=String){")) {
                 //<editor-fold defaultstate="collapsed" desc="">
+                if (debug)
+                    logger.log(level.DEBUG, "Loading String-value preferences...");
                 do {
-                    if (line.contains("name=lookAndFeel")) {
+                    if (line.contains("name=lookAndFeel") && line.endsWith(";")) {
                         String[] arr = line.split("value="); arr = arr[1].split("]");
                         lookAndFeel = arr[0];
                         if (debug)
                             logger.log(level.DEBUG, "Found pref: lookAndFeel == " + arr[0]);
                     }
+                    if (line.contains("name=language") && line.endsWith(";")) {
+                        String[] arr = line.split("value="); arr = arr[1].split("]");
+                        language = Language.valueOf(arr[0]);
+                        if (debug)
+                            logger.log(level.DEBUG, "Found pref: language == " + arr[0]);
+                    }
+                    line = reader.readLine();
                     
                 } while (!line.equals("}"));
                 //</editor-fold>
@@ -274,6 +292,8 @@ public final class SettingsManager {
     
     public String getLookAndFeel() { return lookAndFeel; }    
     
+    public Language getLanguage() { return language; }
+    
     //# =============== Setter Methods =============== #\\
     public void setRefreshDevices(boolean val) { refreshDevices = val; }
     
@@ -288,5 +308,7 @@ public final class SettingsManager {
     public void setDeviceRefreshInterval(int val) { deviceRefreshInterval = val; }
     
     public void setLookAndFeel(String val) { lookAndFeel = val; }
+    
+    public void setLanguage(String lang) { language = Language.valueOf(lang); }
     
 }

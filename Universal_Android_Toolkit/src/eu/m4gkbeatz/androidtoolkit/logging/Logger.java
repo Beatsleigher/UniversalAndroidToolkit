@@ -34,12 +34,10 @@ public class Logger extends javax.swing.JFrame {
     private File logFile = null;
     private BufferedWriter writer = null;
     private String usrDir = System.getProperty("user.home");
+    private boolean debug = false;
 
-    /**
-     * Creates new form Logger
-     * @throws java.io.IOException
-     */
-    public Logger() throws IOException {
+    public Logger(boolean debug) throws IOException {
+        this.debug = debug;
         initComponents();
         this.setIconImage(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/log-icon.png")).getImage());
         this.setTitle("Universal Android Toolkit Logger");
@@ -56,6 +54,7 @@ public class Logger extends javax.swing.JFrame {
             Date date = new Date();
             String log = "[" + level + "]::" + "[" + date.toGMTString() + "] - " + msg + "\n";
             jTextArea1.append(log);
+            System.out.println(log);
             writer.write(log);
             writer.flush();
         } catch (IOException ex) {
