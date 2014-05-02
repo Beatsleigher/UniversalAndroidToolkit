@@ -26,26 +26,8 @@ package eu.m4gkbeatz.androidtoolkit.language;
 public enum Language {
     
     /**
-     * English (United States)
-     */
-    en_us,
-    
-    /**
      * English (Great Britain), default
      */
-    en_gb,
-    
-    /**
-     * German (Germany)
-     */
-    de_de;
-    
-    public static Language getLanguage(String lang) {
-        return Language.valueOf(lang);
-    }
-    
-    public static String toString(Language lang) {
-        return String.valueOf(lang);
-    }
+    en_gb;
     
 }

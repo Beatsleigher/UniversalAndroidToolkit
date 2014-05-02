@@ -4,27 +4,27 @@
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="restartServer_adbMenu">
+        <Menu class="javax.swing.JMenu" name="adbMenu">
           <Properties>
             <Property name="text" type="java.lang.String" value="ADB"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="stopServer_adbMenu">
+            <MenuItem class="javax.swing.JMenuItem" name="startServer_adbMenu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Start Server"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+            <MenuItem class="javax.swing.JMenuItem" name="stopServer_adbMenu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Stop Server"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="connectDevice_adbMenu">
+            <MenuItem class="javax.swing.JMenuItem" name="restartServer_adbMenu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Restart Server"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
+            <MenuItem class="javax.swing.JMenuItem" name="connectToDevice_adbMenu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Connect to Device"/>
               </Properties>
@@ -861,7 +861,7 @@
                               <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="isInserted_batteryLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="isPowered_batteryLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="isPoweredBy_batteryLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -888,7 +888,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="batteryHealth_batteryLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="isPowered_batteryLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="isPoweredBy_batteryLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="batteryScale_batteryLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -920,7 +920,7 @@
                         <Property name="text" type="java.lang.String" value="Is Inserted:  true"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="isPowered_batteryLabel">
+                    <Component class="javax.swing.JLabel" name="isPoweredBy_batteryLabel">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Is Powered By: USB"/>
                       </Properties>

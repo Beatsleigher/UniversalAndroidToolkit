@@ -23,11 +23,13 @@ import JDroidLib.android.controllers.*;
 import JDroidLib.android.device.*;
 
 import eu.m4gkbeatz.androidtoolkit.*;
+import eu.m4gkbeatz.androidtoolkit.language.*;
 import eu.m4gkbeatz.androidtoolkit.logging.*;
 import static eu.m4gkbeatz.androidtoolkit.logging.Logger.Level;
 import eu.m4gkbeatz.androidtoolkit.settings.*;
 import eu.m4gkbeatz.androidtoolkit.ui.customui.*;
 import java.io.*;
+import java.net.*;
 import java.util.*;
 
 import javax.swing.*;
@@ -68,6 +70,95 @@ public class UAT extends javax.swing.JFrame {
         deviceManager = new Devices(debug, logger, level, adbController, settings, this);
         deviceManager.setVisible(true);
         jTabbedPane2.setUI(new PPTTabbedPaneUI());
+        try {
+            loadTranslation();
+        } catch (IOException | LanguageNotFoundException ex) {
+            logger.log(level.ERROR, "Error occurred while applying translation: " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console! You can still use UAT.");
+            ex.printStackTrace(System.err);
+        }
+    }
+    
+    private void loadTranslation() throws IOException, LanguageNotFoundException {
+        LangFileParser parser = new LangFileParser();
+        parser.parse(settings.getLanguage(), logger, debug);
+        //# =============== Translate Buttons and Labels =============== #\\
+        // Android tab
+        installApplication_androidButton.setText(parser.installButton);
+        uninstallApplication_androidButton.setText(parser.uninstallButton);
+        fileManager_androidButton.setText(parser.fileManagerButton);
+        backupDevice_androidButton.setText(parser.backupButton);
+        restoreDevice_androidButton.setText(parser.restoreButton);
+        exploreRoot_androidButton.setText(parser.exploreRootButton);
+        connectDevice_androidButton.setText(parser.connectButton);
+        disconnectDevice_androidButton.setText(parser.disconnectButton);
+        more_androidButton.setText(parser.moreButton);
+        // Fastboot tab
+        formatPartition_fastbootButton.setText(parser.formatPartitionButton);
+        erasePartition_fastbootButton.setText(parser.erasePartitionButton);
+        flashPartition_fastbootButton.setText(parser.flashPartitionButton);
+        cleanFlashPartition_fastbootButton.setText(parser.cleanFlashPartitionButton);
+        bootKernel_fastbootButton.setText(parser.bootKernelButton);
+        unlockBootloader_fastbootButton.setText(parser.unlockBootloaderButton);
+        relockBootloader_fastbootButton.setText(parser.relockBootloaderButton);
+        updateDevice_fastbootButton.setText(parser.updateDeviceButton);
+        // Device tab
+            // Battery tab
+        batteryLevel_batteryLabel.setText(parser.batteryLevelLabel);
+        batteryHealth_batteryLabel.setText(parser.batteryHealthLabel);
+        isInserted_batteryLabel.setText(parser.isInsertedLabel);
+        isPoweredBy_batteryLabel.setText(parser.isPoweredByLabel);
+        batteryStatus_batteryLabel.setText(parser.batteryStatusLabel);
+        batteryScale_batteryLabel.setText(parser.batteryScaleLabel);
+        batteryVoltage_batteryLabel.setText(parser.batteryVoltageLabel);
+        batteryCurrent_batteryLabel.setText(parser.batteryCurrentLabel);
+        batteryTemp_batteryLabel.setText(parser.batteryTempLabel);
+        batteryTech_batteryLabel.setText(parser.batteryTechLabel);
+            // Root tab
+        superUserStatus_rootLabel.setText(parser.superUserLabel);
+        superUserVersion_rootLabel.setText(parser.suVersionLabel);
+        busyboxStatus_rootLabel.setText(parser.busyboxLabel);
+        busyboxVersion_rootLabel.setText(parser.busyboxLabel);
+        cpuUsage_rootLabel.setText(parser.cpuUsageLabel);
+            // Build Prop tab
+        reload_buildPropButton.setText(parser.reloadButton);
+        saveAs_buildPropButton.setText(parser.saveAsButton);
+        saveToDevice_buildPropButton.setText(parser.saveToDeviceButton);
+        // Toolkit tab
+            // Settings tab
+        refreshDevices_settingsButton.setText(parser.refreshButton);
+        refreshInterval_settingsLabel.setText(parser.intervalLabel);
+        intervalSeconds_settingsLabel.setText(parser.secondsLabel);
+        checkForUpdates_settingsButton.setText(parser.checkForUpdatesButton);
+        autoUpdate_settingsButton.setText(parser.autoUpdateButton);
+        sendLogs_settingsButton.setText(parser.sendLogsButton);
+        showLog_settingsButton.setText(parser.showLogButton);
+            // Updates tab
+        downloadJar_updatesButton.setText(parser.downloadJarButton);
+        downloadRPM_updatesButton.setText(parser.downloadRPMButton);
+        downloadDEB_updatesButton.setText(parser.downloadDEBButton);
+        downloadEXE_updatesButton.setText(parser.downloadEXEButton);
+        // Toolbar
+        showDevices_toolbarButton.setText(parser.showDevicesButton);
+        // Menus
+            // ADB
+        startServer_adbMenu.setText(parser.startServerItem);
+        stopServer_adbMenu.setText(parser.stopServerItem);
+        restartServer_adbMenu.setText(parser.restartServerItem);
+        connectToDevice_adbMenu.setText(parser.connectDeviceItem);
+        reboot_adbMenu.setText(parser.rebootItem);
+        toAndroid_adbMenu.setText(parser.toAndroidItem);
+        toFastboot_adbMenu.setText(parser.toFastbootItem);
+        toRecovery_adbMenu.setText(parser.toRecoveryItem);
+            // Fastboot
+        reboot_fastbootMenu.setText(parser.rebootItem);
+        toAndroid_fastbootMenu.setText(parser.toAndroidItem);
+        toFastboot_fastbootMenu.setText(parser.toFastbootItem);
+            // UAT
+        checkForUpdates_uatMenu.setText(parser.checkForUpdatesItem);
+        installADB_uatMenu.setText(parser.installADBItem);
+        about_uatMenu.setText(parser.aboutItem);
+        exit_uatMenu.setText(parser.exitItem);
     }
 
     /**
@@ -125,7 +216,7 @@ public class UAT extends javax.swing.JFrame {
         batteryLevel_batteryLabel = new javax.swing.JLabel();
         batteryHealth_batteryLabel = new javax.swing.JLabel();
         isInserted_batteryLabel = new javax.swing.JLabel();
-        isPowered_batteryLabel = new javax.swing.JLabel();
+        isPoweredBy_batteryLabel = new javax.swing.JLabel();
         batteryStatus_batteryLabel = new javax.swing.JLabel();
         batteryScale_batteryLabel = new javax.swing.JLabel();
         batteryVoltage_batteryLabel = new javax.swing.JLabel();
@@ -188,11 +279,11 @@ public class UAT extends javax.swing.JFrame {
         jScrollPane9 = new javax.swing.JScrollPane();
         jList6 = new javax.swing.JList();
         jMenuBar1 = new javax.swing.JMenuBar();
-        restartServer_adbMenu = new javax.swing.JMenu();
+        adbMenu = new javax.swing.JMenu();
+        startServer_adbMenu = new javax.swing.JMenuItem();
         stopServer_adbMenu = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        connectDevice_adbMenu = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        restartServer_adbMenu = new javax.swing.JMenuItem();
+        connectToDevice_adbMenu = new javax.swing.JMenuItem();
         reboot_adbMenu = new javax.swing.JMenu();
         toAndroid_adbMenu = new javax.swing.JMenuItem();
         toFastboot_adbMenu = new javax.swing.JMenuItem();
@@ -590,7 +681,7 @@ public class UAT extends javax.swing.JFrame {
 
         isInserted_batteryLabel.setText("Is Inserted:  true");
 
-        isPowered_batteryLabel.setText("Is Powered By: USB");
+        isPoweredBy_batteryLabel.setText("Is Powered By: USB");
 
         batteryStatus_batteryLabel.setText("Battery Status: CHARGING");
 
@@ -616,7 +707,7 @@ public class UAT extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(batteryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(isInserted_batteryLabel)
-                    .addComponent(isPowered_batteryLabel))
+                    .addComponent(isPoweredBy_batteryLabel))
                 .addGap(26, 26, 26)
                 .addGroup(batteryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(batteryTech_batteryLabel)
@@ -638,7 +729,7 @@ public class UAT extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(batteryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(batteryHealth_batteryLabel)
-                    .addComponent(isPowered_batteryLabel)
+                    .addComponent(isPoweredBy_batteryLabel)
                     .addComponent(batteryScale_batteryLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(batteryVoltage_batteryLabel)
@@ -1085,19 +1176,19 @@ public class UAT extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Toolkit", jPanel4);
 
-        restartServer_adbMenu.setText("ADB");
+        adbMenu.setText("ADB");
 
-        stopServer_adbMenu.setText("Start Server");
-        restartServer_adbMenu.add(stopServer_adbMenu);
+        startServer_adbMenu.setText("Start Server");
+        adbMenu.add(startServer_adbMenu);
 
-        jMenuItem2.setText("Stop Server");
-        restartServer_adbMenu.add(jMenuItem2);
+        stopServer_adbMenu.setText("Stop Server");
+        adbMenu.add(stopServer_adbMenu);
 
-        connectDevice_adbMenu.setText("Restart Server");
-        restartServer_adbMenu.add(connectDevice_adbMenu);
+        restartServer_adbMenu.setText("Restart Server");
+        adbMenu.add(restartServer_adbMenu);
 
-        jMenuItem4.setText("Connect to Device");
-        restartServer_adbMenu.add(jMenuItem4);
+        connectToDevice_adbMenu.setText("Connect to Device");
+        adbMenu.add(connectToDevice_adbMenu);
 
         reboot_adbMenu.setText("Reboot");
 
@@ -1110,9 +1201,9 @@ public class UAT extends javax.swing.JFrame {
         toRecovery_adbMenu.setText("to Recovery");
         reboot_adbMenu.add(toRecovery_adbMenu);
 
-        restartServer_adbMenu.add(reboot_adbMenu);
+        adbMenu.add(reboot_adbMenu);
 
-        jMenuBar1.add(restartServer_adbMenu);
+        jMenuBar1.add(adbMenu);
 
         jMenu2.setText("Fastboot");
 
@@ -1269,6 +1360,7 @@ public class UAT extends javax.swing.JFrame {
     //<editor-fold defaultstate="collapsed" desc="Variables">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem about_uatMenu;
+    private javax.swing.JMenu adbMenu;
     private javax.swing.JPanel androidTab;
     private javax.swing.JToggleButton autoUpdate_settingsButton;
     private javax.swing.JButton backupDevice_androidButton;
@@ -1289,8 +1381,8 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JToggleButton checkForUpdates_settingsButton;
     private javax.swing.JMenuItem checkForUpdates_uatMenu;
     private javax.swing.JButton cleanFlashPartition_fastbootButton;
-    private javax.swing.JMenuItem connectDevice_adbMenu;
     private javax.swing.JButton connectDevice_androidButton;
+    private javax.swing.JMenuItem connectToDevice_adbMenu;
     private javax.swing.JLabel cpuUsage_rootLabel;
     private javax.swing.JPanel devices_settingsPanel;
     private javax.swing.JButton disconnectDevice_androidButton;
@@ -1311,7 +1403,7 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JButton installApplication_androidButton;
     private javax.swing.JLabel intervalSeconds_settingsLabel;
     private javax.swing.JLabel isInserted_batteryLabel;
-    private javax.swing.JLabel isPowered_batteryLabel;
+    private javax.swing.JLabel isPoweredBy_batteryLabel;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -1324,8 +1416,6 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1372,7 +1462,7 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JLabel refreshInterval_settingsLabel;
     private javax.swing.JButton reload_buildPropButton;
     private javax.swing.JButton relockBootloader_fastbootButton;
-    private javax.swing.JMenu restartServer_adbMenu;
+    private javax.swing.JMenuItem restartServer_adbMenu;
     private javax.swing.JButton restoreDevice_androidButton;
     private javax.swing.JPanel rootTab;
     private javax.swing.JButton saveAs_buildPropButton;
@@ -1380,6 +1470,7 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JToggleButton sendLogs_settingsButton;
     private javax.swing.JButton showDevices_toolbarButton;
     private javax.swing.JToggleButton showLog_settingsButton;
+    private javax.swing.JMenuItem startServer_adbMenu;
     private javax.swing.JMenuItem stopServer_adbMenu;
     private javax.swing.JLabel superUserStatus_rootLabel;
     private javax.swing.JLabel superUserVersion_rootLabel;
@@ -1400,6 +1491,561 @@ public class UAT extends javax.swing.JFrame {
     //# =============== Custom Classes =============== #\\
     
     private class LangFileParser {
+        
+        //# =============== Variables for Controls =============== #\\
+        //<editor-fold defaultstate="collapsed" desc="">
+        /* =============== Buttons and labels =============== */
+        // Android tab
+        public String installButton, uninstallButton, fileManagerButton, backupButton, restoreButton, exploreRootButton, connectButton, disconnectButton, moreButton;
+        // Fastboot tab
+        public String formatPartitionButton, erasePartitionButton, flashPartitionButton, cleanFlashPartitionButton, bootKernelButton, unlockBootloaderButton, relockBootloaderButton,
+                updateDeviceButton;
+        // Device tab
+            // Battery tab
+        public String batteryLevelLabel, batteryHealthLabel, isInsertedLabel, isPoweredByLabel, batteryStatusLabel, batteryScaleLabel, batteryVoltageLabel,
+                batteryCurrentLabel, batteryTempLabel, batteryTechLabel;
+            // Root tab
+        public String superUserLabel, suVersionLabel, busyboxLabel, busyboxVersionLabel, cpuUsageLabel;
+            // Build Prop tab
+        public String reloadButton, saveAsButton, saveToDeviceButton;
+        // Toolkit tab
+            // Preferences tab
+        public String refreshButton, intervalLabel, secondsLabel, checkForUpdatesButton, autoUpdateButton, sendLogsButton, showLogButton;
+            // Updates tab
+        public String updateStatus_nonFound, updateStatus_found, changelogLabel, downloadJarButton, downloadRPMButton, downloadDEBButton, downloadEXEButton;
+        /* =============== Menus =============== */
+        // ADB menu
+        public String startServerItem, stopServerItem, restartServerItem, connectDeviceItem, disconnectDeviceItem, rebootItem, toAndroidItem, toFastbootItem, toRecoveryItem;
+        // UAT menu
+        public String checkForUpdatesItem, installADBItem, aboutItem, exitItem;
+        /* =============== Tabs =============== */
+        public String androidTab, fastbootTab, deviceTab, toolkitTab, logcatTab, dmesgTab, batteryTab, rootTab, buildPropTab, fileManagerTab, settingsTab, updatesTab;
+        /* =============== Panels =============== */
+        // Android tab
+        public String applicationsPanel, filesPanel, backupsPanel, rootingPanel, adbTCPPanel;
+        // Fastboot tab
+        public String formattingPanel, flashingPanel, bootPanel, lockStatePanel, updatePanel;
+        // Settings tab
+        public String devicesPanel, updatesPanel, logsPanel, themePanel, languagePanel;
+        /* =============== Toolbar =============== */
+        public String showDevicesButton;
+        //</editor-fold>
+        
+        public void parse(Language lang, Logger logger, boolean debug) throws IOException, LanguageNotFoundException {
+            URL languageFile = this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/langs/" + lang + ".lang");
+            if (debug)
+                logger.log(Level.DEBUG, "Attempting translation from file: " + languageFile);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(languageFile.openStream()));
+            String line;
+            
+            /* Template
+                if (line.contains("batteryTempLabel=")) {
+                    String[] arr = line.split("=");
+                    batteryTempLabel = arr[1];
+                }
+            */
+            while ((line = reader.readLine()) != null) {
+                //<editor-fold defaultstate="collapsed" desc="Read buttons and labels, first">
+                if (line.startsWith("buttons_and_labels") && line.endsWith("{")) {
+                    do {
+                        //<editor-fold defaultstate="collapsed" desc="Read from androidTab:"> 
+                        if (line.startsWith("      androidTab:") && line.endsWith("{")) {
+                            do {
+                                if (line.contains("installButton=")) {
+                                    String[] arr = line.split("=");
+                                    installButton = arr[1];
+                                }
+                                if (line.contains("uninstallButton=")) {
+                                    String[] arr = line.split("=");
+                                    uninstallButton = arr[1];
+                                }
+                                if (line.contains("fileManagerButton=")) {
+                                    String[] arr = line.split("=");
+                                    fileManagerButton = arr[1];
+                                }
+                                if (line.contains("backupButton=")) {
+                                    String[] arr = line.split("=");
+                                    backupButton = arr[1];
+                                }
+                                if (line.contains("restoreButton=")) {
+                                    String[] arr = line.split("=");
+                                    restoreButton = arr[1];
+                                }
+                                if (line.contains("exploreRootButton=")) {
+                                    String[] arr = line.split("=");
+                                    exploreRootButton = arr[1];
+                                }
+                                if (line.contains("connectButton=")) {
+                                    String[] arr = line.split("=");
+                                    connectButton = arr[1];
+                                }
+                                if (line.contains("disconnectButton=")) {
+                                    String[] arr = line.split("=");
+                                    disconnectButton = arr[1];
+                                }
+                                if (line.contains("moreButton=")) {
+                                    String[] arr = line.split("=");
+                                    moreButton = arr[1];
+                                }
+                                line = reader.readLine();
+                                
+                            } while (!line.equals("      };"));
+                        } //</editor-fold>
+                        //<editor-fold defaultstate="collapsed" desc="Read from fastbootTab">
+                        if (line.startsWith("      fastbootTab:") && line.endsWith("{")) {
+                            do {
+                                if (line.contains("formatPartitionButton=")) {
+                                    String[] arr = line.split("=");
+                                    formatPartitionButton = arr[1];
+                                }
+                                if (line.contains("erasePartitionButton=")) {
+                                    String[] arr = line.split("=");
+                                    erasePartitionButton = arr[1];
+                                }
+                                if (line.contains("flashPartitionButton=")) {
+                                    String[] arr = line.split("=");
+                                    flashPartitionButton = arr[1];
+                                }
+                                if (line.contains("cleanFlashPartitionButton=")) {
+                                    String[] arr = line.split("=");
+                                    cleanFlashPartitionButton = arr[1];
+                                }
+                                if (line.contains("bootKernelButton=")) {
+                                    String[] arr = line.split("=");
+                                    bootKernelButton = arr[1];
+                                }
+                                if (line.contains("unlockBootloaderButton=")) {
+                                    String[] arr = line.split("=");
+                                    unlockBootloaderButton = arr[1];
+                                }
+                                if (line.contains("relockBootloaderButton=")) {
+                                    String[] arr = line.split("=");
+                                    relockBootloaderButton = arr[1];
+                                }
+                                if (line.contains("updateDeviceButton=")) {
+                                    String[] arr = line.split("=");
+                                    updateDeviceButton = arr[1];
+                                }
+                                line = reader.readLine();
+                                
+                            } while (!line.equals("      };"));
+                        } //</editor-fold>
+                        //<editor-fold defaultstate="collapsed" desc="Read from deviceTab">
+                        if (line.startsWith("      deviceTab:") && line.endsWith("{")) {
+                            do {
+                                //<editor-fold defaultstate="collapsed" desc="Load from batteryTab">
+                                if (line.startsWith("      batteryTab:") && line.endsWith("{")) {
+                                    do {
+                                        if (line.contains("batteryLevelLabel=")) {
+                                            String[] arr = line.split("=");
+                                            batteryLevelLabel = arr[1];
+                                        }
+                                        if (line.contains("batteryHealthLabel=")) {
+                                            String[] arr = line.split("=");
+                                            batteryHealthLabel = arr[1];
+                                        }
+                                        if (line.contains("isInsertedLabel=")) {
+                                            String[] arr = line.split("=");
+                                            isInsertedLabel = arr[1];
+                                        }
+                                        if (line.contains("isPoweredByLabel=")) {
+                                            String[] arr = line.split("=");
+                                            isPoweredByLabel = arr[1];
+                                        }
+                                        if (line.contains("batteryStatusLabel=")) {
+                                            String[] arr = line.split("=");
+                                            batteryStatusLabel = arr[1];
+                                        }
+                                        if (line.contains("batteryScaleLabel=")) {
+                                            String[] arr = line.split("=");
+                                            batteryScaleLabel = arr[1];
+                                        }
+                                        if (line.contains("batteryVoltageLabel=")) {
+                                            String[] arr = line.split("=");
+                                            batteryVoltageLabel = arr[1];
+                                        }
+                                        if (line.contains("batteryCurrentLabel=")) {
+                                            String[] arr = line.split("=");
+                                            batteryCurrentLabel = arr[1];
+                                        }
+                                        if (line.contains("batteryTempLabel=")) {
+                                            String[] arr = line.split("=");
+                                            batteryTempLabel = arr[1];
+                                        }
+                                        if (line.contains("batteryTechLabel=")) {
+                                            String[] arr = line.split("=");
+                                            batteryTechLabel = arr[1];
+                                        }
+                                        line = reader.readLine();
+                                        
+                                    } while (!line.equals("	  };"));
+                                } //</editor-fold>
+                                //<editor-fold defaultstate="collapsed" desc="Read from rootTab">
+                                if (line.startsWith("	  rootTab:") && line.endsWith("{")) {
+                                    do {
+                                        if (line.contains("superUserLabel=")) {
+                                            String[] arr = line.split("=");
+                                            superUserLabel = arr[1];
+                                        }
+                                        if (line.contains("suVersionLabel=")) {
+                                            String[] arr = line.split("=");
+                                            suVersionLabel = arr[1];
+                                        }
+                                        if (line.contains("busyboxLabel=")) {
+                                            String[] arr = line.split("=");
+                                            busyboxLabel = arr[1];
+                                        }
+                                        if (line.contains("busyboxVersionLabel=")) {
+                                            String[] arr = line.split("=");
+                                            busyboxVersionLabel = arr[1];
+                                        }
+                                        if (line.contains("cpuUsageLabel=")) {
+                                            String[] arr = line.split("=");
+                                            cpuUsageLabel = arr[1];
+                                        }
+                                        line = reader.readLine();
+                                        
+                                    } while (!line.equals("	  };"));
+                                } //</editor-fold>
+                                //<editor-fold defaultstate="collapsed" desc="Read from buildPropTab">
+                                if (line.startsWith("buildPropTab:") && line.endsWith("{")) {
+                                    do {
+                                        if (line.contains("reloadButton=")) {
+                                            String[] arr = line.split("=");
+                                            reloadButton = arr[1];
+                                        }
+                                        if (line.contains("saveAsButton=")) {
+                                            String[] arr = line.split("=");
+                                            saveAsButton = arr[1];
+                                        }
+                                        if (line.contains("saveToDeviceButton=")) {
+                                            String[] arr = line.split("=");
+                                            saveToDeviceButton = arr[1];
+                                        }
+                                        line = reader.readLine();
+                                        
+                                    } while (!line.equals("	  };"));
+                                } //</editor-fold>
+                                //<editor-fold defaultstate="collapsed" desc="Read from fileManagerTab">
+                                if (line.startsWith("	  fileManagerTab:") && line.endsWith("{")) {
+                                    do {
+                                        // To-Do: Add code, maybe?
+                                        line = reader.readLine();
+                                    } while (!line.equals("	  };"));
+                                } //</editor-fold>
+                                line = reader.readLine();
+                            } while (!line.equals("      };"));
+                        } //</editor-fold>
+                        //<editor-fold defaultstate="collapsed" desc="Read from toolkitTab">
+                        if (line.startsWith("      toolkitTab:") && line.endsWith("{")) {
+                            do {
+                                //<editor-fold defaultstate="collapsed" desc="Read from preferenceTab">
+                                if (line.startsWith("	  preferenceTab:") && line.endsWith("{")) {
+                                    if (line.contains("refreshButton=")) {
+                                        String[] arr = line.split("=");
+                                        refreshButton = arr[1];
+                                    }
+                                    if (line.contains("intervalLabel=")) {
+                                        String[] arr = line.split("=");
+                                        intervalLabel = arr[1];
+                                    }
+                                    if (line.contains("secondsLabel=")) {
+                                        String[] arr = line.split("=");
+                                        secondsLabel = arr[1];
+                                    }
+                                    if (line.contains("checkForUpdatesButton=")) {
+                                        String[] arr = line.split("=");
+                                        checkForUpdatesButton = arr[1];
+                                    }
+                                    if (line.contains("autoUpdateButton=")) {
+                                        String[] arr = line.split("=");
+                                        autoUpdateButton = arr[1];
+                                    }
+                                    if (line.contains("sendLogsButton=")) {
+                                        String[] arr = line.split("=");
+                                        sendLogsButton = arr[1];
+                                    }
+                                    if (line.contains("showLogButton=")) {
+                                        String[] arr = line.split("=");
+                                        showLogButton = arr[1];
+                                    }
+                                    line = reader.readLine();
+                                    
+                                } //</editor-fold>
+                                //<editor-fold defaultstate="collapsed" desc="Read from updateTab">
+                                if (line.startsWith("	  updateTab:") && line.endsWith("{")) {
+                                    do {
+                                        if (line.contains("updateStatus_nonFound=")) {
+                                            String[] arr = line.split("=");
+                                            updateStatus_nonFound = arr[1];
+                                        }
+                                        if (line.contains("updateStatus_found=")) {
+                                            String[] arr = line.split("=");
+                                            updateStatus_found = arr[1];
+                                        }
+                                        if (line.contains("changelogLabel=")) {
+                                            String[] arr = line.split("=");
+                                            changelogLabel = arr[1];
+                                        }
+                                        if (line.contains("downloadJarButton=")) {
+                                            String[] arr = line.split("=");
+                                            downloadJarButton = arr[1];
+                                        }
+                                        if (line.contains("downloadRPMButton=")) {
+                                            String[] arr = line.split("=");
+                                            downloadRPMButton = arr[1];
+                                        }
+                                        if (line.contains("downloadDEBButton=")) {
+                                            String[] arr = line.split("=");
+                                            downloadDEBButton = arr[1];
+                                        }
+                                        if (line.contains("downloadEXEButton=")) {
+                                            String[] arr = line.split("=");
+                                            downloadEXEButton = arr[1];
+                                        }
+                                        line = reader.readLine();
+                                        
+                                    } while (!line.equals("	  };"));
+                                } //</editor-fold>
+                            } while (!line.equals("      };"));
+                        } //</editor-fold>
+                        line = reader.readLine();
+                    } while (!line.equals("};"));
+                } //</editor-fold>
+                //<editor-fold defaultstate="collapsed" desc="Read menus">
+                if (line.startsWith("menus") && line.endsWith("{")) {
+                    do {
+                        //<editor-fold defaultstate="collapsed" desc="Read from ADB menu">
+                        if (line.startsWith("      adbMenu:") && line.endsWith("{")) {
+                            do {
+                                if (line.contains("startServerItem=")) {
+                                    String[] arr = line.split("=");
+                                    startServerItem = arr[1];
+                                }
+                                if (line.contains("stopServerItem=")) {
+                                    String[] arr = line.split("=");
+                                    stopServerItem = arr[1];
+                                }
+                                if (line.contains("restartServerItem=")) {
+                                    String[] arr = line.split("=");
+                                    restartServerItem = arr[1];
+                                }
+                                if (line.contains("connectDeviceItem=")) {
+                                    String[] arr = line.split("=");
+                                    connectDeviceItem = arr[1];
+                                }
+                                if (line.contains("disconnectDeviceItem=")) {
+                                    String[] arr = line.split("=");
+                                    disconnectDeviceItem = arr[1];
+                                }
+                                if (line.contains("rebootItem=")) {
+                                    String[] arr = line.split("=");
+                                    rebootItem = arr[1];
+                                }
+                                if (line.contains("toAndroidItem=")) {
+                                    String[] arr = line.split("=");
+                                    toAndroidItem = arr[1];
+                                }
+                                if (line.contains("toFastbootItem=")) {
+                                    String[] arr = line.split("=");
+                                    toFastbootItem = arr[1];
+                                }
+                                if (line.contains("toRecoveryItem=")) {
+                                    String[] arr = line.split("=");
+                                    toRecoveryItem = arr[1];
+                                }
+                                
+                            } while (!(line = reader.readLine()).equals("      };"));
+                        } //</editor-fold>
+                        //<editor-fold defaultstate="collapsed" desc="Read from UAT menu (Fastboot menu doesn't contain anything of real concern)">
+                        if (line.startsWith("      uatMenu:") && line.endsWith("      };")) {
+                            do {
+                                if (line.contains("checkForUpdatesItem=")) {
+                                    String[] arr = line.split("=");
+                                    checkForUpdatesItem = arr[1];
+                                }
+                                if (line.contains("installADBItem=")) {
+                                    String[] arr = line.split("=");
+                                    installADBItem = arr[1];
+                                }
+                                if (line.contains("aboutItem=")) {
+                                    String[] arr = line.split("=");
+                                    aboutItem = arr[1];
+                                }
+                                if (line.contains("exitItem=")) {
+                                    String[] arr = line.split("=");
+                                    exitItem = arr[1];
+                                }
+                                
+                            } while (!(line = reader.readLine()).equals("      };"));
+                        } //</editor-fold>
+                    } while (!(line = reader.readLine()).equals("};"));
+                }
+                //</editor-fold>
+                //<editor-fold defaultstate="collapsed" desc="Read Tabs">
+                if (line.startsWith(" tabs") && line.endsWith("{")) {
+                    do {
+                        if (line.contains("androidTab=")) {
+                            String[] arr = line.split("=");
+                            androidTab = arr[1];
+                        }
+                        if (line.contains("fastbootTab=")) {
+                            String[] arr = line.split("=");
+                            fastbootTab = arr[1];
+                        }
+                        if (line.contains("deviceTab=")) {
+                            String[] arr = line.split("=");
+                            deviceTab = arr[1];
+                        }
+                        if (line.contains("toolkitTab=")) {
+                            String[] arr = line.split("=");
+                            toolkitTab = arr[1];
+                        }
+                        if (line.contains("logcatTab=")) {
+                            String[] arr = line.split("=");
+                            logcatTab = arr[1];
+                        }
+                        if (line.contains("dmesgTab=")) {
+                            String[] arr = line.split("=");
+                            dmesgTab = arr[1];
+                        }
+                        if (line.contains("batteryTab=")) {
+                            String[] arr = line.split("=");
+                            batteryTab = arr[1];
+                        }
+                        if (line.contains("rootTab=")) {
+                            String[] arr = line.split("=");
+                            rootTab = arr[1];
+                        }
+                        if (line.contains("buildPropTab=")) {
+                            String[] arr = line.split("=");
+                            buildPropTab = arr[1];
+                        }
+                        if (line.contains("fileManagerTab=")) {
+                            String[] arr = line.split("=");
+                            fileManagerTab = arr[1];
+                        }
+                        if (line.contains("settingsTab=")) {
+                            String[] arr = line.split("=");
+                            settingsTab = arr[1];
+                        }
+                        if (line.contains("updatesTab=")) {
+                            String[] arr = line.split("=");
+                            updatesTab = arr[1];
+                        }
+                        line = reader.readLine();
+                        
+                    } while (!line.equals("};"));
+                }
+                //</editor-fold>
+                //<editor-fold defaultstate="collapsed" desc="Read panels">
+                if (line.startsWith(" panels") && line.endsWith("{")) {
+                    do {
+                        //<editor-fold defaultstate="collapsed" desc="Read androidTab">
+                        if (line.startsWith("      androidTab:") && line.endsWith("      };")) {
+                            do {
+                                if (line.contains("applicationsPanel=")) {
+                                    String[] arr = line.split("=");
+                                    applicationsPanel = arr[1];
+                                }
+                                if (line.contains("filesPanel=")) {
+                                    String[] arr = line.split("=");
+                                    filesPanel = arr[1];
+                                }
+                                if (line.contains("backupsPanel=")) {
+                                    String[] arr = line.split("=");
+                                    backupsPanel = arr[1];
+                                }
+                                if (line.contains("rootingPanel=")) {
+                                    String[] arr = line.split("=");
+                                    rootingPanel = arr[1];
+                                }
+                                if (line.contains("adbTCPPanel=")) {
+                                    String[] arr = line.split("=");
+                                    adbTCPPanel = arr[1];
+                                }
+                                
+                            } while (!(line = reader.readLine()).equals("      };"));
+                        } //</editor-fold>
+                        //<editor-fold defaultstate="collapsed" desc="Read fastbootTab">
+                        if (line.startsWith("      fastbootTab:") && line.endsWith("{")) {
+                            do {
+                                if (line.contains("formattingPanel=")) {
+                                    String[] arr = line.split("=");
+                                    formattingPanel = arr[1];
+                                }
+                                if (line.contains("flashingPanel=")) {
+                                    String[] arr = line.split("=");
+                                    flashingPanel = arr[1];
+                                }
+                                if (line.contains("bootPanel=")) {
+                                    String[] arr = line.split("=");
+                                    bootPanel = arr[1];
+                                }
+                                if (line.contains("lockStatePanel=")) {
+                                    String[] arr = line.split("=");
+                                    lockStatePanel = arr[1];
+                                }
+                                if (line.contains("updatePanel=")) {
+                                    String[] arr = line.split("=");
+                                    updatePanel = arr[1];
+                                }
+                                
+                            } while (!(line = reader.readLine()).equals("      };"));
+                        }
+                        //</editor-fold>
+                        //<editor-fold defaultstate="collapsed" desc="Read settingsTab">
+                        if (line.startsWith("      settingsTab:") && line.endsWith("{")) {
+                            do {
+                                if (line.contains("devicesPanel=")) {
+                                    String[] arr = line.split("=");
+                                    devicesPanel = arr[1];
+                                }
+                                if (line.contains("updatesPanel=")) {
+                                    String[] arr = line.split("=");
+                                    updatesPanel = arr[1];
+                                }               
+                                if (line.contains("logsPanel=")) {
+                                    String[] arr = line.split("=");
+                                    logsPanel = arr[1];
+                                }
+                                if (line.contains("themePanel=")) {
+                                    String[] arr = line.split("=");
+                                    themePanel = arr[1];
+                                }
+                                if (line.contains("languagePanel=")) {
+                                    String[] arr = line.split("=");
+                                    languagePanel = arr[1];
+                                }
+                                
+                            } while (!(line = reader.readLine()).equals("     };"));
+                        }
+                        //</editor-fold>
+                    } while (!(line = reader.readLine()).equals("};"));
+                }
+                //</editor-fold>
+                //<editor-fold defaultstate="collapsed" desc="Read toolbar">
+                if (line.startsWith(" toolbar") && line.endsWith("{")) {
+                    do {
+                        if (line.contains("showDevicesButton=")) {
+                            String[] arr = line.split("=");
+                            showDevicesButton = arr[1];
+                        }
+                        
+                    } while (!(line = reader.readLine()).equals("};"));
+                }
+                //</editor-fold>
+            }
+            reader.close();
+        }
+        
+    }
+    
+    private class LanguageNotFoundException extends Exception {
+        
+        public LanguageNotFoundException() {}
+        
+        public LanguageNotFoundException(String msg) { super(msg); }
         
     }
 }
