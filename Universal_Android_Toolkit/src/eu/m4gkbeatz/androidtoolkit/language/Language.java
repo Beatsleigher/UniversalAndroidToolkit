@@ -30,4 +30,9 @@ public enum Language {
      */
     en_gb;
     
+    /**
+     * Español (Latino América)
+     */
+    sp_la;
+
 }
