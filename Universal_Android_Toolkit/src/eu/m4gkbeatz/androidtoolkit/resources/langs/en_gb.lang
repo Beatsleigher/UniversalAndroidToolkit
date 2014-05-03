@@ -1,7 +1,8 @@
  # English (Great Britain), default language for Universal Android Toolkit
  
- buttons_and_labels {
-      androidTab: {
+ # ========== Buttons and Labels ========== #
+ 
+ # Android tab
 	  installButton=Install
 	  uninstallButton=Uninstall
 	  fileManagerButton=File Manager
@@ -11,9 +12,7 @@
 	  connectButton=Connect...
 	  disconnectButton=Disconnect...
 	  moreButton=More...
-      };
-      
-      fastbootTab: {
+ # Fastboot tab
 	  formatPartitionButton=Format Partition
 	  erasePartitionButton=Erase Partition
 	  flashPartitionButton=Flash Partition
@@ -22,66 +21,48 @@
 	  unlockBootloaderButton=Unlock Bootloader
 	  relockBootloaderButton=Relock Bootloader
 	  updateDeviceButton=Update Device
-      };
-      
-      deviceTab: {
-	  batteryTab: {
-	      batteryLevelLabel=Battery Level:
-	      batteryHealthLabel=Battery Health:
-	      isInsertedLabel=Is Inserted:
-	      isPoweredByLabel=Is Powered By:
-	      batteryStatusLabel=Battery Status:
-	      batteryScaleLabel=Battery Scale:
-	      batteryVoltageLabel=Battery Voltage:
-	      batteryCurrentLabel=Battery Current:
-	      batteryTempLabel=Battery Temperature:
-	      batteryTechLabel=Battery Technology:
-	  };
-	  
-	  rootTab: {
-	      superUserLabel=Super User:
-	      suVersionLabel=SU Version:
-	      busyboxLabel=Busybox:
-	      busyboxVersionLabel=Busybox Version:
-	      cpuUsageLabel=CPU Usage:
-	  };
-	  
-	  buildPropTab: {
-	      reloadButton=Reload
-	      saveAsButton=Save As...
-	      saveToDeviceButton=Save to Device
-	  };
-	  
-	  fileManagerTab: {
+ # Battery tab
+	  batteryLevelLabel=Battery Level:
+	  batteryHealthLabel=Battery Health:
+	  isInsertedLabel=Is Inserted:
+	  isPoweredByLabel=Is Powered By:
+	  batteryStatusLabel=Battery Status:
+	  batteryScaleLabel=Battery Scale:
+	  batteryVoltageLabel=Battery Voltage:
+	  batteryCurrentLabel=Battery Current:
+	  batteryTempLabel=Battery Temperature:
+	  batteryTechLabel=Battery Technology:
+ # Root tab
+	  superUserLabel=Super User:
+	  suVersionLabel=SU Version:
+	  busyboxLabel=Busybox:
+	  busyboxVersionLabel=Busybox Version:
+	  cpuUsageLabel=CPU Usage:
+ # Build Prop tab
+	  reloadButton=Reload
+	  saveAsButton=Save As...
+	  saveToDeviceButton=Save to Device
+ # File Manager tab
 	      # Nothing here, just yet.
-	  };
-      };
-      
-      toolkitTab: {
-	  preferenceTab: {
-	      refreshButton=Refresh
-	      intervalLabel=Interval:
-	      secondsLabel=s.
-	      checkForUpdatesButton=Check...
-	      autoUpdateButton=Auto-Update
-	      sendLogsButton=Send Logs
-	      showLogButton=Show Log
-	  };
-	  
-	  updateTab: {
-	      updateStatus_nonFound=No Updates Found...
-	      updateStatus_found=An Update is Available!
-	      changelogLabel=Changes:
-	      downloadJarButton=Download Jar File(s)...
-	      downloadRPMButton=Download Installer (.RPM)
-	      downloadDEBButton=Download Installer (.DEB)
-	      downloadEXEButton=Download Bin (.EXE)
-	  };
-      };
- };
- 
- menus {
-      adbMenu: {
+ # Preference tab
+	  refreshButton=Refresh
+	  intervalLabel=Interval:
+	  secondsLabel=s.
+	  checkForUpdatesButton=Check...
+	  autoUpdateButton=Auto-Update
+	  sendLogsButton=Send Logs
+	  showLogButton=Show Log
+ # Update tab
+	  updateStatus_nonFound=No Updates Found...
+	  updateStatus_found=An Update is Available!
+	  changelogLabel=Changes:
+	  downloadJarButton=Download Jar File(s)...
+	  downloadRPMButton=Download Installer (.RPM)
+	  downloadDEBButton=Download Installer (.DEB)
+	  downloadEXEButton=Download Bin (.EXE)
+
+ # ========== Menus ========== #
+ # ADB menu
 	  startServerItem=Start Server
 	  stopServerItem=Stop Server
 	  restartServerItem=Restart Server
@@ -90,63 +71,57 @@
 	  toAndroidItem=to Android
 	  toFastbootItem=to Fastboot
 	  toRecoveryItem=to Recovery
-      };
-      
-      fastbootMenu: {
+# Fastboot menu
 	  rebootItem=Reboot...
 	  toAndroidItem=to Android
 	  toFastbootItem=to Fastboot
-      };
-      
-      uatMenu: {
+# UAT menu
 	  checkForUpdatesItem=Check for Updates...
 	  installADBItem=Install ADB to Custom Location...
 	  aboutItem=About
 	  exitItem=Exit UAT.
-      };
- };
- 
- tabs {
-      androidTab=Android
-      fastbootTab=Fastboot
-      deviceTab=Device
-      toolkitTab=Toolkit
-      logcatTab=Logcat
-      dmesgTab=DMESG
-      batteryTab=Battery
-      rootTab=Root and CPU
-      buildPropTab=Build Prop Manager
-      fileManagerTab=File Manager
-      settingsTab=Preferences
-      updatesTab=Updates
- };
- 
- panels {
-      androidTab: {
+
+ # ========== Tabs ========== #
+	  
+          androidTab=Android
+          fastbootTab=Fastboot
+          deviceTab=Device
+          toolkitTab=Toolkit
+          logcatTab=Logcat
+          dmesgTab=DMESG
+          batteryTab=Battery
+          rootTab=Root and CPU
+          buildPropTab=Build Prop Manager
+          fileManagerTab=File Manager
+          settingsTab=Preferences
+          updatesTab=Updates
+
+ # ========== Panels ========== #
+ # Android tab
+          
 	  applicationsPanel=Applications
 	  filesPanel=Files
 	  backupsPanel=Backups
 	  rootingPanel=Rooting
 	  adbTCPPanel=ADB via TCP
-      };
-      
-      fastbootTab: {
+ # Fastboot tab
 	  formattingPanel=Formatting
 	  flashingPanel=Flashing
 	  bootPanel=Boot
 	  lockStatePanel=Lock State
 	  updatePanel=Update
-      };
-      
-      settingsTab: {
+ # Settings tab
 	  devicesPanel=Devices
 	  updatesPanel=Updates
 	  logsPanel=Logs
 	  themePanel=Theme
 	  languagePanel=Language
-      };
- };
- 
- toolbar {
-      showDevicesButton=Show Devices
- };
+
+ # ========== Toolbar ========== #  
+	  
+          showDevicesButton=Show Devices
+
+ # ========== Other and Messages ========== #
+          
+      # Note: Please leave a space after the welcome message below...
+      title=Universal Android Toolkit | Welcome, 
