@@ -33,6 +33,7 @@ import java.net.*;
 import java.util.*;
 
 import javax.swing.*;
+import javax.swing.border.*;
 
 
 /**
@@ -134,6 +135,7 @@ public class UAT extends javax.swing.JFrame {
         autoUpdate_settingsButton.setText(parser.parse("autoUpdateButton"));
         sendLogs_settingsButton.setText(parser.parse("sendLogsButton"));
         showLog_settingsButton.setText(parser.parse("showLogButton"));
+        saveButton_settingsButton.setText(parser.parse("saveButton"));
             // Updates tab
         changelog_updatesLabel.setText(parser.parse("changelogLabel"));
         downloadJar_updatesButton.setText(parser.parse("downloadJarButton"));
@@ -162,6 +164,24 @@ public class UAT extends javax.swing.JFrame {
         about_uatMenu.setText(parser.parse("aboutItem"));
         exit_uatMenu.setText(parser.parse("exitItem"));
         //# =============== Panel Translations =============== #\\
+            // Android tab
+        applicationsPanel_androidPanel.setBorder(new TitledBorder(parser.parse("applicationsPanel")));
+        filesPanel_androidPanel.setBorder(new TitledBorder(parser.parse("filesPanel")));
+        backupsPanel_androidPanel.setBorder(new TitledBorder(parser.parse("backupsPanel")));
+        rootingPanel_androidPanel.setBorder(new TitledBorder(parser.parse("rootingPanel")));
+        adbTCPPanel_androidPanel.setBorder(new TitledBorder(parser.parse("adbTCPPanel")));
+            // Fastboot tab
+        formattingPanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("formattingPanel")));
+        flashingPanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("flashingPanel")));
+        bootPanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("bootPanel")));
+        lockStatePanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("lockStatePanel")));
+        updatePanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("updatePanel")));
+            // Settings tab
+        devices_settingsPanel.setBorder(new TitledBorder(parser.parse("devicesPanel")));
+        updates_settingsPanel.setBorder(new TitledBorder(parser.parse("updatesPanel")));
+        logs_settingsPanel.setBorder(new TitledBorder(parser.parse("logsPanel")));
+        lookAndFeel_settingsPanel.setBorder(new TitledBorder(parser.parse("themePanel")));
+        language_settingsPanel.setBorder(new TitledBorder(parser.parse("languagePanel")));
     }
 
     /**
@@ -178,15 +198,15 @@ public class UAT extends javax.swing.JFrame {
         showDevices_toolbarButton = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         androidTab = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
+        applicationsPanel_androidPanel = new javax.swing.JPanel();
         installApplication_androidButton = new javax.swing.JButton();
         uninstallApplication_androidButton = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
+        filesPanel_androidPanel = new javax.swing.JPanel();
         fileManager_androidButton = new javax.swing.JButton();
-        jPanel7 = new javax.swing.JPanel();
+        backupsPanel_androidPanel = new javax.swing.JPanel();
         backupDevice_androidButton = new javax.swing.JButton();
         restoreDevice_androidButton = new javax.swing.JButton();
-        jPanel8 = new javax.swing.JPanel();
+        rootingPanel_androidPanel = new javax.swing.JPanel();
         exploreRoot_androidButton = new javax.swing.JButton();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel9 = new javax.swing.JPanel();
@@ -195,23 +215,23 @@ public class UAT extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         dmesg_androidTextArea = new javax.swing.JTextArea();
-        jPanel16 = new javax.swing.JPanel();
+        adbTCPPanel_androidPanel = new javax.swing.JPanel();
         connectDevice_androidButton = new javax.swing.JButton();
         disconnectDevice_androidButton = new javax.swing.JButton();
         more_androidButton = new javax.swing.JButton();
         fastbootTab = new javax.swing.JPanel();
-        jPanel11 = new javax.swing.JPanel();
+        formattingPanel_fastbootPanel = new javax.swing.JPanel();
         formatPartition_fastbootButton = new javax.swing.JButton();
         erasePartition_fastbootButton = new javax.swing.JButton();
-        jPanel12 = new javax.swing.JPanel();
+        flashingPanel_fastbootPanel = new javax.swing.JPanel();
         flashPartition_fastbootButton = new javax.swing.JButton();
         cleanFlashPartition_fastbootButton = new javax.swing.JButton();
-        jPanel13 = new javax.swing.JPanel();
+        bootPanel_fastbootPanel = new javax.swing.JPanel();
         bootKernel_fastbootButton = new javax.swing.JButton();
-        jPanel14 = new javax.swing.JPanel();
+        lockStatePanel_fastbootPanel = new javax.swing.JPanel();
         unlockBootloader_fastbootButton = new javax.swing.JButton();
         relockBootloader_fastbootButton = new javax.swing.JButton();
-        jPanel15 = new javax.swing.JPanel();
+        updatePanel_fastbootPanel = new javax.swing.JPanel();
         updateDevice_fastbootButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jTabbedPane3 = new javax.swing.JTabbedPane();
@@ -268,9 +288,10 @@ public class UAT extends javax.swing.JFrame {
         lookAndFeel_settingsPanel = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         jList4 = new javax.swing.JList();
-        jPanel1 = new javax.swing.JPanel();
+        language_settingsPanel = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
         jList5 = new javax.swing.JList();
+        saveButton_settingsButton = new javax.swing.JButton();
         updatesTab = new javax.swing.JPanel();
         updateStatus_updatesLabel = new javax.swing.JLabel();
         jProgressBar2 = new javax.swing.JProgressBar();
@@ -316,26 +337,26 @@ public class UAT extends javax.swing.JFrame {
         showDevices_toolbarButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(showDevices_toolbarButton);
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Applications"));
+        applicationsPanel_androidPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Applications"));
 
         installApplication_androidButton.setText("Install");
 
         uninstallApplication_androidButton.setText("Uninstall");
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        javax.swing.GroupLayout applicationsPanel_androidPanelLayout = new javax.swing.GroupLayout(applicationsPanel_androidPanel);
+        applicationsPanel_androidPanel.setLayout(applicationsPanel_androidPanelLayout);
+        applicationsPanel_androidPanelLayout.setHorizontalGroup(
+            applicationsPanel_androidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(applicationsPanel_androidPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(applicationsPanel_androidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(installApplication_androidButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(uninstallApplication_androidButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        applicationsPanel_androidPanelLayout.setVerticalGroup(
+            applicationsPanel_androidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(applicationsPanel_androidPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(installApplication_androidButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -343,47 +364,47 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Files"));
+        filesPanel_androidPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Files"));
 
         fileManager_androidButton.setText("File Manager");
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
+        javax.swing.GroupLayout filesPanel_androidPanelLayout = new javax.swing.GroupLayout(filesPanel_androidPanel);
+        filesPanel_androidPanel.setLayout(filesPanel_androidPanelLayout);
+        filesPanel_androidPanelLayout.setHorizontalGroup(
+            filesPanel_androidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(filesPanel_androidPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(fileManager_androidButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
+        filesPanel_androidPanelLayout.setVerticalGroup(
+            filesPanel_androidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(filesPanel_androidPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(fileManager_androidButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Backups"));
+        backupsPanel_androidPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Backups"));
 
         backupDevice_androidButton.setText("Backup");
 
         restoreDevice_androidButton.setText("Restore");
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+        javax.swing.GroupLayout backupsPanel_androidPanelLayout = new javax.swing.GroupLayout(backupsPanel_androidPanel);
+        backupsPanel_androidPanel.setLayout(backupsPanel_androidPanelLayout);
+        backupsPanel_androidPanelLayout.setHorizontalGroup(
+            backupsPanel_androidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backupsPanel_androidPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(backupsPanel_androidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(backupDevice_androidButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(restoreDevice_androidButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+        backupsPanel_androidPanelLayout.setVerticalGroup(
+            backupsPanel_androidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backupsPanel_androidPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(backupDevice_androidButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -391,22 +412,22 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Rooting"));
+        rootingPanel_androidPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Rooting"));
 
         exploreRoot_androidButton.setText("Explore!");
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
+        javax.swing.GroupLayout rootingPanel_androidPanelLayout = new javax.swing.GroupLayout(rootingPanel_androidPanel);
+        rootingPanel_androidPanel.setLayout(rootingPanel_androidPanelLayout);
+        rootingPanel_androidPanelLayout.setHorizontalGroup(
+            rootingPanel_androidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(rootingPanel_androidPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(exploreRoot_androidButton, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
+        rootingPanel_androidPanelLayout.setVerticalGroup(
+            rootingPanel_androidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(rootingPanel_androidPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(exploreRoot_androidButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -446,26 +467,26 @@ public class UAT extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("DMESG", null, jPanel10, "CTRL+S = Save Log...\nCTRL+C = Clear Log...\nCTRL+S = Start/Stop Logging\n");
 
-        jPanel16.setBorder(javax.swing.BorderFactory.createTitledBorder("ADB via TCP"));
+        adbTCPPanel_androidPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("ADB via TCP"));
 
         connectDevice_androidButton.setText("Connect...");
 
         disconnectDevice_androidButton.setText("Disconnect...");
 
-        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
-        jPanel16.setLayout(jPanel16Layout);
-        jPanel16Layout.setHorizontalGroup(
-            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel16Layout.createSequentialGroup()
+        javax.swing.GroupLayout adbTCPPanel_androidPanelLayout = new javax.swing.GroupLayout(adbTCPPanel_androidPanel);
+        adbTCPPanel_androidPanel.setLayout(adbTCPPanel_androidPanelLayout);
+        adbTCPPanel_androidPanelLayout.setHorizontalGroup(
+            adbTCPPanel_androidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(adbTCPPanel_androidPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(adbTCPPanel_androidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(disconnectDevice_androidButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(connectDevice_androidButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel16Layout.setVerticalGroup(
-            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel16Layout.createSequentialGroup()
+        adbTCPPanel_androidPanelLayout.setVerticalGroup(
+            adbTCPPanel_androidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(adbTCPPanel_androidPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(connectDevice_androidButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -484,15 +505,15 @@ public class UAT extends javax.swing.JFrame {
                 .addGroup(androidTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTabbedPane2)
                     .addGroup(androidTabLayout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(applicationsPanel_androidPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(filesPanel_androidPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(backupsPanel_androidPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rootingPanel_androidPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(adbTCPPanel_androidPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, androidTabLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -505,11 +526,11 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(androidTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(androidTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(applicationsPanel_androidPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(filesPanel_androidPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(backupsPanel_androidPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(rootingPanel_androidPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(adbTCPPanel_androidPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
                 .addComponent(more_androidButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -519,26 +540,26 @@ public class UAT extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Android", androidTab);
 
-        jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder("Formatting"));
+        formattingPanel_fastbootPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Formatting"));
 
         formatPartition_fastbootButton.setText("Format Partition");
 
         erasePartition_fastbootButton.setText("Erase Partition");
 
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+        javax.swing.GroupLayout formattingPanel_fastbootPanelLayout = new javax.swing.GroupLayout(formattingPanel_fastbootPanel);
+        formattingPanel_fastbootPanel.setLayout(formattingPanel_fastbootPanelLayout);
+        formattingPanel_fastbootPanelLayout.setHorizontalGroup(
+            formattingPanel_fastbootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formattingPanel_fastbootPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(formattingPanel_fastbootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(formatPartition_fastbootButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(erasePartition_fastbootButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
+        formattingPanel_fastbootPanelLayout.setVerticalGroup(
+            formattingPanel_fastbootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formattingPanel_fastbootPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(formatPartition_fastbootButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -546,26 +567,26 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder("Flashing"));
+        flashingPanel_fastbootPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Flashing"));
 
         flashPartition_fastbootButton.setText("Flash Partition");
 
         cleanFlashPartition_fastbootButton.setText("Clean Flash Partition");
 
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
+        javax.swing.GroupLayout flashingPanel_fastbootPanelLayout = new javax.swing.GroupLayout(flashingPanel_fastbootPanel);
+        flashingPanel_fastbootPanel.setLayout(flashingPanel_fastbootPanelLayout);
+        flashingPanel_fastbootPanelLayout.setHorizontalGroup(
+            flashingPanel_fastbootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(flashingPanel_fastbootPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(flashingPanel_fastbootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(cleanFlashPartition_fastbootButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(flashPartition_fastbootButton, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
+        flashingPanel_fastbootPanelLayout.setVerticalGroup(
+            flashingPanel_fastbootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(flashingPanel_fastbootPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(flashPartition_fastbootButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -573,47 +594,47 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder("Boot"));
+        bootPanel_fastbootPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Boot"));
 
         bootKernel_fastbootButton.setText("Boot Kernel");
 
-        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
-        jPanel13.setLayout(jPanel13Layout);
-        jPanel13Layout.setHorizontalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+        javax.swing.GroupLayout bootPanel_fastbootPanelLayout = new javax.swing.GroupLayout(bootPanel_fastbootPanel);
+        bootPanel_fastbootPanel.setLayout(bootPanel_fastbootPanelLayout);
+        bootPanel_fastbootPanelLayout.setHorizontalGroup(
+            bootPanel_fastbootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bootPanel_fastbootPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bootKernel_fastbootButton)
                 .addContainerGap())
         );
-        jPanel13Layout.setVerticalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel13Layout.createSequentialGroup()
+        bootPanel_fastbootPanelLayout.setVerticalGroup(
+            bootPanel_fastbootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bootPanel_fastbootPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(bootKernel_fastbootButton)
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
-        jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder("Lock State"));
+        lockStatePanel_fastbootPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Lock State"));
 
         unlockBootloader_fastbootButton.setText("Unlock Bootloader");
 
         relockBootloader_fastbootButton.setText("Relock Bootloader");
 
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+        javax.swing.GroupLayout lockStatePanel_fastbootPanelLayout = new javax.swing.GroupLayout(lockStatePanel_fastbootPanel);
+        lockStatePanel_fastbootPanel.setLayout(lockStatePanel_fastbootPanelLayout);
+        lockStatePanel_fastbootPanelLayout.setHorizontalGroup(
+            lockStatePanel_fastbootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lockStatePanel_fastbootPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(lockStatePanel_fastbootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(unlockBootloader_fastbootButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(relockBootloader_fastbootButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
+        lockStatePanel_fastbootPanelLayout.setVerticalGroup(
+            lockStatePanel_fastbootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(lockStatePanel_fastbootPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(unlockBootloader_fastbootButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -621,22 +642,22 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder("Update"));
+        updatePanel_fastbootPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Update"));
 
         updateDevice_fastbootButton.setText("Update Device");
 
-        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
-        jPanel15.setLayout(jPanel15Layout);
-        jPanel15Layout.setHorizontalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
+        javax.swing.GroupLayout updatePanel_fastbootPanelLayout = new javax.swing.GroupLayout(updatePanel_fastbootPanel);
+        updatePanel_fastbootPanel.setLayout(updatePanel_fastbootPanelLayout);
+        updatePanel_fastbootPanelLayout.setHorizontalGroup(
+            updatePanel_fastbootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, updatePanel_fastbootPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(updateDevice_fastbootButton)
                 .addContainerGap())
         );
-        jPanel15Layout.setVerticalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel15Layout.createSequentialGroup()
+        updatePanel_fastbootPanelLayout.setVerticalGroup(
+            updatePanel_fastbootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(updatePanel_fastbootPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(updateDevice_fastbootButton)
                 .addContainerGap(43, Short.MAX_VALUE))
@@ -650,14 +671,14 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(fastbootTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(fastbootTabLayout.createSequentialGroup()
-                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(formattingPanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(flashingPanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bootPanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lockStatePanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(updatePanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(54, Short.MAX_VALUE))
         );
         fastbootTabLayout.setVerticalGroup(
@@ -666,13 +687,13 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(fastbootTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(fastbootTabLayout.createSequentialGroup()
-                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(formattingPanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(updatePanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(fastbootTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(bootPanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(flashingPanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lockStatePanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(133, Short.MAX_VALUE))
         );
 
@@ -707,11 +728,11 @@ public class UAT extends javax.swing.JFrame {
                 .addGroup(batteryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(batteryLevel_batteryLabel)
                     .addComponent(batteryHealth_batteryLabel))
-                .addGap(22, 22, 22)
+                .addGap(36, 36, 36)
                 .addGroup(batteryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(isInserted_batteryLabel)
                     .addComponent(isPoweredBy_batteryLabel))
-                .addGap(26, 26, 26)
+                .addGap(43, 43, 43)
                 .addGroup(batteryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(batteryTech_batteryLabel)
                     .addComponent(batteryTemp_batteryLabel)
@@ -719,7 +740,7 @@ public class UAT extends javax.swing.JFrame {
                     .addComponent(batteryVoltage_batteryLabel)
                     .addComponent(batteryScale_batteryLabel)
                     .addComponent(batteryStatus_batteryLabel))
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
         batteryTabLayout.setVerticalGroup(
             batteryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1044,26 +1065,28 @@ public class UAT extends javax.swing.JFrame {
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Language"));
+        language_settingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Language"));
 
         jScrollPane8.setViewportView(jList5);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout language_settingsPanelLayout = new javax.swing.GroupLayout(language_settingsPanel);
+        language_settingsPanel.setLayout(language_settingsPanelLayout);
+        language_settingsPanelLayout.setHorizontalGroup(
+            language_settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(language_settingsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        language_settingsPanelLayout.setVerticalGroup(
+            language_settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(language_settingsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        saveButton_settingsButton.setText("Save");
 
         javax.swing.GroupLayout preferenceTabLayout = new javax.swing.GroupLayout(preferenceTab);
         preferenceTab.setLayout(preferenceTabLayout);
@@ -1072,15 +1095,20 @@ public class UAT extends javax.swing.JFrame {
             .addGroup(preferenceTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(preferenceTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(language_settingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(preferenceTabLayout.createSequentialGroup()
                         .addComponent(devices_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(updates_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(logs_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lookAndFeel_settingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(preferenceTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(preferenceTabLayout.createSequentialGroup()
+                        .addComponent(logs_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lookAndFeel_settingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, preferenceTabLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(saveButton_settingsButton)))
                 .addContainerGap())
         );
         preferenceTabLayout.setVerticalGroup(
@@ -1093,7 +1121,9 @@ public class UAT extends javax.swing.JFrame {
                     .addComponent(devices_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(logs_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(preferenceTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(language_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saveButton_settingsButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1364,9 +1394,12 @@ public class UAT extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem about_uatMenu;
     private javax.swing.JMenu adbMenu;
+    private javax.swing.JPanel adbTCPPanel_androidPanel;
     private javax.swing.JPanel androidTab;
+    private javax.swing.JPanel applicationsPanel_androidPanel;
     private javax.swing.JToggleButton autoUpdate_settingsButton;
     private javax.swing.JButton backupDevice_androidButton;
+    private javax.swing.JPanel backupsPanel_androidPanel;
     private javax.swing.JLabel batteryCurrent_batteryLabel;
     private javax.swing.JLabel batteryHealth_batteryLabel;
     private javax.swing.JLabel batteryLevel_batteryLabel;
@@ -1377,6 +1410,7 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JLabel batteryTemp_batteryLabel;
     private javax.swing.JLabel batteryVoltage_batteryLabel;
     private javax.swing.JButton bootKernel_fastbootButton;
+    private javax.swing.JPanel bootPanel_fastbootPanel;
     private javax.swing.JPanel buildPropTab;
     private javax.swing.JLabel busyboxStatus_rootLabel;
     private javax.swing.JLabel busyboxVersion_rootLabel;
@@ -1400,8 +1434,11 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JPanel fastbootTab;
     private javax.swing.JPanel fileManagerTab;
     private javax.swing.JButton fileManager_androidButton;
+    private javax.swing.JPanel filesPanel_androidPanel;
     private javax.swing.JButton flashPartition_fastbootButton;
+    private javax.swing.JPanel flashingPanel_fastbootPanel;
     private javax.swing.JButton formatPartition_fastbootButton;
+    private javax.swing.JPanel formattingPanel_fastbootPanel;
     private javax.swing.JMenuItem installADB_uatMenu;
     private javax.swing.JButton installApplication_androidButton;
     private javax.swing.JLabel intervalSeconds_settingsLabel;
@@ -1419,20 +1456,9 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JProgressBar jProgressBar2;
@@ -1454,6 +1480,8 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JPanel language_settingsPanel;
+    private javax.swing.JPanel lockStatePanel_fastbootPanel;
     private javax.swing.JTextArea logcat_androidTextArea;
     private javax.swing.JPanel logs_settingsPanel;
     private javax.swing.JPanel lookAndFeel_settingsPanel;
@@ -1468,7 +1496,9 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JMenuItem restartServer_adbMenu;
     private javax.swing.JButton restoreDevice_androidButton;
     private javax.swing.JPanel rootTab;
+    private javax.swing.JPanel rootingPanel_androidPanel;
     private javax.swing.JButton saveAs_buildPropButton;
+    private javax.swing.JButton saveButton_settingsButton;
     private javax.swing.JButton saveToDevice_buildPropButton;
     private javax.swing.JToggleButton sendLogs_settingsButton;
     private javax.swing.JButton showDevices_toolbarButton;
@@ -1485,6 +1515,7 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JButton uninstallApplication_androidButton;
     private javax.swing.JButton unlockBootloader_fastbootButton;
     private javax.swing.JButton updateDevice_fastbootButton;
+    private javax.swing.JPanel updatePanel_fastbootPanel;
     private javax.swing.JLabel updateStatus_updatesLabel;
     private javax.swing.JPanel updatesTab;
     private javax.swing.JPanel updates_settingsPanel;
@@ -1515,6 +1546,7 @@ public class UAT extends javax.swing.JFrame {
             BufferedReader reader = new BufferedReader(new StringReader(translationFile));
             String line = null;
             while ((line = reader.readLine()) != null) {
+                if (line.trim().startsWith("#")) continue;
                 if (line.contains(item)) {
                     String[] arr = line.split("=");
                     return arr[1];

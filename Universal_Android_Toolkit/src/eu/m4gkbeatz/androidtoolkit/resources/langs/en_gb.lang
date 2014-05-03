@@ -52,6 +52,7 @@
 	  autoUpdateButton=Auto-Update
 	  sendLogsButton=Send Logs
 	  showLogButton=Show Log
+          saveButton=Save...
  # Update tab
 	  updateStatus_nonFound=No Updates Found...
 	  updateStatus_found=An Update is Available!
@@ -98,7 +99,6 @@
 
  # ========== Panels ========== #
  # Android tab
-          
 	  applicationsPanel=Applications
 	  filesPanel=Files
 	  backupsPanel=Backups
@@ -123,5 +123,5 @@
 
  # ========== Other and Messages ========== #
           
-      # Note: Please leave a space after the welcome message below...
-      title=Universal Android Toolkit | Welcome, 
+	  # Note: Please leave a space after the welcome message below...
+	  title=Universal Android Toolkit | Welcome, 
