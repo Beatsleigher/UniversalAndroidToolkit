@@ -1,0 +1,127 @@
+ # Español (Latino América)
+ 
+ # ========== Buttons and Labels ========== #
+ 
+ # Android tab
+	  installButton=Instalar
+	  uninstallButton=Desinstalar
+	  fileManagerButton=Administrador de Archivos
+	  backupButton=Hacer copia de respaldo
+	  restoreButton=Recuperar copia de respaldo
+	  exploreRootButton=Explorar!
+	  connectButton=Conectar...
+	  disconnectButton=Desconectar...
+	  moreButton=Más...
+ # Fastboot tab
+	  formatPartitionButton=Formatear Partición
+	  erasePartitionButton=Eliminar Partición
+	  flashPartitionButton=Grabar Partición
+	  cleanFlashPartitionButton=Grabar Partición Limpia
+	  bootKernelButton=Bootear Kernel
+	  unlockBootloaderButton=Desbloquear el Bootloader
+	  relockBootloaderButton=Re-bloquear el Bootloader
+	  updateDeviceButton=Actualizar el Dispositivo
+ # Battery tab
+	  batteryLevelLabel=Nivel de Batería:
+	  batteryHealthLabel=Salud de la Batería:
+	  isInsertedLabel=Está Colocada:
+	  isPoweredByLabel=Alimentada por:
+	  batteryStatusLabel=Estado de la Batería:
+	  batteryScaleLabel=Escala de la Batería:
+	  batteryVoltageLabel=Voltaje de la Batería:
+	  batteryCurrentLabel=Corriente de la Batería:
+	  batteryTempLabel=Temperatura de la Batería:
+	  batteryTechLabel=Tecnología de la Batería:
+ # Root tab
+	  superUserLabel=Super Usuario:
+	  suVersionLabel=SU Versión:
+	  busyboxLabel=Busybox:
+	  busyboxVersionLabel=Busybox Versión:
+	  cpuUsageLabel=Uso de CPU:
+ # Build Prop tab
+	  reloadButton=Recargar
+	  saveAsButton=Guardar como...
+	  saveToDeviceButton=Grabar en el Dispositivo
+ # File Manager tab
+	      # Acá, nada.
+ # Preference tab
+	  refreshButton=Refresco
+	  intervalLabel=Intervalo:
+	  secondsLabel=s.
+	  checkForUpdatesButton=Buscar...
+	  autoUpdateButton=Auto-Actualización
+	  sendLogsButton=Enviar Registros
+	  showLogButton=Mostrar Registros
+ # Update tab
+	  updateStatus_nonFound=No se encontraron actualizaciones...
+	  updateStatus_found=Hay una actualización disponible!
+	  changelogLabel=Cambios:
+	  downloadJarButton=Descargar archivo(s) Jar ...
+	  downloadRPMButton=Descargar Instalador (.RPM)
+	  downloadDEBButton=Descargar Instalador (.DEB)
+	  downloadEXEButton=Descargar archivo Binario (.EXE)
+
+ # ========== Menus ========== #
+ # ADB menu
+	  startServerItem=Arrancar Servidor
+	  stopServerItem=Detener Servidor
+	  restartServerItem=Reiniciar Servidor
+	  connectDeviceItem=Conectar al Dispositivo...
+	  rebootItem=Reboot...
+	  toAndroidItem=Android
+	  toFastbootItem=Fastboot
+	  toRecoveryItem=Recovery
+# Fastboot menu
+	  rebootItem=Reboot...
+	  toAndroidItem=Android
+	  toFastbootItem=Fastboot
+# UAT menu
+	  checkForUpdatesItem=Buscar actualizaciones...
+	  installADBItem=Instalar ADB en una Ubicación Personalizada...
+	  aboutItem=Sobre
+	  exitItem=Salir de UAT.
+
+ # ========== Tabs ========== #
+
+          androidTab=Android
+          fastbootTab=Fastboot
+          deviceTab=Dispositivo
+          toolkitTab=Toolkit
+          logcatTab=Logcat
+          dmesgTab=DMESG
+          batteryTab=Batería
+          rootTab=Root & CPU
+          buildPropTab=Build Prop
+          fileManagerTab=Archivos
+          settingsTab=Preferencias
+          updatesTab=Actualizaciones
+
+ # ========== Panels ========== #
+ # Android tab
+          
+	  applicationsPanel=Aplicaciones
+	  filesPanel=Archivos
+	  backupsPanel=Respaldos
+	  rootingPanel=Rooteo
+	  adbTCPPanel=ADB via TCP
+ # Fastboot tab
+	  formattingPanel=Formatear
+	  flashingPanel=Flashear
+	  bootPanel=Bootear
+	  lockStatePanel=Estado de Bloqueo
+	  updatePanel=Actualizar
+ # Settings tab
+	  devicesPanel=Dispositivos
+	  updatesPanel=Actualizaciones
+	  logsPanel=Registros
+	  themePanel=Temas
+	  languagePanel=Lenguaje
+
+ # ========== Toolbar ========== #  
+
+          showDevicesButton=Mostrar Dispositivos
+
+ # ========== Other and Messages ========== #
+          
+      # Nota: Por favor, deje un espacio en blanco despues del mensaje de bienvenida...
+      title=Universal Android Toolkit | Bienvenido, 
