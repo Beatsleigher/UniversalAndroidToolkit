@@ -43,8 +43,10 @@
         <Container class="javax.swing.JPanel" name="jPanel1">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="via ADB">
-                <Property name="tabTitle" type="java.lang.String" value="via ADB"/>
+              <JTabbedPaneConstraints tabName="&lt;User Code&gt;">
+                <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="try {&#xa;    parser.parse(&quot;deviceMenu:adbTab&quot;);&#xa;} catch (IOException ex) { &#xa;    logger.log(Level.ERROR, &quot;An error occurred while loading the translations for Device Manager: &quot; + ex.toString() + &quot;\n&quot;&#xa;        + &quot;The error stack trace will be printed to the console...&quot;);&#xa;    ex.printStackTrace(System.err);&#xa;}" type="code"/>
+                </Property>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -59,7 +61,7 @@
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               <Component id="jButton2" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane1" alignment="0" pref="322" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" alignment="0" pref="323" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -111,8 +113,10 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="via Fastboot">
-                <Property name="tabTitle" type="java.lang.String" value="via Fastboot"/>
+              <JTabbedPaneConstraints tabName="&lt;User Code&gt;">
+                <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="parser.parse(&quot;deviceMenu:adbTab&quot;);" type="code"/>
+                </Property>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -127,7 +131,7 @@
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane2" alignment="0" pref="322" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" alignment="0" pref="323" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>

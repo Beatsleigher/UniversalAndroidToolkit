@@ -28,7 +28,7 @@ public enum Language {
     /**
      * English (Great Britain), default
      */
-    en_gb;
+    en_gb,
     
     /**
      * Español (Latino América)

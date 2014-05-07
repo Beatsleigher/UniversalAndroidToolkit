@@ -1,0 +1,43 @@
+### Instructions for translating Universal Android Toolkit ###
+
+First, create a file with the country and language and the file extension should be .lang. E.G: English (UK) would be: en_gb.lang
+
+Secondly, copy the contents from en_gb.lang to your new file. This is because the en_gb file will always be up-to-date, whereas others may be missing some translations.
+
+Thirdly, the files are built as follows:
+
+# ========== Category ========== #
+
+	  windowName:controlName=Control Text ← Translate that.
+
+Here is a "live" example from English to Spanish (Latin America):
+
+ # English (Great Britain), default language for Universal Android Toolkit
+ 
+ # ========== Buttons and Labels ========== #
+ 
+ # Android tab
+	  installButton=Install
+	  uninstallButton=Uninstall
+	  fileManagerButton=File Manager
+	  backupButton=Backup
+	  restoreButton=Restore
+	  exploreRootButton=Explore!
+	  connectButton=Connect...
+	  disconnectButton=Disconnect...
+	  moreButton=More...
+
+ # Español (Latino América)
+ 
+ # ========== Buttons and Labels ========== #
+ 
+ # Android tab
+	  installButton=Instalar
+	  uninstallButton=Desinstalar
+	  fileManagerButton=Administrador de Archivos
+	  backupButton=Hacer copia de respaldo
+	  restoreButton=Recuperar copia de respaldo
+	  exploreRootButton=Explorar!
+	  connectButton=Conectar...
+	  disconnectButton=Desconectar...
+	  moreButton=Más...

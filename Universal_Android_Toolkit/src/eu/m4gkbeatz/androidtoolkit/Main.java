@@ -56,6 +56,10 @@ public class Main {
             + "\tDesigned, Created and Compiled by Beatsleigher.\n"
             + "\thttp://team-m4gkbeatz.eu";
     public static final String VERSION_NO = "1.0";
+    static Logger logger = null;
+    static Logger.Level level = null;
+    static SettingsManager settings = null;
+    static ADBController adbController = null;
     
     public static void main(String[] args) {
         
@@ -70,7 +74,10 @@ public class Main {
         else
             lafToUse = "Nimbus";
         
-        if (args != null) {
+        System.out.println("Arguments found: " + args.length);
+        for (String str : args)
+            System.out.println("Found argument: " + str);
+        if (args.length != 0) {
             switch (args[0].toLowerCase()) {
                 case ARG_DEBUG:
                     debug = true; break;
@@ -85,10 +92,6 @@ public class Main {
                 case ARG_ANNOY: return;
             }
         }
-        
-        
-        Logger logger = null;
-        Logger.Level level = null;
         try {
             logger = new Logger(debug);
         } catch (IOException ex) {
@@ -103,7 +106,6 @@ public class Main {
         splash.setLocationRelativeTo(null);
         splash.setVisible(true);
         
-        SettingsManager settings = null;
         boolean updateAvailable = false;
         
         try {
@@ -151,7 +153,7 @@ public class Main {
         // Launch JDroidLib main class
         if (debug)
             logger.log(level.DEBUG, "Firing up JDroidLib. Prepare for god-damn awesomeness!");
-        ADBController adbController = null;
+        
         try {
             adbController = new ADBController();
         } catch (IOException | ZipException | InterruptedException ex) {
@@ -172,8 +174,12 @@ public class Main {
             logger.log(level.DEBUG, "Init complete. Creating new instance of main UI...");
             
         splash.dispose();
-        
-        new UAT(debug, logger, level, settings, adbController).setVisible(true);
+        new Thread() {
+            @Override
+            public void run() {
+                new UAT(debug, logger, level, settings, adbController).setVisible(true);
+            }
+        }.start();
         
     }
     

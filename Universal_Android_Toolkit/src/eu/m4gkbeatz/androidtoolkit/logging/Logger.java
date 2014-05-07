@@ -20,6 +20,8 @@ package eu.m4gkbeatz.androidtoolkit.logging;
 import javax.swing.ImageIcon;
 import java.io.*;
 import java.util.Date;
+import javax.swing.*;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -57,6 +59,8 @@ public class Logger extends javax.swing.JFrame {
             System.out.println(log);
             writer.write(log);
             writer.flush();
+            if (level == Level.ERROR)
+                JOptionPane.showMessageDialog(null, log, "Error: Universal Android Toolkit Logger", JOptionPane.ERROR_MESSAGE);
         } catch (IOException ex) {
             System.err.println("ERROR: Error while logging to file!");
             ex.printStackTrace(System.err);

@@ -28,8 +28,8 @@ import eu.m4gkbeatz.androidtoolkit.logging.*;
 import static eu.m4gkbeatz.androidtoolkit.logging.Logger.Level;
 import eu.m4gkbeatz.androidtoolkit.settings.*;
 import eu.m4gkbeatz.androidtoolkit.ui.customui.*;
+import eu.m4gkbeatz.androidtoolkit.ui.menus.*;
 import java.io.*;
-import java.net.*;
 import java.util.*;
 
 import javax.swing.*;
@@ -53,6 +53,7 @@ public class UAT extends javax.swing.JFrame {
     private SettingsManager settings;
     private ADBController adbController;
     private Devices deviceManager = null;
+    private LangFileParser parser = null;
     //# =============== Static variables =============== #\\
     private static boolean ALREADY_ACTIVATED = false;
     
@@ -67,121 +68,136 @@ public class UAT extends javax.swing.JFrame {
         this.level = lvl;
         this.settings = settings;
         this.adbController = adbController;
-        deviceManager = new Devices(debug, logger, level, adbController, settings, this);
-        deviceManager.setVisible(true);
         jTabbedPane2.setUI(new PPTTabbedPaneUI());
         try {
+            parser = new LangFileParser();
+            parser.parse(settings.getLanguage(), logger, debug);
             loadTranslation();
-        } catch (IOException | LanguageNotFoundException ex) {
+        } catch (IOException ex) {
             logger.log(level.ERROR, "Error occurred while applying translation: " + ex.toString() + "\n"
                     + "The error stack trace will be printed to the console! You can still use UAT.");
             ex.printStackTrace(System.err);
         }
+        deviceManager = new Devices(debug, logger, level, adbController, settings, this, parser);
+        deviceManager.setVisible(true);
     }
     
-    private void loadTranslation() throws IOException, LanguageNotFoundException {
-        LangFileParser parser = new LangFileParser();
-        parser.parse(settings.getLanguage(), logger, debug);
-        //# =============== Title Translations =============== #\\
-        setTitle(parser.parse("title") + System.getProperty("user.name") + " | " + Main.VERSION_NO);
-        //# =============== Translate Buttons and Labels =============== #\\
-        // Android tab
-        installApplication_androidButton.setText(parser.parse("installButton"));
-        uninstallApplication_androidButton.setText(parser.parse("uninstallButton"));
-        fileManager_androidButton.setText(parser.parse("fileManagerButton"));
-        backupDevice_androidButton.setText(parser.parse("backupButton"));
-        restoreDevice_androidButton.setText(parser.parse("restoreButton"));
-        exploreRoot_androidButton.setText(parser.parse("exploreRootButton"));
-        connectDevice_androidButton.setText(parser.parse("connectButton"));
-        disconnectDevice_androidButton.setText(parser.parse("disconnectButton"));
-        more_androidButton.setText(parser.parse("moreButton"));
-        // Fastboot tab
-        formatPartition_fastbootButton.setText(parser.parse("formatPartitionButton"));
-        erasePartition_fastbootButton.setText(parser.parse("erasePartitionButton"));
-        flashPartition_fastbootButton.setText(parser.parse("flashPartitionButton"));
-        cleanFlashPartition_fastbootButton.setText(parser.parse("cleanFlashPartitionButton"));
-        bootKernel_fastbootButton.setText(parser.parse("bootKernelButton"));
-        unlockBootloader_fastbootButton.setText(parser.parse("unlockBootloaderButton"));
-        relockBootloader_fastbootButton.setText(parser.parse("relockBootloaderButton"));
-        updateDevice_fastbootButton.setText(parser.parse("updateDeviceButton"));
-        // Device tab
-            // Battery tab
-        batteryLevel_batteryLabel.setText(parser.parse("batteryLevelLabel"));
-        batteryHealth_batteryLabel.setText(parser.parse("batteryHealthLabel"));
-        isInserted_batteryLabel.setText(parser.parse("isInsertedLabel"));
-        isPoweredBy_batteryLabel.setText(parser.parse("isPoweredByLabel"));
-        batteryStatus_batteryLabel.setText(parser.parse("batteryStatusLabel"));
-        batteryScale_batteryLabel.setText(parser.parse("batteryScaleLabel"));
-        batteryVoltage_batteryLabel.setText(parser.parse("batteryVoltageLabel"));
-        batteryCurrent_batteryLabel.setText(parser.parse("batteryCurrentLabel"));
-        batteryTemp_batteryLabel.setText(parser.parse("batteryTempLabel"));
-        batteryTech_batteryLabel.setText(parser.parse("batteryTechLabel"));
-            // Root tab
-        superUserStatus_rootLabel.setText(parser.parse("superUserLabel"));
-        superUserVersion_rootLabel.setText(parser.parse("suVersionLabel"));
-        busyboxStatus_rootLabel.setText(parser.parse("busyboxLabel"));
-        busyboxVersion_rootLabel.setText(parser.parse("busyboxVersionLabel"));
-        cpuUsage_rootLabel.setText(parser.parse("cpuUsageLabel"));
-            // Build Prop tab
-        reload_buildPropButton.setText(parser.parse("reloadButton"));
-        saveAs_buildPropButton.setText(parser.parse("saveAsButton"));
-        saveToDevice_buildPropButton.setText(parser.parse("saveToDeviceButton"));
-        // Toolkit tab
-            // Settings tab
-        refreshDevices_settingsButton.setText(parser.parse("refreshButton"));
-        refreshInterval_settingsLabel.setText(parser.parse("intervalLabel"));
-        intervalSeconds_settingsLabel.setText(parser.parse("secondsLabel"));
-        checkForUpdates_settingsButton.setText(parser.parse("checkForUpdatesButton"));
-        autoUpdate_settingsButton.setText(parser.parse("autoUpdateButton"));
-        sendLogs_settingsButton.setText(parser.parse("sendLogsButton"));
-        showLog_settingsButton.setText(parser.parse("showLogButton"));
-        saveButton_settingsButton.setText(parser.parse("saveButton"));
-            // Updates tab
-        changelog_updatesLabel.setText(parser.parse("changelogLabel"));
-        downloadJar_updatesButton.setText(parser.parse("downloadJarButton"));
-        downloadRPM_updatesButton.setText(parser.parse("downloadRPMButton"));
-        downloadDEB_updatesButton.setText(parser.parse("downloadDEBButton"));
-        downloadEXE_updatesButton.setText(parser.parse("downloadEXEButton"));
-        // Toolbar
-        showDevices_toolbarButton.setText(parser.parse("showDevicesButton"));
-        //# =============== Menu Translations =============== #\\
-            // ADB
-        startServer_adbMenu.setText(parser.parse("startServerItem"));
-        stopServer_adbMenu.setText(parser.parse("stopServerItem"));
-        restartServer_adbMenu.setText(parser.parse("restartServerItem"));
-        connectToDevice_adbMenu.setText(parser.parse("connectDeviceItem"));
-        reboot_adbMenu.setText(parser.parse("rebootItem"));
-        toAndroid_adbMenu.setText(parser.parse("toAndroidItem"));
-        toFastboot_adbMenu.setText(parser.parse("toFastbootItem"));
-        toRecovery_adbMenu.setText(parser.parse("toRecoveryItem"));
-            // Fastboot
-        reboot_fastbootMenu.setText(parser.parse("rebootItem"));
-        toAndroid_fastbootMenu.setText(parser.parse("toAndroidItem"));
-        toFastboot_fastbootMenu.setText(parser.parse("toFastbootItem"));
-            // UAT
-        checkForUpdates_uatMenu.setText(parser.parse("checkForUpdatesItem"));
-        installADB_uatMenu.setText(parser.parse("installADBItem"));
-        about_uatMenu.setText(parser.parse("aboutItem"));
-        exit_uatMenu.setText(parser.parse("exitItem"));
-        //# =============== Panel Translations =============== #\\
-            // Android tab
-        applicationsPanel_androidPanel.setBorder(new TitledBorder(parser.parse("applicationsPanel")));
-        filesPanel_androidPanel.setBorder(new TitledBorder(parser.parse("filesPanel")));
-        backupsPanel_androidPanel.setBorder(new TitledBorder(parser.parse("backupsPanel")));
-        rootingPanel_androidPanel.setBorder(new TitledBorder(parser.parse("rootingPanel")));
-        adbTCPPanel_androidPanel.setBorder(new TitledBorder(parser.parse("adbTCPPanel")));
-            // Fastboot tab
-        formattingPanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("formattingPanel")));
-        flashingPanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("flashingPanel")));
-        bootPanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("bootPanel")));
-        lockStatePanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("lockStatePanel")));
-        updatePanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("updatePanel")));
-            // Settings tab
-        devices_settingsPanel.setBorder(new TitledBorder(parser.parse("devicesPanel")));
-        updates_settingsPanel.setBorder(new TitledBorder(parser.parse("updatesPanel")));
-        logs_settingsPanel.setBorder(new TitledBorder(parser.parse("logsPanel")));
-        lookAndFeel_settingsPanel.setBorder(new TitledBorder(parser.parse("themePanel")));
-        language_settingsPanel.setBorder(new TitledBorder(parser.parse("languagePanel")));
+    private IOException exception = null;
+    private void loadTranslation() throws IOException {
+        //<editor-fold defaultstate="collapsed" desc="">
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    //# =============== Title Translations =============== #\\
+                    setTitle(parser.parse("title") + System.getProperty("user.name") + " | " + Main.VERSION_NO);
+                    //# =============== Translate Buttons and Labels =============== #\\
+                    // Android tab
+                    installApplication_androidButton.setText(parser.parse("installButton"));
+                    uninstallApplication_androidButton.setText(parser.parse("uninstallButton"));
+                    fileManager_androidButton.setText(parser.parse("fileManagerButton"));
+                    backupDevice_androidButton.setText(parser.parse("backupButton"));
+                    restoreDevice_androidButton.setText(parser.parse("restoreButton"));
+                    exploreRoot_androidButton.setText(parser.parse("exploreRootButton"));
+                    connectDevice_androidButton.setText(parser.parse("connectButton"));
+                    disconnectDevice_androidButton.setText(parser.parse("disconnectButton"));
+                    more_androidButton.setText(parser.parse("moreButton"));
+                    // Fastboot tab
+                    formatPartition_fastbootButton.setText(parser.parse("formatPartitionButton"));
+                    erasePartition_fastbootButton.setText(parser.parse("erasePartitionButton"));
+                    flashPartition_fastbootButton.setText(parser.parse("flashPartitionButton"));
+                    cleanFlashPartition_fastbootButton.setText(parser.parse("cleanFlashPartitionButton"));
+                    bootKernel_fastbootButton.setText(parser.parse("bootKernelButton"));
+                    unlockBootloader_fastbootButton.setText(parser.parse("unlockBootloaderButton"));
+                    relockBootloader_fastbootButton.setText(parser.parse("relockBootloaderButton"));
+                    updateDevice_fastbootButton.setText(parser.parse("updateDeviceButton"));
+                    // Device tab
+                        // Battery tab
+                    batteryLevel_batteryLabel.setText(parser.parse("batteryLevelLabel"));
+                    batteryHealth_batteryLabel.setText(parser.parse("batteryHealthLabel"));
+                    isInserted_batteryLabel.setText(parser.parse("isInsertedLabel"));
+                    isPoweredBy_batteryLabel.setText(parser.parse("isPoweredByLabel"));
+                    batteryStatus_batteryLabel.setText(parser.parse("batteryStatusLabel"));
+                    batteryScale_batteryLabel.setText(parser.parse("batteryScaleLabel"));
+                    batteryVoltage_batteryLabel.setText(parser.parse("batteryVoltageLabel"));
+                    batteryCurrent_batteryLabel.setText(parser.parse("batteryCurrentLabel"));
+                    batteryTemp_batteryLabel.setText(parser.parse("batteryTempLabel"));
+                    batteryTech_batteryLabel.setText(parser.parse("batteryTechLabel"));
+                        // Root tab
+                    superUserStatus_rootLabel.setText(parser.parse("superUserLabel"));
+                    superUserVersion_rootLabel.setText(parser.parse("suVersionLabel"));
+                    busyboxStatus_rootLabel.setText(parser.parse("busyboxLabel"));
+                    busyboxVersion_rootLabel.setText(parser.parse("busyboxVersionLabel"));
+                    cpuUsage_rootLabel.setText(parser.parse("cpuUsageLabel"));
+                        // Build Prop tab
+                    reload_buildPropButton.setText(parser.parse("reloadButton"));
+                    saveAs_buildPropButton.setText(parser.parse("saveAsButton"));
+                    saveToDevice_buildPropButton.setText(parser.parse("saveToDeviceButton"));
+                    // Toolkit tab
+                        // Settings tab
+                    refreshDevices_settingsButton.setText(parser.parse("refreshButton"));
+                    refreshInterval_settingsLabel.setText(parser.parse("intervalLabel"));
+                    intervalSeconds_settingsLabel.setText(parser.parse("secondsLabel"));
+                    checkForUpdates_settingsButton.setText(parser.parse("checkForUpdatesButton"));
+                    autoUpdate_settingsButton.setText(parser.parse("autoUpdateButton"));
+                    sendLogs_settingsButton.setText(parser.parse("sendLogsButton"));
+                    showLog_settingsButton.setText(parser.parse("showLogButton"));
+                    saveButton_settingsButton.setText(parser.parse("saveButton"));
+                        // Updates tab
+                    changelog_updatesLabel.setText(parser.parse("changelogLabel"));
+                    downloadJar_updatesButton.setText(parser.parse("downloadJarButton"));
+                    downloadRPM_updatesButton.setText(parser.parse("downloadRPMButton"));
+                    downloadDEB_updatesButton.setText(parser.parse("downloadDEBButton"));
+                    downloadEXE_updatesButton.setText(parser.parse("downloadEXEButton"));
+                    // Toolbar
+                    showDevices_toolbarButton.setText(parser.parse("showDevicesButton"));
+                    //# =============== Menu Translations =============== #\\
+                        // ADB
+                    startServer_adbMenu.setText(parser.parse("startServerItem"));
+                    stopServer_adbMenu.setText(parser.parse("stopServerItem"));
+                    restartServer_adbMenu.setText(parser.parse("restartServerItem"));
+                    connectToDevice_adbMenu.setText(parser.parse("connectDeviceItem"));
+                    reboot_adbMenu.setText(parser.parse("rebootItem"));
+                    toAndroid_adbMenu.setText(parser.parse("toAndroidItem"));
+                    toFastboot_adbMenu.setText(parser.parse("toFastbootItem"));
+                    toRecovery_adbMenu.setText(parser.parse("toRecoveryItem"));
+                        // Fastboot
+                    reboot_fastbootMenu.setText(parser.parse("rebootItem"));
+                    toAndroid_fastbootMenu.setText(parser.parse("toAndroidItem"));
+                    toFastboot_fastbootMenu.setText(parser.parse("toFastbootItem"));
+                        // UAT
+                    checkForUpdates_uatMenu.setText(parser.parse("checkForUpdatesItem"));
+                    installADB_uatMenu.setText(parser.parse("installADBItem"));
+                    about_uatMenu.setText(parser.parse("aboutItem"));
+                    exit_uatMenu.setText(parser.parse("exitItem"));
+                    //# =============== Panel Translations =============== #\\
+                        // Android tab
+                    applicationsPanel_androidPanel.setBorder(new TitledBorder(parser.parse("applicationsPanel")));
+                    filesPanel_androidPanel.setBorder(new TitledBorder(parser.parse("filesPanel")));
+                    backupsPanel_androidPanel.setBorder(new TitledBorder(parser.parse("backupsPanel")));
+                    rootingPanel_androidPanel.setBorder(new TitledBorder(parser.parse("rootingPanel")));
+                    adbTCPPanel_androidPanel.setBorder(new TitledBorder(parser.parse("adbTCPPanel")));
+                        // Fastboot tab
+                    formattingPanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("formattingPanel")));
+                    flashingPanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("flashingPanel")));
+                    bootPanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("bootPanel")));
+                    lockStatePanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("lockStatePanel")));
+                    updatePanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("updatePanel")));
+                        // Settings tab
+                    devices_settingsPanel.setBorder(new TitledBorder(parser.parse("devicesPanel")));
+                    updates_settingsPanel.setBorder(new TitledBorder(parser.parse("updatesPanel")));
+                    logs_settingsPanel.setBorder(new TitledBorder(parser.parse("logsPanel")));
+                    lookAndFeel_settingsPanel.setBorder(new TitledBorder(parser.parse("themePanel")));
+                    language_settingsPanel.setBorder(new TitledBorder(parser.parse("languagePanel")));
+                } catch (IOException ex) {
+                    exception = ex;
+                }
+                interrupt();
+            }
+        }.start();
+        if (exception != null)
+            throw exception;
+        //</editor-fold>
     }
 
     /**
@@ -340,8 +356,18 @@ public class UAT extends javax.swing.JFrame {
         applicationsPanel_androidPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Applications"));
 
         installApplication_androidButton.setText("Install");
+        installApplication_androidButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                installApplication_androidButtonActionPerformed(evt);
+            }
+        });
 
         uninstallApplication_androidButton.setText("Uninstall");
+        uninstallApplication_androidButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                uninstallApplication_androidButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout applicationsPanel_androidPanelLayout = new javax.swing.GroupLayout(applicationsPanel_androidPanel);
         applicationsPanel_androidPanel.setLayout(applicationsPanel_androidPanelLayout);
@@ -367,6 +393,11 @@ public class UAT extends javax.swing.JFrame {
         filesPanel_androidPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Files"));
 
         fileManager_androidButton.setText("File Manager");
+        fileManager_androidButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileManager_androidButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout filesPanel_androidPanelLayout = new javax.swing.GroupLayout(filesPanel_androidPanel);
         filesPanel_androidPanel.setLayout(filesPanel_androidPanelLayout);
@@ -388,6 +419,11 @@ public class UAT extends javax.swing.JFrame {
         backupsPanel_androidPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Backups"));
 
         backupDevice_androidButton.setText("Backup");
+        backupDevice_androidButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backupDevice_androidButtonActionPerformed(evt);
+            }
+        });
 
         restoreDevice_androidButton.setText("Restore");
 
@@ -422,7 +458,7 @@ public class UAT extends javax.swing.JFrame {
             rootingPanel_androidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootingPanel_androidPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(exploreRoot_androidButton, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                .addComponent(exploreRoot_androidButton, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
                 .addContainerGap())
         );
         rootingPanel_androidPanelLayout.setVerticalGroup(
@@ -554,7 +590,7 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(formattingPanel_fastbootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(formatPartition_fastbootButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(erasePartition_fastbootButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(erasePartition_fastbootButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         formattingPanel_fastbootPanelLayout.setVerticalGroup(
@@ -581,7 +617,7 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(flashingPanel_fastbootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(cleanFlashPartition_fastbootButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(flashPartition_fastbootButton, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(flashPartition_fastbootButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         flashingPanel_fastbootPanelLayout.setVerticalGroup(
@@ -881,7 +917,6 @@ public class UAT extends javax.swing.JFrame {
         jButton6.setText("⌂ ");
 
         jProgressBar1.setOrientation(1);
-        jProgressBar1.setIndeterminate(true);
 
         jScrollPane6.setViewportView(jList3);
 
@@ -893,11 +928,11 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(fileManagerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(fileManagerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
                 .addContainerGap())
@@ -1031,7 +1066,7 @@ public class UAT extends javax.swing.JFrame {
             .addGroup(logs_settingsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(logs_settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sendLogs_settingsButton, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                    .addComponent(sendLogs_settingsButton, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
                     .addComponent(showLog_settingsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -1055,7 +1090,7 @@ public class UAT extends javax.swing.JFrame {
             lookAndFeel_settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(lookAndFeel_settingsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
                 .addContainerGap())
         );
         lookAndFeel_settingsPanelLayout.setVerticalGroup(
@@ -1101,26 +1136,26 @@ public class UAT extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(updates_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(preferenceTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(preferenceTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(preferenceTabLayout.createSequentialGroup()
                         .addComponent(logs_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lookAndFeel_settingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, preferenceTabLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(saveButton_settingsButton)))
+                        .addComponent(lookAndFeel_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(saveButton_settingsButton))
                 .addContainerGap())
         );
         preferenceTabLayout.setVerticalGroup(
             preferenceTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(preferenceTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(preferenceTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lookAndFeel_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(updates_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(devices_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(logs_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(preferenceTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(preferenceTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(updates_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(devices_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(logs_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lookAndFeel_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
                 .addGroup(preferenceTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(language_settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(saveButton_settingsButton))
@@ -1301,6 +1336,32 @@ public class UAT extends javax.swing.JFrame {
             ALREADY_ACTIVATED = true;
         }
     }//GEN-LAST:event_formWindowActivated
+
+    private void installApplication_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_installApplication_androidButtonActionPerformed
+        if (selectedDevice != null)
+            new InstallApplicationMenu(logger, debug, adbController, settings, parser, selectedDevice).setVisible(true);
+        else
+            logger.log(Level.ERROR, " [Application Installer] No device was selected. Please select a device and try again...");
+    }//GEN-LAST:event_installApplication_androidButtonActionPerformed
+
+    private void uninstallApplication_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uninstallApplication_androidButtonActionPerformed
+        if (selectedDevice != null)
+            new UninstallApplicationMenu(logger, debug, adbController, settings, parser, selectedDevice).setVisible(true);
+        else
+            logger.log(Level.ERROR, "[Application Remover] No device was selected. Please select a device and try again...");
+    }//GEN-LAST:event_uninstallApplication_androidButtonActionPerformed
+
+    private void fileManager_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileManager_androidButtonActionPerformed
+        jTabbedPane1.setSelectedIndex(2);
+        jTabbedPane3.setSelectedIndex(3);
+    }//GEN-LAST:event_fileManager_androidButtonActionPerformed
+
+    private void backupDevice_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backupDevice_androidButtonActionPerformed
+        if (selectedDevice != null)
+            new BackupManager(logger, adbController, settings, selectedDevice, debug, parser).setVisible(true);
+        else
+            logger.log(Level.ERROR, "[Backup Manager] No device was selected. Please select a device and try again...");
+    }//GEN-LAST:event_backupDevice_androidButtonActionPerformed
 
     //# =============== Logcat and DMESG =============== #\\
     private void getLogcat(final Device device) {
@@ -1523,45 +1584,4 @@ public class UAT extends javax.swing.JFrame {
 //</editor-fold>
     
     //# =============== Custom Classes =============== #\\
-    
-    private class LangFileParser {
-        
-        //# =============== Variables =============== #\\
-        String translationFile = null;
-        
-        public void parse(Language lang, Logger logger, boolean debug) throws IOException {
-            URL languageFile = this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/langs/" + lang + ".lang");
-            if (debug)
-                logger.log(Level.DEBUG, "Attempting translation from file: " + languageFile);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(languageFile.openStream()));
-            StringBuilder strBuilder = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null)
-                strBuilder.append(line + "\n");
-            reader.close();
-            translationFile = strBuilder.toString();
-        }
-        
-        public String parse(String item) throws IOException {
-            BufferedReader reader = new BufferedReader(new StringReader(translationFile));
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                if (line.trim().startsWith("#")) continue;
-                if (line.contains(item)) {
-                    String[] arr = line.split("=");
-                    return arr[1];
-                }
-            }
-            return "???";
-        }
-        
-    }
-    
-    private class LanguageNotFoundException extends Exception {
-        
-        public LanguageNotFoundException() {}
-        
-        public LanguageNotFoundException(String msg) { super(msg); }
-        
-    }
 }

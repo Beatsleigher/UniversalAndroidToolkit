@@ -125,3 +125,61 @@
           
 	  # Note: Please leave a space after the welcome message below...
 	  title=Universal Android Toolkit | Welcome, 
+	  
+ # ========== Devices Menu ========== #
+	  
+	  deviceMenu:title=Device Manager
+	  deviceMenu:refreshButton=Refresh (F5)
+	  deviceMenu:adbTab=via ADB
+	  deviceMenu:fastbootTab=via Fastboot
+	  
+ # ========== Install Application Menu ========== #
+	  
+	  installApp:title=Application Installer
+	  installApp:installButton=Install Application...
+	  installApp:apkDescription=Android Application Packages
+	  installApp:chooserTitle=Choose an Android application package to install to your device...
+	  installApp:chooserAcceptButton=Install this Application...
+	  installApp:optionsLabel=Options:
+	  # App installation options:
+	  installApp:forwardLockCheckBox=Forward Lock
+	  installApp:forwardLockToolTip=Prevent application sharing
+	  installApp:reinstallCheckBox=Reinstall
+	  installApp:reinstallToolTip=Reinstall the application, keeping the old application's data.
+	  installApp:allowTestAPKsCheckBox=Allow Test.apks
+	  installApp:allowTestAPKsTooltip=Allow test.apk-applications to be installed to the device. (Developers only)
+	  installApp:installLocation1CheckBox=Install to Internal Flash
+	  installApp:installLocation1ToolTip=Installs the application to the device's internal flash memory.
+	  installApp:installLocation2CheckBox=Install to SD Card
+	  installApp:installLocation2ToolTip=Installs the application to the device's external memory (SD Card) if inserted.
+	  installApp:allowDowngradeCheckBox=Allow Downgrade
+	  installApp:allowDowngradeToolTip=If the to-be-installed application is a lower version than the already present version, the newer version will be replaced.
+	  
+ # ========== Uninstall Application Menu ========== #
+ 
+	  uninstallApp:title=Application Remover
+	  uninstallApp:selectAppLabel=Select a package below...
+	  uninstallApp:removeAppButton=Remove App...
+	  uninstallApp:confirmMsg=This will remove the application from your device. This is irreversable!
+	  uninstallApp:confirmMsgTitle=Are you Sure?
+	  
+ # ========== Backup Manager ========== #
+	  
+	  backupManager:title=Backup Manager
+	  backupManager:listLabel1=Loading backups. Please wait...
+	  backupManager:listLabel2=List of backups (Select for options):
+	  backupManager:backupNameLabel=Backup Name:
+	  backupManager:showHelpButton=Help?
+	  backupManager:workingLabel1=Idle
+	  backupManager:workingLabel2=Working. Please wait...
+	  backupManager:optionsLabel=Options:
+	  backupManager:addSystemLabel= + System
+	  backupManager:addSystemLabelToolTip=Backup system apps and files...
+	  backupManager:addStorageLabel= + Storage
+	  backupManager:addStorageLabelToolTip=Backup device storage (may take up to a few hours to complete)
+	  backupManager:addApplicationsLabel= + Apps
+	  backupManager:addApplicationsLabelToolTip=Backup and and all user applications on the device.
+	  backupManager:addEFSLabel= + EFS
+	  backupManager:addEFSLabelToolTip=Backup the device's EFS-partition (Samsung and LG device only!)
+	  backupManager:backupButton=Backup Now...
+	  

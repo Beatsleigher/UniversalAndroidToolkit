@@ -22,7 +22,9 @@ package eu.m4gkbeatz.androidtoolkit.ui;
 import JDroidLib.android.controllers.*;
 import JDroidLib.android.device.*;
 
+import eu.m4gkbeatz.androidtoolkit.language.*;
 import eu.m4gkbeatz.androidtoolkit.logging.Logger;
+import static eu.m4gkbeatz.androidtoolkit.logging.Logger.Level;
 import eu.m4gkbeatz.androidtoolkit.settings.*;
 
 import java.awt.*;
@@ -47,18 +49,40 @@ public class Devices extends javax.swing.JFrame {
     private boolean ACTIVATED = false;
     private UAT instance = null;
     private static int SELECTED_DEVICE = 0;
+    private LangFileParser parser = null;
 
-    public Devices(boolean debug, Logger logger, Logger.Level level, ADBController adbController, SettingsManager settings, UAT uat) {
+    public Devices(boolean debug, Logger logger, Logger.Level level, ADBController adbController, SettingsManager settings, UAT uat, LangFileParser parser) {
         this.logger = logger;
         this.level = level;
         this.debug = debug;
         this.adbController = adbController;
         this.settings = settings;
-        initComponents();
-        jList1.setCellRenderer(new DeviceListRenderer());
+        this.parser = parser;
         instance = uat;
         this.setTitle("Universal Android Toolkit | Devices");
         this.setIconImage(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/device-icon.png")).getImage());
+        initComponents();
+        //jList1.setCellRenderer(new DeviceListRenderer());
+        try {
+            loadTranslations();
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while loading the translations for the Device Manager: " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
+    }
+    
+    private IOException exception = null;
+    private void loadTranslations() throws IOException {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    setTitle("Universal Android Toolkit | " + parser.parse("deviceMenu:title"));
+                    jButton1.setText(parser.parse("deviceMenu:refreshButton"));
+                } catch (IOException ex) { exception = ex; }
+            }
+        }.start();
     }
 
     /**
@@ -113,7 +137,7 @@ public class Devices extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton2))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -126,7 +150,11 @@ public class Devices extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("via ADB", jPanel1);
+        try {
+	    jTabbedPane1.addTab(parser.parse("deviceMenu:adbTab"), jPanel1);
+        } catch (IOException ex) {
+	    jTabbedPane1.addTab("via ADB", jPanel1);
+        }
 
         jPanel2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -148,7 +176,7 @@ public class Devices extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton1))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -161,7 +189,11 @@ public class Devices extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("via Fastboot", jPanel2);
+        try {
+	    jTabbedPane1.addTab(parser.parse("deviceMenu:fastbootTab"), jPanel2);
+        } catch (IOException ex) {
+	    jTabbedPane1.addTab("via Fastboot", jPanel2);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -254,12 +286,12 @@ public class Devices extends javax.swing.JFrame {
             jList2.setSelectedIndex(0);
     }
     
-    public class DeviceListRenderer extends DefaultListCellRenderer {
+    private class DeviceListRenderer extends DefaultListCellRenderer {
 
         @Override
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            label.setIcon(deviceMap.get((String) value)); // TO-DO: Fix
+            label.setIcon(deviceMap.get((Device) value));
             label.setHorizontalTextPosition(JLabel.RIGHT);
             return label;
         }

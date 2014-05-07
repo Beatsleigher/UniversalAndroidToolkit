@@ -268,11 +268,17 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Install"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="installApplication_androidButtonActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="uninstallApplication_androidButton">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Uninstall"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="uninstallApplication_androidButtonActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -310,6 +316,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="File Manager"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fileManager_androidButtonActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -352,6 +361,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Backup"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backupDevice_androidButtonActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="restoreDevice_androidButton">
                   <Properties>
@@ -374,7 +386,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="exploreRoot_androidButton" pref="72" max="32767" attributes="0"/>
+                          <Component id="exploreRoot_androidButton" pref="93" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -605,7 +617,7 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="formatPartition_fastbootButton" max="32767" attributes="0"/>
-                              <Component id="erasePartition_fastbootButton" min="-2" pref="109" max="-2" attributes="0"/>
+                              <Component id="erasePartition_fastbootButton" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -652,7 +664,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="cleanFlashPartition_fastbootButton" max="32767" attributes="0"/>
-                              <Component id="flashPartition_fastbootButton" min="-2" pref="134" max="-2" attributes="0"/>
+                              <Component id="flashPartition_fastbootButton" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -1167,11 +1179,11 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jScrollPane5" min="-2" pref="290" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jButton4" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton5" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton6" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jProgressBar1" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jButton4" max="32767" attributes="0"/>
+                                  <Component id="jButton5" max="32767" attributes="0"/>
+                                  <Component id="jProgressBar1" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jButton6" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jScrollPane6" pref="296" max="32767" attributes="0"/>
@@ -1236,7 +1248,6 @@
                     <Component class="javax.swing.JProgressBar" name="jProgressBar1">
                       <Properties>
                         <Property name="orientation" type="int" value="1"/>
-                        <Property name="indeterminate" type="boolean" value="true"/>
                       </Properties>
                     </Component>
                     <Container class="javax.swing.JScrollPane" name="jScrollPane6">
@@ -1325,16 +1336,14 @@
                                   </Group>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
                                       <Component id="logs_settingsPanel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="lookAndFeel_settingsPanel" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="lookAndFeel_settingsPanel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                      <Component id="saveButton_settingsButton" min="-2" max="-2" attributes="0"/>
                                   </Group>
+                                  <Component id="saveButton_settingsButton" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -1344,13 +1353,15 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="updates_settingsPanel" min="-2" max="-2" attributes="0"/>
+                                      <Component id="devices_settingsPanel" min="-2" max="-2" attributes="0"/>
+                                      <Component id="logs_settingsPanel" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                                   <Component id="lookAndFeel_settingsPanel" min="-2" max="-2" attributes="0"/>
-                                  <Component id="updates_settingsPanel" min="-2" max="-2" attributes="0"/>
-                                  <Component id="devices_settingsPanel" min="-2" max="-2" attributes="0"/>
-                                  <Component id="logs_settingsPanel" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="language_settingsPanel" min="-2" max="-2" attributes="0"/>
                                   <Component id="saveButton_settingsButton" min="-2" max="-2" attributes="0"/>
@@ -1500,7 +1511,7 @@
                               <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="sendLogs_settingsButton" pref="76" max="32767" attributes="0"/>
+                                      <Component id="sendLogs_settingsButton" pref="98" max="32767" attributes="0"/>
                                       <Component id="showLog_settingsButton" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -1548,7 +1559,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPane7" pref="208" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane7" pref="202" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
