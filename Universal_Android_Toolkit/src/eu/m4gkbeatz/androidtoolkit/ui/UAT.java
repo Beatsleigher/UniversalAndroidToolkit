@@ -281,9 +281,9 @@ public class UAT extends javax.swing.JFrame {
         fileManagerTab = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        pushToDevice_fileManagerButton = new javax.swing.JButton();
+        pullFromDevice_fileManagerButton = new javax.swing.JButton();
+        goHome_fileManagerButton = new javax.swing.JButton();
         jProgressBar1 = new javax.swing.JProgressBar();
         jScrollPane6 = new javax.swing.JScrollPane();
         jList3 = new javax.swing.JList();
@@ -292,7 +292,7 @@ public class UAT extends javax.swing.JFrame {
         preferenceTab = new javax.swing.JPanel();
         devices_settingsPanel = new javax.swing.JPanel();
         refreshDevices_settingsButton = new javax.swing.JToggleButton();
-        jTextField1 = new javax.swing.JTextField();
+        refreshInterval_settingsTextField = new javax.swing.JTextField();
         refreshInterval_settingsLabel = new javax.swing.JLabel();
         intervalSeconds_settingsLabel = new javax.swing.JLabel();
         updates_settingsPanel = new javax.swing.JPanel();
@@ -303,10 +303,10 @@ public class UAT extends javax.swing.JFrame {
         showLog_settingsButton = new javax.swing.JToggleButton();
         lookAndFeel_settingsPanel = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jList4 = new javax.swing.JList();
+        themeSelector_settingsList = new javax.swing.JList();
         language_settingsPanel = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
-        jList5 = new javax.swing.JList();
+        langSelector_settingsList = new javax.swing.JList();
         saveButton_settingsButton = new javax.swing.JButton();
         updatesTab = new javax.swing.JPanel();
         updateStatus_updatesLabel = new javax.swing.JLabel();
@@ -426,6 +426,11 @@ public class UAT extends javax.swing.JFrame {
         });
 
         restoreDevice_androidButton.setText("Restore");
+        restoreDevice_androidButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                restoreDevice_androidButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout backupsPanel_androidPanelLayout = new javax.swing.GroupLayout(backupsPanel_androidPanel);
         backupsPanel_androidPanel.setLayout(backupsPanel_androidPanelLayout);
@@ -451,6 +456,11 @@ public class UAT extends javax.swing.JFrame {
         rootingPanel_androidPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Rooting"));
 
         exploreRoot_androidButton.setText("Explore!");
+        exploreRoot_androidButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exploreRoot_androidButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout rootingPanel_androidPanelLayout = new javax.swing.GroupLayout(rootingPanel_androidPanel);
         rootingPanel_androidPanel.setLayout(rootingPanel_androidPanelLayout);
@@ -506,8 +516,18 @@ public class UAT extends javax.swing.JFrame {
         adbTCPPanel_androidPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("ADB via TCP"));
 
         connectDevice_androidButton.setText("Connect...");
+        connectDevice_androidButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                connectDevice_androidButtonActionPerformed(evt);
+            }
+        });
 
         disconnectDevice_androidButton.setText("Disconnect...");
+        disconnectDevice_androidButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                disconnectDevice_androidButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout adbTCPPanel_androidPanelLayout = new javax.swing.GroupLayout(adbTCPPanel_androidPanel);
         adbTCPPanel_androidPanel.setLayout(adbTCPPanel_androidPanelLayout);
@@ -531,6 +551,11 @@ public class UAT extends javax.swing.JFrame {
         );
 
         more_androidButton.setText("More...");
+        more_androidButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                more_androidButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout androidTabLayout = new javax.swing.GroupLayout(androidTab);
         androidTab.setLayout(androidTabLayout);
@@ -579,8 +604,18 @@ public class UAT extends javax.swing.JFrame {
         formattingPanel_fastbootPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Formatting"));
 
         formatPartition_fastbootButton.setText("Format Partition");
+        formatPartition_fastbootButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                formatPartition_fastbootButtonActionPerformed(evt);
+            }
+        });
 
         erasePartition_fastbootButton.setText("Erase Partition");
+        erasePartition_fastbootButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                erasePartition_fastbootButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout formattingPanel_fastbootPanelLayout = new javax.swing.GroupLayout(formattingPanel_fastbootPanel);
         formattingPanel_fastbootPanel.setLayout(formattingPanel_fastbootPanelLayout);
@@ -606,8 +641,18 @@ public class UAT extends javax.swing.JFrame {
         flashingPanel_fastbootPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Flashing"));
 
         flashPartition_fastbootButton.setText("Flash Partition");
+        flashPartition_fastbootButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                flashPartition_fastbootButtonActionPerformed(evt);
+            }
+        });
 
         cleanFlashPartition_fastbootButton.setText("Clean Flash Partition");
+        cleanFlashPartition_fastbootButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cleanFlashPartition_fastbootButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout flashingPanel_fastbootPanelLayout = new javax.swing.GroupLayout(flashingPanel_fastbootPanel);
         flashingPanel_fastbootPanel.setLayout(flashingPanel_fastbootPanelLayout);
@@ -633,6 +678,11 @@ public class UAT extends javax.swing.JFrame {
         bootPanel_fastbootPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Boot"));
 
         bootKernel_fastbootButton.setText("Boot Kernel");
+        bootKernel_fastbootButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bootKernel_fastbootButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout bootPanel_fastbootPanelLayout = new javax.swing.GroupLayout(bootPanel_fastbootPanel);
         bootPanel_fastbootPanel.setLayout(bootPanel_fastbootPanelLayout);
@@ -654,8 +704,18 @@ public class UAT extends javax.swing.JFrame {
         lockStatePanel_fastbootPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Lock State"));
 
         unlockBootloader_fastbootButton.setText("Unlock Bootloader");
+        unlockBootloader_fastbootButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                unlockBootloader_fastbootButtonActionPerformed(evt);
+            }
+        });
 
         relockBootloader_fastbootButton.setText("Relock Bootloader");
+        relockBootloader_fastbootButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                relockBootloader_fastbootButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout lockStatePanel_fastbootPanelLayout = new javax.swing.GroupLayout(lockStatePanel_fastbootPanel);
         lockStatePanel_fastbootPanel.setLayout(lockStatePanel_fastbootPanelLayout);
@@ -681,6 +741,11 @@ public class UAT extends javax.swing.JFrame {
         updatePanel_fastbootPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Update"));
 
         updateDevice_fastbootButton.setText("Update Device");
+        updateDevice_fastbootButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateDevice_fastbootButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout updatePanel_fastbootPanelLayout = new javax.swing.GroupLayout(updatePanel_fastbootPanel);
         updatePanel_fastbootPanel.setLayout(updatePanel_fastbootPanelLayout);
@@ -871,10 +936,25 @@ public class UAT extends javax.swing.JFrame {
         jScrollPane4.setViewportView(jTextArea1);
 
         reload_buildPropButton.setText("Reload");
+        reload_buildPropButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reload_buildPropButtonActionPerformed(evt);
+            }
+        });
 
         saveAs_buildPropButton.setText("Save As...");
+        saveAs_buildPropButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAs_buildPropButtonActionPerformed(evt);
+            }
+        });
 
         saveToDevice_buildPropButton.setText("Save To Device");
+        saveToDevice_buildPropButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveToDevice_buildPropButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout buildPropTabLayout = new javax.swing.GroupLayout(buildPropTab);
         buildPropTab.setLayout(buildPropTabLayout);
@@ -910,11 +990,26 @@ public class UAT extends javax.swing.JFrame {
 
         jScrollPane5.setViewportView(jList2);
 
-        jButton4.setText(">>");
+        pushToDevice_fileManagerButton.setText(">>");
+        pushToDevice_fileManagerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pushToDevice_fileManagerButtonActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("<<");
+        pullFromDevice_fileManagerButton.setText("<<");
+        pullFromDevice_fileManagerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pullFromDevice_fileManagerButtonActionPerformed(evt);
+            }
+        });
 
-        jButton6.setText("⌂ ");
+        goHome_fileManagerButton.setText("⌂ ");
+        goHome_fileManagerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                goHome_fileManagerButtonActionPerformed(evt);
+            }
+        });
 
         jProgressBar1.setOrientation(1);
 
@@ -929,10 +1024,10 @@ public class UAT extends javax.swing.JFrame {
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(fileManagerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pushToDevice_fileManagerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pullFromDevice_fileManagerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(goHome_fileManagerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
                 .addContainerGap())
@@ -944,11 +1039,11 @@ public class UAT extends javax.swing.JFrame {
                 .addGroup(fileManagerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane6)
                     .addGroup(fileManagerTabLayout.createSequentialGroup()
-                        .addComponent(jButton4)
+                        .addComponent(pushToDevice_fileManagerButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)
+                        .addComponent(pullFromDevice_fileManagerButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6)
+                        .addComponent(goHome_fileManagerButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
                     .addComponent(jScrollPane5))
@@ -982,8 +1077,13 @@ public class UAT extends javax.swing.JFrame {
 
         refreshDevices_settingsButton.setSelected(true);
         refreshDevices_settingsButton.setText("Refresh");
+        refreshDevices_settingsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshDevices_settingsButtonActionPerformed(evt);
+            }
+        });
 
-        jTextField1.setText("30");
+        refreshInterval_settingsTextField.setText("30");
 
         refreshInterval_settingsLabel.setText("Interval:");
 
@@ -999,7 +1099,7 @@ public class UAT extends javax.swing.JFrame {
                     .addGroup(devices_settingsPanelLayout.createSequentialGroup()
                         .addGroup(devices_settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(refreshInterval_settingsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField1))
+                            .addComponent(refreshInterval_settingsTextField))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(intervalSeconds_settingsLabel)
                         .addGap(12, 12, 12))
@@ -1016,7 +1116,7 @@ public class UAT extends javax.swing.JFrame {
                 .addComponent(refreshInterval_settingsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(devices_settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(refreshInterval_settingsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(intervalSeconds_settingsLabel))
                 .addContainerGap())
         );
@@ -1025,8 +1125,18 @@ public class UAT extends javax.swing.JFrame {
 
         checkForUpdates_settingsButton.setSelected(true);
         checkForUpdates_settingsButton.setText("Check...");
+        checkForUpdates_settingsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkForUpdates_settingsButtonActionPerformed(evt);
+            }
+        });
 
         autoUpdate_settingsButton.setText("Auto-Update");
+        autoUpdate_settingsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                autoUpdate_settingsButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout updates_settingsPanelLayout = new javax.swing.GroupLayout(updates_settingsPanel);
         updates_settingsPanel.setLayout(updates_settingsPanelLayout);
@@ -1055,9 +1165,19 @@ public class UAT extends javax.swing.JFrame {
 
         sendLogs_settingsButton.setSelected(true);
         sendLogs_settingsButton.setText("Send Logs");
+        sendLogs_settingsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendLogs_settingsButtonActionPerformed(evt);
+            }
+        });
 
         showLog_settingsButton.setSelected(true);
         showLog_settingsButton.setText("Show Log");
+        showLog_settingsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showLog_settingsButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout logs_settingsPanelLayout = new javax.swing.GroupLayout(logs_settingsPanel);
         logs_settingsPanel.setLayout(logs_settingsPanelLayout);
@@ -1082,7 +1202,12 @@ public class UAT extends javax.swing.JFrame {
 
         lookAndFeel_settingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Theme"));
 
-        jScrollPane7.setViewportView(jList4);
+        themeSelector_settingsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                themeSelector_settingsListValueChanged(evt);
+            }
+        });
+        jScrollPane7.setViewportView(themeSelector_settingsList);
 
         javax.swing.GroupLayout lookAndFeel_settingsPanelLayout = new javax.swing.GroupLayout(lookAndFeel_settingsPanel);
         lookAndFeel_settingsPanel.setLayout(lookAndFeel_settingsPanelLayout);
@@ -1102,7 +1227,12 @@ public class UAT extends javax.swing.JFrame {
 
         language_settingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Language"));
 
-        jScrollPane8.setViewportView(jList5);
+        langSelector_settingsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                langSelector_settingsListValueChanged(evt);
+            }
+        });
+        jScrollPane8.setViewportView(langSelector_settingsList);
 
         javax.swing.GroupLayout language_settingsPanelLayout = new javax.swing.GroupLayout(language_settingsPanel);
         language_settingsPanel.setLayout(language_settingsPanelLayout);
@@ -1122,6 +1252,11 @@ public class UAT extends javax.swing.JFrame {
         );
 
         saveButton_settingsButton.setText("Save");
+        saveButton_settingsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButton_settingsButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout preferenceTabLayout = new javax.swing.GroupLayout(preferenceTab);
         preferenceTab.setLayout(preferenceTabLayout);
@@ -1168,12 +1303,32 @@ public class UAT extends javax.swing.JFrame {
         updateStatus_updatesLabel.setText("No updates found...");
 
         downloadJar_updatesButton.setText("Download Jar File(s)...");
+        downloadJar_updatesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                downloadJar_updatesButtonActionPerformed(evt);
+            }
+        });
 
         downloadRPM_updatesButton.setText("Download Installer (.RPM)");
+        downloadRPM_updatesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                downloadRPM_updatesButtonActionPerformed(evt);
+            }
+        });
 
         downloadDEB_updatesButton.setText("Download Installer (.DEB)");
+        downloadDEB_updatesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                downloadDEB_updatesButtonActionPerformed(evt);
+            }
+        });
 
         downloadEXE_updatesButton.setText("Download Bin (.EXE)");
+        downloadEXE_updatesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                downloadEXE_updatesButtonActionPerformed(evt);
+            }
+        });
 
         changelog_updatesLabel.setText("Changes:");
 
@@ -1324,6 +1479,8 @@ public class UAT extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     //# =============== Event Listeners =============== #\\
+    
+    //# =============== Window Events =============== #\\
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         if (!ALREADY_ACTIVATED) {
             if (debug)
@@ -1332,11 +1489,13 @@ public class UAT extends javax.swing.JFrame {
                 getLogcat(selectedDevice);
                 getDMESG(selectedDevice);
             }
+            getPrefs();
             
             ALREADY_ACTIVATED = true;
         }
     }//GEN-LAST:event_formWindowActivated
 
+    //# =============== Android Tab Events =============== #\\
     private void installApplication_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_installApplication_androidButtonActionPerformed
         if (selectedDevice != null)
             new InstallApplicationMenu(logger, debug, adbController, settings, parser, selectedDevice).setVisible(true);
@@ -1363,6 +1522,139 @@ public class UAT extends javax.swing.JFrame {
             logger.log(Level.ERROR, "[Backup Manager] No device was selected. Please select a device and try again...");
     }//GEN-LAST:event_backupDevice_androidButtonActionPerformed
 
+    private void restoreDevice_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restoreDevice_androidButtonActionPerformed
+        if (selectedDevice != null)
+            new RestoreManager(logger, adbController, settings, selectedDevice, debug, parser).setVisible(true); // Sort out later. Do settings, first... (07.05.2014, 00:29)
+        else
+            logger.log(Level.ERROR, "[Backup Manager] No device was selected. Please select a device and try again...");
+    }//GEN-LAST:event_restoreDevice_androidButtonActionPerformed
+
+    private void exploreRoot_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exploreRoot_androidButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_exploreRoot_androidButtonActionPerformed
+
+    private void connectDevice_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectDevice_androidButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_connectDevice_androidButtonActionPerformed
+
+    private void disconnectDevice_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectDevice_androidButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_disconnectDevice_androidButtonActionPerformed
+
+    private void more_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_more_androidButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_more_androidButtonActionPerformed
+
+    //# =============== Fastboot Tab Events =============== #\\
+    private void formatPartition_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formatPartition_fastbootButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formatPartition_fastbootButtonActionPerformed
+
+    private void erasePartition_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_erasePartition_fastbootButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_erasePartition_fastbootButtonActionPerformed
+
+    private void flashPartition_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_flashPartition_fastbootButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_flashPartition_fastbootButtonActionPerformed
+
+    private void cleanFlashPartition_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cleanFlashPartition_fastbootButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cleanFlashPartition_fastbootButtonActionPerformed
+
+    private void bootKernel_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bootKernel_fastbootButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bootKernel_fastbootButtonActionPerformed
+
+    private void unlockBootloader_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unlockBootloader_fastbootButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_unlockBootloader_fastbootButtonActionPerformed
+
+    private void relockBootloader_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relockBootloader_fastbootButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_relockBootloader_fastbootButtonActionPerformed
+
+    private void updateDevice_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDevice_fastbootButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_updateDevice_fastbootButtonActionPerformed
+
+    //# =============== Device → Build Prop Manager Events =============== #\\
+    private void reload_buildPropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reload_buildPropButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_reload_buildPropButtonActionPerformed
+
+    private void saveAs_buildPropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAs_buildPropButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveAs_buildPropButtonActionPerformed
+
+    private void saveToDevice_buildPropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveToDevice_buildPropButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveToDevice_buildPropButtonActionPerformed
+
+    //# =============== Device → File Manager Events =============== #\\
+    private void pushToDevice_fileManagerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pushToDevice_fileManagerButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pushToDevice_fileManagerButtonActionPerformed
+
+    private void pullFromDevice_fileManagerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pullFromDevice_fileManagerButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pullFromDevice_fileManagerButtonActionPerformed
+
+    private void goHome_fileManagerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goHome_fileManagerButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_goHome_fileManagerButtonActionPerformed
+
+    //# =============== Toolkit → Settings Events =============== #\\
+    private void refreshDevices_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshDevices_settingsButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_refreshDevices_settingsButtonActionPerformed
+
+    private void checkForUpdates_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkForUpdates_settingsButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkForUpdates_settingsButtonActionPerformed
+
+    private void autoUpdate_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoUpdate_settingsButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_autoUpdate_settingsButtonActionPerformed
+
+    private void sendLogs_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendLogs_settingsButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sendLogs_settingsButtonActionPerformed
+
+    private void showLog_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showLog_settingsButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_showLog_settingsButtonActionPerformed
+
+    private void themeSelector_settingsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_themeSelector_settingsListValueChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_themeSelector_settingsListValueChanged
+
+    private void langSelector_settingsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_langSelector_settingsListValueChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_langSelector_settingsListValueChanged
+
+    private void saveButton_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButton_settingsButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveButton_settingsButtonActionPerformed
+
+    //# =============== Toolkit → Updates Events =============== #\\
+    private void downloadJar_updatesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadJar_updatesButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_downloadJar_updatesButtonActionPerformed
+
+    private void downloadRPM_updatesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadRPM_updatesButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_downloadRPM_updatesButtonActionPerformed
+
+    private void downloadDEB_updatesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadDEB_updatesButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_downloadDEB_updatesButtonActionPerformed
+
+    private void downloadEXE_updatesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadEXE_updatesButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_downloadEXE_updatesButtonActionPerformed
+    //# =============== End Of Event Listeners =============== #\\
+    
     //# =============== Logcat and DMESG =============== #\\
     private void getLogcat(final Device device) {
         new Thread() {
@@ -1451,6 +1743,26 @@ public class UAT extends javax.swing.JFrame {
         getDMESG(device);
     }
     
+    //# =============== Preferences =============== #\\
+    private void getPrefs() {
+        refreshDevices_settingsButton.setSelected(settings.refreshDevices());
+        refreshInterval_settingsTextField.setText(String.valueOf((settings.getDeviceRefreshInterval() / 1000)));
+        checkForUpdates_settingsButton.setSelected(settings.checkForUpdatesOnStartup());
+        autoUpdate_settingsButton.setSelected(settings.autoUpdate());
+        sendLogs_settingsButton.setSelected(settings.sendLogs());
+        showLog_settingsButton.setSelected(settings.showLog());
+        DefaultListModel model = new DefaultListModel();
+        for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels())
+            model.addElement(info.getName());
+        themeSelector_settingsList.setModel(model);
+        themeSelector_settingsList.setSelectedValue((Object) settings.getLookAndFeel(), true);
+        model = new DefaultListModel();
+        for (Language lang : Language.values())
+            model.addElement(lang);
+        langSelector_settingsList.setModel(model);
+        langSelector_settingsList.setSelectedValue((Object) settings.getLanguage(), true);
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="Variables">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem about_uatMenu;
@@ -1500,19 +1812,15 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JPanel flashingPanel_fastbootPanel;
     private javax.swing.JButton formatPartition_fastbootButton;
     private javax.swing.JPanel formattingPanel_fastbootPanel;
+    private javax.swing.JButton goHome_fileManagerButton;
     private javax.swing.JMenuItem installADB_uatMenu;
     private javax.swing.JButton installApplication_androidButton;
     private javax.swing.JLabel intervalSeconds_settingsLabel;
     private javax.swing.JLabel isInserted_batteryLabel;
     private javax.swing.JLabel isPoweredBy_batteryLabel;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JList jList1;
     private javax.swing.JList jList2;
     private javax.swing.JList jList3;
-    private javax.swing.JList jList4;
-    private javax.swing.JList jList5;
     private javax.swing.JList jList6;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -1539,8 +1847,8 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JList langSelector_settingsList;
     private javax.swing.JPanel language_settingsPanel;
     private javax.swing.JPanel lockStatePanel_fastbootPanel;
     private javax.swing.JTextArea logcat_androidTextArea;
@@ -1548,10 +1856,13 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JPanel lookAndFeel_settingsPanel;
     private javax.swing.JButton more_androidButton;
     private javax.swing.JPanel preferenceTab;
+    private javax.swing.JButton pullFromDevice_fileManagerButton;
+    private javax.swing.JButton pushToDevice_fileManagerButton;
     private javax.swing.JMenu reboot_adbMenu;
     private javax.swing.JMenu reboot_fastbootMenu;
     private javax.swing.JToggleButton refreshDevices_settingsButton;
     private javax.swing.JLabel refreshInterval_settingsLabel;
+    private javax.swing.JTextField refreshInterval_settingsTextField;
     private javax.swing.JButton reload_buildPropButton;
     private javax.swing.JButton relockBootloader_fastbootButton;
     private javax.swing.JMenuItem restartServer_adbMenu;
@@ -1568,6 +1879,7 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JMenuItem stopServer_adbMenu;
     private javax.swing.JLabel superUserStatus_rootLabel;
     private javax.swing.JLabel superUserVersion_rootLabel;
+    private javax.swing.JList themeSelector_settingsList;
     private javax.swing.JMenuItem toAndroid_adbMenu;
     private javax.swing.JMenuItem toAndroid_fastbootMenu;
     private javax.swing.JMenuItem toFastboot_adbMenu;

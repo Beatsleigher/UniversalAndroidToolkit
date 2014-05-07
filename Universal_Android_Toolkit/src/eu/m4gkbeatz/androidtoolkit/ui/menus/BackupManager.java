@@ -284,15 +284,19 @@ public class BackupManager extends JFrame {
 
                 if (addSystemLabel.isSelected())
                     bool = backupSystem();
+                while (!(bool == addSystemLabel.isSelected())) {} // Wait.
 
                 if (addStorageLabel.isSelected())
                     bool1 = backupStorage();
-
+                while (!(bool1 == addStorageLabel.isSelected())) {} // Wait.
+                
                 if (addApplicationsLabel.isSelected())
                     bool2 = backupApps();
-
+                while (!(bool2 == addApplicationsLabel.isSelected())) {} // Wait.
+                
                 if (addEFSLabel.isSelected())
                     bool3 = backupEFS();
+                while (!(bool3 == addEFSLabel.isSelected())) {} // Wait.
                 
                 while (!(bool == addSystemLabel.isSelected()) && !(bool1 == addStorageLabel.isSelected()) && !(bool2 == addApplicationsLabel.isSelected()) && !(bool3 == addEFSLabel.isSelected())) {
                     // Wait.

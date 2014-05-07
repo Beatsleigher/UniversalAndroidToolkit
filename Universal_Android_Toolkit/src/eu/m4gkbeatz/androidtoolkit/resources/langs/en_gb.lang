@@ -183,3 +183,7 @@
 	  backupManager:addEFSLabelToolTip=Backup the device's EFS-partition (Samsung and LG device only!)
 	  backupManager:backupButton=Backup Now...
 	  
+ # ========== Restore Manager ========== #  
+	  
+	  restoreManager:title=Restore Manager
+ 
