@@ -318,6 +318,12 @@ public class UAT extends javax.swing.JFrame {
         changelog_updatesLabel = new javax.swing.JLabel();
         jScrollPane9 = new javax.swing.JScrollPane();
         jList6 = new javax.swing.JList();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         adbMenu = new javax.swing.JMenu();
         startServer_adbMenu = new javax.swing.JMenuItem();
@@ -487,7 +493,7 @@ public class UAT extends javax.swing.JFrame {
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -504,7 +510,7 @@ public class UAT extends javax.swing.JFrame {
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -780,7 +786,7 @@ public class UAT extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lockStatePanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(updatePanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         fastbootTabLayout.setVerticalGroup(
             fastbootTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -841,7 +847,7 @@ public class UAT extends javax.swing.JFrame {
                     .addComponent(batteryVoltage_batteryLabel)
                     .addComponent(batteryScale_batteryLabel)
                     .addComponent(batteryStatus_batteryLabel))
-                .addContainerGap(136, Short.MAX_VALUE))
+                .addContainerGap(152, Short.MAX_VALUE))
         );
         batteryTabLayout.setVerticalGroup(
             batteryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -902,7 +908,7 @@ public class UAT extends javax.swing.JFrame {
                         .addGroup(rootTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(busyboxStatus_rootLabel)
                             .addComponent(busyboxVersion_rootLabel))
-                        .addGap(0, 152, Short.MAX_VALUE))
+                        .addGap(0, 168, Short.MAX_VALUE))
                     .addComponent(jScrollPane3))
                 .addContainerGap())
         );
@@ -967,7 +973,7 @@ public class UAT extends javax.swing.JFrame {
                 .addGroup(buildPropTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(reload_buildPropButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(saveAs_buildPropButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(saveToDevice_buildPropButton, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
+                    .addComponent(saveToDevice_buildPropButton, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
                 .addContainerGap())
         );
         buildPropTabLayout.setVerticalGroup(
@@ -1029,7 +1035,7 @@ public class UAT extends javax.swing.JFrame {
                     .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(goHome_fileManagerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
                 .addContainerGap())
         );
         fileManagerTabLayout.setVerticalGroup(
@@ -1354,7 +1360,7 @@ public class UAT extends javax.swing.JFrame {
                                 .addComponent(downloadDEB_updatesButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(downloadEXE_updatesButton)))
-                        .addGap(0, 18, Short.MAX_VALUE))
+                        .addGap(0, 34, Short.MAX_VALUE))
                     .addComponent(jScrollPane9))
                 .addContainerGap())
         );
@@ -1379,6 +1385,52 @@ public class UAT extends javax.swing.JFrame {
         );
 
         jTabbedPane4.addTab("Updates", updatesTab);
+
+        jTextArea2.setEditable(false);
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane10.setViewportView(jTextArea2);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/donate/donate_crappy.png"))); // NOI18N
+        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jLabel2.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel2.setText("<html><u>http://team-m4gkbeatz.eu</u></html>");
+
+        jLabel3.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel3.setText("<html><u>http://github.com/B.../UniversalAndroidToolkit</u></html>");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 77, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1))
+                    .addComponent(jScrollPane10))
+                .addContainerGap())
+        );
+
+        jTabbedPane4.addTab("About", jPanel1);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -1606,35 +1658,51 @@ public class UAT extends javax.swing.JFrame {
 
     //# =============== Toolkit → Settings Events =============== #\\
     private void refreshDevices_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshDevices_settingsButtonActionPerformed
-        // TODO add your handling code here:
+        settings.setRefreshDevices(refreshDevices_settingsButton.isSelected());
+        settings.setDeviceRefreshInterval(Integer.valueOf(refreshInterval_settingsTextField.getText()));
     }//GEN-LAST:event_refreshDevices_settingsButtonActionPerformed
 
     private void checkForUpdates_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkForUpdates_settingsButtonActionPerformed
-        // TODO add your handling code here:
+        settings.setCheckForUpdatesOnStartup(checkForUpdates_settingsButton.isSelected());
     }//GEN-LAST:event_checkForUpdates_settingsButtonActionPerformed
 
     private void autoUpdate_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoUpdate_settingsButtonActionPerformed
-        // TODO add your handling code here:
+        settings.setAutoUpdate(autoUpdate_settingsButton.isSelected());
     }//GEN-LAST:event_autoUpdate_settingsButtonActionPerformed
 
     private void sendLogs_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendLogs_settingsButtonActionPerformed
-        // TODO add your handling code here:
+        settings.setSendLogs(sendLogs_settingsButton.isSelected());
     }//GEN-LAST:event_sendLogs_settingsButtonActionPerformed
 
     private void showLog_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showLog_settingsButtonActionPerformed
-        // TODO add your handling code here:
+        settings.setShowLog(showLog_settingsButton.isSelected());
     }//GEN-LAST:event_showLog_settingsButtonActionPerformed
 
     private void themeSelector_settingsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_themeSelector_settingsListValueChanged
-        // TODO add your handling code here:
+        settings.setLookAndFeel(themeSelector_settingsList.getSelectedValue().toString());
     }//GEN-LAST:event_themeSelector_settingsListValueChanged
 
     private void langSelector_settingsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_langSelector_settingsListValueChanged
-        // TODO add your handling code here:
+        settings.setLanguage(langSelector_settingsList.getSelectedValue().toString());
+        try {
+            parser.parse(settings.getLanguage(), logger, debug);
+            loadTranslation();
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while loading the new language: " + ex.toString() + "\n"
+                    + "Please save the settings and restart Universal Android Toolkit.\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
     }//GEN-LAST:event_langSelector_settingsListValueChanged
 
     private void saveButton_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButton_settingsButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            settings.saveSettings();
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while attempting to save the settings: " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
     }//GEN-LAST:event_saveButton_settingsButtonActionPerformed
 
     //# =============== Toolkit → Updates Events =============== #\\
@@ -1818,6 +1886,9 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JLabel intervalSeconds_settingsLabel;
     private javax.swing.JLabel isInserted_batteryLabel;
     private javax.swing.JLabel isPoweredBy_batteryLabel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JList jList1;
     private javax.swing.JList jList2;
     private javax.swing.JList jList3;
@@ -1825,6 +1896,7 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1832,6 +1904,7 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JProgressBar jProgressBar2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -1847,6 +1920,7 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JList langSelector_settingsList;
     private javax.swing.JPanel language_settingsPanel;
