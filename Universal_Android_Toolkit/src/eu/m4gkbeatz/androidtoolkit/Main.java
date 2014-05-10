@@ -190,9 +190,7 @@ public class Main {
         try {
             reader = new BufferedReader(new InputStreamReader(new URL("https://raw.githubusercontent.com/Beatsleigher/UniversalAndroidToolkit/master/version").openStream()));
             String line = reader.readLine();
-            if (line.equals(VERSION_NO))
-                returnVal = false;
-            else returnVal = true;
+            returnVal = (line.startsWith("Version") && line.contains(VERSION_NO));
         } catch (IOException ex) {
             logger.log(Logger.Level.ERROR, "Error occurred while checking for updates!\n\tStack trace was printed to console!");
             ex.printStackTrace(System.err);
