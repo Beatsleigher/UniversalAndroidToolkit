@@ -51,28 +51,52 @@ public class RestoreManager extends javax.swing.JFrame {
         this.debug = debug;
         this.setIconImage(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/UniversalAndroidToolkit_logo.png")).getImage());
         this.setLocationRelativeTo(null);
-        try {
-            loadTranslations();
-        } catch (IOException ex) {
-            logger.log(Level.ERROR, "An error occurred while loading the translations for Restore Manager: " + ex.toString() + "\n"
-                    + "The error stack trace will be printed to the console...");
-            ex.printStackTrace(System.err);
-        }
+        loadTranslations();
+        //jList1.setCellRenderer(new BackupCellRenderer());
+        loadBackups();
     }
     
-    private IOException exception = null;
-    private void loadTranslations() throws IOException {
+    private void loadTranslations() {
         new Thread() {
             @Override
             public void run() {
-                try {
-                    setTitle("Universal Android Toolkit | " + parser.parse("restoreManager:title"));
-                } catch (IOException ex) { exception = ex; }
+                setTitle("Universal Android Toolkit | " + parser.parse("restoreManager:title"));
+                selectBackupLabel.setText(parser.parse("restoreManager:selectBackupLabel"));
+                restoreDeviceButton.setText(parser.parse("restoreManager:restoreDeviceButton"));
+                restoreSystemButton.setText(parser.parse("restoreManager:restoreSystemButton"));
+                restoreSystemButton.setToolTipText(parser.parse("restoreManager:restoreSystemButtonToolTip"));
+                restoreStorageButton.setText(parser.parse("restoreManager:restoreStorageButton"));
+                restoreStorageButton.setToolTipText(parser.parse("restoreManager:restoreStorageButtonToolTip"));
+                restoreEFSButton.setText(parser.parse("restoreManager:restoreEFSButton"));
+                restoreEFSButton.setToolTipText(parser.parse("restoreManager:restoreEFSButtonToolTip"));
+                restoreAppsButton.setText(parser.parse("restoreManager:restoreAppsButton"));
+                restoreAppsButton.setToolTipText(parser.parse("restoreManager:restoreAppsButtonToolTip"));
                 interrupt();
             }
         }.start();
-        if (exception != null)
-            throw exception;
+    }
+    
+    private void loadBackups() {
+        new Thread() {
+            @Override
+            public void run() {
+                DefaultListModel model = new DefaultListModel();
+                File backupDir = new File(System.getProperty("user.home") + "/.androidtoolkit/backups");
+                if (debug)
+                    logger.log(Level.DEBUG, "Loading backups from: " + backupDir.getAbsolutePath() + " for device: " + device.toString());
+                if (!backupDir.exists()) {
+                    backupDir.mkdirs();
+                    interrupt();
+                }
+
+                // List backups
+                for (File f : backupDir.listFiles(new ABFilter())) {
+                    model.addElement(f.getName());
+                }
+                jList1.setModel(model);
+                interrupt();
+            }
+        }.start();
     }
 
     /**
@@ -85,22 +109,111 @@ public class RestoreManager extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList();
+        selectBackupLabel = new javax.swing.JLabel();
+        restoreDeviceButton = new javax.swing.JButton();
+        restoreSystemButton = new javax.swing.JCheckBox();
+        restoreStorageButton = new javax.swing.JCheckBox();
+        restoreEFSButton = new javax.swing.JCheckBox();
+        restoreAppsButton = new javax.swing.JCheckBox();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jList1.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jList1.setCellRenderer(new BackupCellRenderer());
+        jScrollPane1.setViewportView(jList1);
+
+        selectBackupLabel.setText("Select a backup below:");
+
+        restoreDeviceButton.setText("Restore Device...");
+
+        restoreSystemButton.setText("Restore System");
+
+        restoreStorageButton.setText("Restore Storage");
+
+        restoreEFSButton.setText("Restore EFS");
+
+        restoreAppsButton.setText("Restore Apps");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(selectBackupLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(restoreDeviceButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(restoreSystemButton)
+                            .addComponent(restoreEFSButton))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(restoreAppsButton)
+                            .addComponent(restoreStorageButton))
+                        .addGap(0, 185, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(restoreSystemButton)
+                    .addComponent(restoreStorageButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(restoreEFSButton)
+                    .addComponent(restoreAppsButton))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(selectBackupLabel)
+                    .addComponent(restoreDeviceButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
+    private class BackupCellRenderer extends DefaultListCellRenderer {
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            label.setIcon(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/backups/backup.png")));
+            return label;
+        }
+
+    }
+    
+    private class ABFilter implements FileFilter {
+
+        @Override
+        public boolean accept(File f) {
+            return (f.isDirectory()) || (f.getAbsolutePath().toLowerCase().endsWith(".ab") && f.getAbsolutePath().toLowerCase().contains(device.getSerial().toLowerCase()));
+        }
+
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList jList1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JCheckBox restoreAppsButton;
+    private javax.swing.JButton restoreDeviceButton;
+    private javax.swing.JCheckBox restoreEFSButton;
+    private javax.swing.JCheckBox restoreStorageButton;
+    private javax.swing.JCheckBox restoreSystemButton;
+    private javax.swing.JLabel selectBackupLabel;
     // End of variables declaration//GEN-END:variables
 }

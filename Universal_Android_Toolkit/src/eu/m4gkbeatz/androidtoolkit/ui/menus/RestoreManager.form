@@ -23,13 +23,112 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="400" max="32767" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="selectBackupLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="restoreDeviceButton" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="restoreSystemButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="restoreEFSButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="restoreAppsButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="restoreStorageButton" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="185" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="300" max="32767" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="restoreSystemButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="restoreStorageButton" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="restoreEFSButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="restoreAppsButton" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="selectBackupLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="restoreDeviceButton" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane1" pref="130" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JList" name="jList1">
+          <Properties>
+            <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
+              <StringArray count="5">
+                <StringItem index="0" value="Item 1"/>
+                <StringItem index="1" value="Item 2"/>
+                <StringItem index="2" value="Item 3"/>
+                <StringItem index="3" value="Item 4"/>
+                <StringItem index="4" value="Item 5"/>
+              </StringArray>
+            </Property>
+            <Property name="cellRenderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new BackupCellRenderer()" type="code"/>
+            </Property>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JLabel" name="selectBackupLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Select a backup below:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="restoreDeviceButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Restore Device..."/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="restoreSystemButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Restore System"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="restoreStorageButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Restore Storage"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="restoreEFSButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Restore EFS"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="restoreAppsButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Restore Apps"/>
+      </Properties>
+    </Component>
+  </SubComponents>
 </Form>

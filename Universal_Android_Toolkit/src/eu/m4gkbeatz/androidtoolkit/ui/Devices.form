@@ -45,7 +45,7 @@
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="&lt;User Code&gt;">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="try {&#xa;    parser.parse(&quot;deviceMenu:adbTab&quot;);&#xa;} catch (IOException ex) { &#xa;    logger.log(Level.ERROR, &quot;An error occurred while loading the translations for Device Manager: &quot; + ex.toString() + &quot;\n&quot;&#xa;        + &quot;The error stack trace will be printed to the console...&quot;);&#xa;    ex.printStackTrace(System.err);&#xa;}" type="code"/>
+                  <Connection code="parser.parse(&quot;deviceMenu:adbTab&quot;)" type="code"/>
                 </Property>
               </JTabbedPaneConstraints>
             </Constraint>
@@ -82,8 +82,13 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="jButton2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Reload (F5)"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="parser.parse(&quot;deviceMenu:refreshButton&quot;)" type="code"/>
+                </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
               <AuxValues>
@@ -115,7 +120,7 @@
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="&lt;User Code&gt;">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="parser.parse(&quot;deviceMenu:adbTab&quot;);" type="code"/>
+                  <Connection code="parser.parse(&quot;deviceMenu:fastbootTab&quot;)" type="code"/>
                 </Property>
               </JTabbedPaneConstraints>
             </Constraint>
@@ -152,7 +157,9 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="jButton1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Reload (F5)"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="parser.parse(&quot;deviceMenu:refreshButton&quot;)" type="code"/>
+                </Property>
               </Properties>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane2">

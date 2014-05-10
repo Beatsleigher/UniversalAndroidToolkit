@@ -38,7 +38,7 @@ import javax.swing.*;
  *
  * @author beatsleigher
  */
-public class Devices extends javax.swing.JFrame {
+public final class Devices extends javax.swing.JFrame {
     
     private boolean debug = false;
     private Logger logger = null;
@@ -63,24 +63,16 @@ public class Devices extends javax.swing.JFrame {
         this.setIconImage(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/device-icon.png")).getImage());
         initComponents();
         //jList1.setCellRenderer(new DeviceListRenderer());
-        try {
-            loadTranslations();
-        } catch (IOException ex) {
-            logger.log(Level.ERROR, "An error occurred while loading the translations for the Device Manager: " + ex.toString() + "\n"
-                    + "The error stack trace will be printed to the console...");
-            ex.printStackTrace(System.err);
-        }
+        loadTranslations();
     }
     
-    private IOException exception = null;
-    private void loadTranslations() throws IOException {
+    public void loadTranslations() {
         new Thread() {
             @Override
             public void run() {
-                try {
-                    setTitle("Universal Android Toolkit | " + parser.parse("deviceMenu:title"));
-                    jButton1.setText(parser.parse("deviceMenu:refreshButton"));
-                } catch (IOException ex) { exception = ex; }
+                setTitle("Universal Android Toolkit | " + parser.parse("deviceMenu:title"));
+                jButton1.setText(parser.parse("deviceMenu:refreshButton"));
+                jButton2.setText(jButton1.getText());
             }
         }.start();
     }
@@ -113,7 +105,12 @@ public class Devices extends javax.swing.JFrame {
 
         jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
 
-        jButton2.setText("Reload (F5)");
+        jButton2.setText(parser.parse("deviceMenu:refreshButton"));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jList1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -150,11 +147,7 @@ public class Devices extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        try {
-	    jTabbedPane1.addTab(parser.parse("deviceMenu:adbTab"), jPanel1);
-        } catch (IOException ex) {
-	    jTabbedPane1.addTab("via ADB", jPanel1);
-        }
+        jTabbedPane1.addTab(parser.parse("deviceMenu:adbTab"), jPanel1);
 
         jPanel2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -162,7 +155,7 @@ public class Devices extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Reload (F5)");
+        jButton1.setText(parser.parse("deviceMenu:refreshButton"));
 
         jScrollPane2.setViewportView(jList2);
 
@@ -189,11 +182,7 @@ public class Devices extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        try {
-	    jTabbedPane1.addTab(parser.parse("deviceMenu:fastbootTab"), jPanel2);
-        } catch (IOException ex) {
-	    jTabbedPane1.addTab("via Fastboot", jPanel2);
-        }
+        jTabbedPane1.addTab(parser.parse("deviceMenu:fastbootTab"), jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -240,6 +229,17 @@ public class Devices extends javax.swing.JFrame {
             instance.startLogcat(instance.selectedDevice);
         }
     }//GEN-LAST:event_jList1ValueChanged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            reload();
+        } catch (IOException ex) {
+            logger.log(level.ERROR, "Error while loading devices! Stack trace will be printed to console...");
+            JOptionPane.showMessageDialog(null, "An error occured while loading currently connected devices.\n"
+                    + "Please terminate and re-run the erronious step to determine where the error has occurred.", "Error While Loading Devices.", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace(System.err);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void reloadTimer() {
         new Thread() {

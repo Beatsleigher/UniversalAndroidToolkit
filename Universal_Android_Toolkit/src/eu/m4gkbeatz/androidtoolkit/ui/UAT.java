@@ -30,6 +30,7 @@ import eu.m4gkbeatz.androidtoolkit.settings.*;
 import eu.m4gkbeatz.androidtoolkit.ui.customui.*;
 import eu.m4gkbeatz.androidtoolkit.ui.menus.*;
 import java.io.*;
+import java.net.*;
 import java.util.*;
 
 import javax.swing.*;
@@ -54,12 +55,19 @@ public class UAT extends javax.swing.JFrame {
     private ADBController adbController;
     private Devices deviceManager = null;
     private LangFileParser parser = null;
-    //# =============== Static variables =============== #\\
-    private static boolean ALREADY_ACTIVATED = false;
+    private boolean ALREADY_ACTIVATED = false;
+    private boolean SHOW_LANG_MSG = false;
     
     public Device selectedDevice = null;
 
     public UAT(boolean debug, Logger logger, Level lvl, SettingsManager settings, ADBController adbController) {
+        try {
+            parser = new LangFileParser();
+            parser.parse(settings.getLanguage(), logger, debug);
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while parsing the main translation file!: " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+        }
         initComponents();
         this.setLocationRelativeTo(null);
         this.setIconImage(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/UniversalAndroidToolkit_logo.png")).getImage());
@@ -69,134 +77,127 @@ public class UAT extends javax.swing.JFrame {
         this.settings = settings;
         this.adbController = adbController;
         jTabbedPane2.setUI(new PPTTabbedPaneUI());
-        try {
-            parser = new LangFileParser();
-            parser.parse(settings.getLanguage(), logger, debug);
-            loadTranslation();
-        } catch (IOException ex) {
-            logger.log(level.ERROR, "Error occurred while applying translation: " + ex.toString() + "\n"
-                    + "The error stack trace will be printed to the console! You can still use UAT.");
-            ex.printStackTrace(System.err);
-        }
+        loadTranslation();
         deviceManager = new Devices(debug, logger, level, adbController, settings, this, parser);
         deviceManager.setVisible(true);
+        getPrefs();
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(new URL("https://raw.githubusercontent.com/Beatsleigher/UniversalAndroidToolkit/master/README.md").openStream()));
+                String line = null;
+                while ((line = reader.readLine()) != null)
+                    aboutUAT_aboutTab.append(line + "\n");
+                reader.close();
+            } catch (IOException ex) {}
     }
     
-    private IOException exception = null;
-    private void loadTranslation() throws IOException {
+    private void loadTranslation() {
         //<editor-fold defaultstate="collapsed" desc="">
         new Thread() {
             @Override
             public void run() {
-                try {
-                    //# =============== Title Translations =============== #\\
-                    setTitle(parser.parse("title") + System.getProperty("user.name") + " | " + Main.VERSION_NO);
-                    //# =============== Translate Buttons and Labels =============== #\\
+                //# =============== Title Translations =============== #\\
+                setTitle(parser.parse("title") + System.getProperty("user.name") + " | " + Main.VERSION_NO);
+                //# =============== Translate Buttons and Labels =============== #\\
+                // Android tab
+                installApplication_androidButton.setText(parser.parse("installButton"));
+                uninstallApplication_androidButton.setText(parser.parse("uninstallButton"));
+                fileManager_androidButton.setText(parser.parse("fileManagerButton"));
+                backupDevice_androidButton.setText(parser.parse("backupButton"));
+                restoreDevice_androidButton.setText(parser.parse("restoreButton"));
+                exploreRoot_androidButton.setText(parser.parse("exploreRootButton"));
+                connectDevice_androidButton.setText(parser.parse("connectButton"));
+                disconnectDevice_androidButton.setText(parser.parse("disconnectButton"));
+                more_androidButton.setText(parser.parse("moreButton"));
+                // Fastboot tab
+                formatPartition_fastbootButton.setText(parser.parse("formatPartitionButton"));
+                erasePartition_fastbootButton.setText(parser.parse("erasePartitionButton"));
+                flashPartition_fastbootButton.setText(parser.parse("flashPartitionButton"));
+                cleanFlashPartition_fastbootButton.setText(parser.parse("cleanFlashPartitionButton"));
+                bootKernel_fastbootButton.setText(parser.parse("bootKernelButton"));
+                unlockBootloader_fastbootButton.setText(parser.parse("unlockBootloaderButton"));
+                relockBootloader_fastbootButton.setText(parser.parse("relockBootloaderButton"));
+                updateDevice_fastbootButton.setText(parser.parse("updateDeviceButton"));
+                // Device tab
+                    // Battery tab
+                batteryLevel_batteryLabel.setText(parser.parse("batteryLevelLabel"));
+                batteryHealth_batteryLabel.setText(parser.parse("batteryHealthLabel"));
+                isInserted_batteryLabel.setText(parser.parse("isInsertedLabel"));
+                isPoweredBy_batteryLabel.setText(parser.parse("isPoweredByLabel"));
+                batteryStatus_batteryLabel.setText(parser.parse("batteryStatusLabel"));
+                batteryScale_batteryLabel.setText(parser.parse("batteryScaleLabel"));
+                batteryVoltage_batteryLabel.setText(parser.parse("batteryVoltageLabel"));
+                batteryCurrent_batteryLabel.setText(parser.parse("batteryCurrentLabel"));
+                batteryTemp_batteryLabel.setText(parser.parse("batteryTempLabel"));
+                batteryTech_batteryLabel.setText(parser.parse("batteryTechLabel"));
+                    // Root tab
+                superUserStatus_rootLabel.setText(parser.parse("superUserLabel"));
+                superUserVersion_rootLabel.setText(parser.parse("suVersionLabel"));
+                busyboxStatus_rootLabel.setText(parser.parse("busyboxLabel"));
+                busyboxVersion_rootLabel.setText(parser.parse("busyboxVersionLabel"));
+                cpuUsage_rootLabel.setText(parser.parse("cpuUsageLabel"));
+                    // Build Prop tab
+                reload_buildPropButton.setText(parser.parse("reloadButton"));
+                saveAs_buildPropButton.setText(parser.parse("saveAsButton"));
+                saveToDevice_buildPropButton.setText(parser.parse("saveToDeviceButton"));
+                // Toolkit tab
+                    // Settings tab
+                refreshDevices_settingsButton.setText(parser.parse("refreshButton"));
+                refreshInterval_settingsLabel.setText(parser.parse("intervalLabel"));
+                intervalSeconds_settingsLabel.setText(parser.parse("secondsLabel"));
+                checkForUpdates_settingsButton.setText(parser.parse("checkForUpdatesButton"));
+                autoUpdate_settingsButton.setText(parser.parse("autoUpdateButton"));
+                sendLogs_settingsButton.setText(parser.parse("sendLogsButton"));
+                showLog_settingsButton.setText(parser.parse("showLogButton"));
+                saveButton_settingsButton.setText(parser.parse("saveButton"));
+                    // Updates tab
+                changelog_updatesLabel.setText(parser.parse("changelogLabel"));
+                downloadJar_updatesButton.setText(parser.parse("downloadJarButton"));
+                downloadRPM_updatesButton.setText(parser.parse("downloadRPMButton"));
+                downloadDEB_updatesButton.setText(parser.parse("downloadDEBButton"));
+                downloadEXE_updatesButton.setText(parser.parse("downloadEXEButton"));
+                // Toolbar
+                showDevices_toolbarButton.setText(parser.parse("showDevicesButton"));
+                //# =============== Menu Translations =============== #\\
+                    // ADB
+                startServer_adbMenu.setText(parser.parse("startServerItem"));
+                stopServer_adbMenu.setText(parser.parse("stopServerItem"));
+                restartServer_adbMenu.setText(parser.parse("restartServerItem"));
+                connectToDevice_adbMenu.setText(parser.parse("connectDeviceItem"));
+                reboot_adbMenu.setText(parser.parse("rebootItem"));
+                toAndroid_adbMenu.setText(parser.parse("toAndroidItem"));
+                toFastboot_adbMenu.setText(parser.parse("toFastbootItem"));
+                toRecovery_adbMenu.setText(parser.parse("toRecoveryItem"));
+                    // Fastboot
+                reboot_fastbootMenu.setText(parser.parse("rebootItem"));
+                toAndroid_fastbootMenu.setText(parser.parse("toAndroidItem"));
+                toFastboot_fastbootMenu.setText(parser.parse("toFastbootItem"));
+                    // UAT
+                checkForUpdates_uatMenu.setText(parser.parse("checkForUpdatesItem"));
+                installADB_uatMenu.setText(parser.parse("installADBItem"));
+                about_uatMenu.setText(parser.parse("aboutItem"));
+                exit_uatMenu.setText(parser.parse("exitItem"));
+                //# =============== Panel Translations =============== #\\
                     // Android tab
-                    installApplication_androidButton.setText(parser.parse("installButton"));
-                    uninstallApplication_androidButton.setText(parser.parse("uninstallButton"));
-                    fileManager_androidButton.setText(parser.parse("fileManagerButton"));
-                    backupDevice_androidButton.setText(parser.parse("backupButton"));
-                    restoreDevice_androidButton.setText(parser.parse("restoreButton"));
-                    exploreRoot_androidButton.setText(parser.parse("exploreRootButton"));
-                    connectDevice_androidButton.setText(parser.parse("connectButton"));
-                    disconnectDevice_androidButton.setText(parser.parse("disconnectButton"));
-                    more_androidButton.setText(parser.parse("moreButton"));
+                applicationsPanel_androidPanel.setBorder(new TitledBorder(parser.parse("applicationsPanel")));
+                filesPanel_androidPanel.setBorder(new TitledBorder(parser.parse("filesPanel")));
+                backupsPanel_androidPanel.setBorder(new TitledBorder(parser.parse("backupsPanel")));
+                rootingPanel_androidPanel.setBorder(new TitledBorder(parser.parse("rootingPanel")));
+                adbTCPPanel_androidPanel.setBorder(new TitledBorder(parser.parse("adbTCPPanel")));
                     // Fastboot tab
-                    formatPartition_fastbootButton.setText(parser.parse("formatPartitionButton"));
-                    erasePartition_fastbootButton.setText(parser.parse("erasePartitionButton"));
-                    flashPartition_fastbootButton.setText(parser.parse("flashPartitionButton"));
-                    cleanFlashPartition_fastbootButton.setText(parser.parse("cleanFlashPartitionButton"));
-                    bootKernel_fastbootButton.setText(parser.parse("bootKernelButton"));
-                    unlockBootloader_fastbootButton.setText(parser.parse("unlockBootloaderButton"));
-                    relockBootloader_fastbootButton.setText(parser.parse("relockBootloaderButton"));
-                    updateDevice_fastbootButton.setText(parser.parse("updateDeviceButton"));
-                    // Device tab
-                        // Battery tab
-                    batteryLevel_batteryLabel.setText(parser.parse("batteryLevelLabel"));
-                    batteryHealth_batteryLabel.setText(parser.parse("batteryHealthLabel"));
-                    isInserted_batteryLabel.setText(parser.parse("isInsertedLabel"));
-                    isPoweredBy_batteryLabel.setText(parser.parse("isPoweredByLabel"));
-                    batteryStatus_batteryLabel.setText(parser.parse("batteryStatusLabel"));
-                    batteryScale_batteryLabel.setText(parser.parse("batteryScaleLabel"));
-                    batteryVoltage_batteryLabel.setText(parser.parse("batteryVoltageLabel"));
-                    batteryCurrent_batteryLabel.setText(parser.parse("batteryCurrentLabel"));
-                    batteryTemp_batteryLabel.setText(parser.parse("batteryTempLabel"));
-                    batteryTech_batteryLabel.setText(parser.parse("batteryTechLabel"));
-                        // Root tab
-                    superUserStatus_rootLabel.setText(parser.parse("superUserLabel"));
-                    superUserVersion_rootLabel.setText(parser.parse("suVersionLabel"));
-                    busyboxStatus_rootLabel.setText(parser.parse("busyboxLabel"));
-                    busyboxVersion_rootLabel.setText(parser.parse("busyboxVersionLabel"));
-                    cpuUsage_rootLabel.setText(parser.parse("cpuUsageLabel"));
-                        // Build Prop tab
-                    reload_buildPropButton.setText(parser.parse("reloadButton"));
-                    saveAs_buildPropButton.setText(parser.parse("saveAsButton"));
-                    saveToDevice_buildPropButton.setText(parser.parse("saveToDeviceButton"));
-                    // Toolkit tab
-                        // Settings tab
-                    refreshDevices_settingsButton.setText(parser.parse("refreshButton"));
-                    refreshInterval_settingsLabel.setText(parser.parse("intervalLabel"));
-                    intervalSeconds_settingsLabel.setText(parser.parse("secondsLabel"));
-                    checkForUpdates_settingsButton.setText(parser.parse("checkForUpdatesButton"));
-                    autoUpdate_settingsButton.setText(parser.parse("autoUpdateButton"));
-                    sendLogs_settingsButton.setText(parser.parse("sendLogsButton"));
-                    showLog_settingsButton.setText(parser.parse("showLogButton"));
-                    saveButton_settingsButton.setText(parser.parse("saveButton"));
-                        // Updates tab
-                    changelog_updatesLabel.setText(parser.parse("changelogLabel"));
-                    downloadJar_updatesButton.setText(parser.parse("downloadJarButton"));
-                    downloadRPM_updatesButton.setText(parser.parse("downloadRPMButton"));
-                    downloadDEB_updatesButton.setText(parser.parse("downloadDEBButton"));
-                    downloadEXE_updatesButton.setText(parser.parse("downloadEXEButton"));
-                    // Toolbar
-                    showDevices_toolbarButton.setText(parser.parse("showDevicesButton"));
-                    //# =============== Menu Translations =============== #\\
-                        // ADB
-                    startServer_adbMenu.setText(parser.parse("startServerItem"));
-                    stopServer_adbMenu.setText(parser.parse("stopServerItem"));
-                    restartServer_adbMenu.setText(parser.parse("restartServerItem"));
-                    connectToDevice_adbMenu.setText(parser.parse("connectDeviceItem"));
-                    reboot_adbMenu.setText(parser.parse("rebootItem"));
-                    toAndroid_adbMenu.setText(parser.parse("toAndroidItem"));
-                    toFastboot_adbMenu.setText(parser.parse("toFastbootItem"));
-                    toRecovery_adbMenu.setText(parser.parse("toRecoveryItem"));
-                        // Fastboot
-                    reboot_fastbootMenu.setText(parser.parse("rebootItem"));
-                    toAndroid_fastbootMenu.setText(parser.parse("toAndroidItem"));
-                    toFastboot_fastbootMenu.setText(parser.parse("toFastbootItem"));
-                        // UAT
-                    checkForUpdates_uatMenu.setText(parser.parse("checkForUpdatesItem"));
-                    installADB_uatMenu.setText(parser.parse("installADBItem"));
-                    about_uatMenu.setText(parser.parse("aboutItem"));
-                    exit_uatMenu.setText(parser.parse("exitItem"));
-                    //# =============== Panel Translations =============== #\\
-                        // Android tab
-                    applicationsPanel_androidPanel.setBorder(new TitledBorder(parser.parse("applicationsPanel")));
-                    filesPanel_androidPanel.setBorder(new TitledBorder(parser.parse("filesPanel")));
-                    backupsPanel_androidPanel.setBorder(new TitledBorder(parser.parse("backupsPanel")));
-                    rootingPanel_androidPanel.setBorder(new TitledBorder(parser.parse("rootingPanel")));
-                    adbTCPPanel_androidPanel.setBorder(new TitledBorder(parser.parse("adbTCPPanel")));
-                        // Fastboot tab
-                    formattingPanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("formattingPanel")));
-                    flashingPanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("flashingPanel")));
-                    bootPanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("bootPanel")));
-                    lockStatePanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("lockStatePanel")));
-                    updatePanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("updatePanel")));
-                        // Settings tab
-                    devices_settingsPanel.setBorder(new TitledBorder(parser.parse("devicesPanel")));
-                    updates_settingsPanel.setBorder(new TitledBorder(parser.parse("updatesPanel")));
-                    logs_settingsPanel.setBorder(new TitledBorder(parser.parse("logsPanel")));
-                    lookAndFeel_settingsPanel.setBorder(new TitledBorder(parser.parse("themePanel")));
-                    language_settingsPanel.setBorder(new TitledBorder(parser.parse("languagePanel")));
-                } catch (IOException ex) {
-                    exception = ex;
-                }
+                formattingPanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("formattingPanel")));
+                flashingPanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("flashingPanel")));
+                bootPanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("bootPanel")));
+                lockStatePanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("lockStatePanel")));
+                updatePanel_fastbootPanel.setBorder(new TitledBorder(parser.parse("updatePanel")));
+                    // Settings tab
+                devices_settingsPanel.setBorder(new TitledBorder(parser.parse("devicesPanel")));
+                updates_settingsPanel.setBorder(new TitledBorder(parser.parse("updatesPanel")));
+                logs_settingsPanel.setBorder(new TitledBorder(parser.parse("logsPanel")));
+                lookAndFeel_settingsPanel.setBorder(new TitledBorder(parser.parse("themePanel")));
+                language_settingsPanel.setBorder(new TitledBorder(parser.parse("languagePanel")));
                 interrupt();
             }
         }.start();
-        if (exception != null)
-            throw exception;
         //</editor-fold>
     }
 
@@ -320,7 +321,7 @@ public class UAT extends javax.swing.JFrame {
         jList6 = new javax.swing.JList();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane10 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        aboutUAT_aboutTab = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -605,7 +606,7 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Android", androidTab);
+        jTabbedPane1.addTab(parser.parse("androidTab"), androidTab);
 
         formattingPanel_fastbootPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Formatting"));
 
@@ -804,7 +805,7 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap(133, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Fastboot", fastbootTab);
+        jTabbedPane1.addTab(parser.parse("fastbootTab"), fastbootTab);
 
         batteryLevel_batteryLabel.setText("Battery Level: 000%");
 
@@ -873,7 +874,7 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap(162, Short.MAX_VALUE))
         );
 
-        jTabbedPane3.addTab("Battery", batteryTab);
+        jTabbedPane3.addTab(parser.parse("batteryTab"), batteryTab);
 
         superUserStatus_rootLabel.setText("Super User: Installed");
 
@@ -935,7 +936,7 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane3.addTab("Root and CPU", rootTab);
+        jTabbedPane3.addTab(parser.parse("rootTab"), rootTab);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -992,7 +993,7 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane3.addTab("Build Prop Manager", buildPropTab);
+        jTabbedPane3.addTab(parser.parse("buildPropTab"), buildPropTab);
 
         jScrollPane5.setViewportView(jList2);
 
@@ -1056,7 +1057,7 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane3.addTab("File Manager", fileManagerTab);
+        jTabbedPane3.addTab(parser.parse("fileManagerTab"), fileManagerTab);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -1075,7 +1076,7 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Device", jPanel3);
+        jTabbedPane1.addTab(parser.parse("deviceTab"), jPanel3);
 
         preferenceTab.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
@@ -1303,7 +1304,7 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane4.addTab("Preferences", preferenceTab);
+        jTabbedPane4.addTab(parser.parse("settingsTab"), preferenceTab);
 
         updateStatus_updatesLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/updates/no-update.png"))); // NOI18N
         updateStatus_updatesLabel.setText("No updates found...");
@@ -1384,12 +1385,12 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane4.addTab("Updates", updatesTab);
+        jTabbedPane4.addTab(parser.parse("updatesTab"), updatesTab);
 
-        jTextArea2.setEditable(false);
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane10.setViewportView(jTextArea2);
+        aboutUAT_aboutTab.setEditable(false);
+        aboutUAT_aboutTab.setColumns(20);
+        aboutUAT_aboutTab.setRows(5);
+        jScrollPane10.setViewportView(aboutUAT_aboutTab);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/donate/donate_crappy.png"))); // NOI18N
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1430,7 +1431,7 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane4.addTab("About", jPanel1);
+        jTabbedPane4.addTab(parser.parse("aboutTab"), jPanel1);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -1449,7 +1450,7 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Toolkit", jPanel4);
+        jTabbedPane1.addTab(parser.parse("toolkitTab"), jPanel4);
 
         adbMenu.setText("ADB");
 
@@ -1541,7 +1542,6 @@ public class UAT extends javax.swing.JFrame {
                 getLogcat(selectedDevice);
                 getDMESG(selectedDevice);
             }
-            getPrefs();
             
             ALREADY_ACTIVATED = true;
         }
@@ -1575,9 +1575,10 @@ public class UAT extends javax.swing.JFrame {
     }//GEN-LAST:event_backupDevice_androidButtonActionPerformed
 
     private void restoreDevice_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restoreDevice_androidButtonActionPerformed
-        if (selectedDevice != null)
+        if (selectedDevice != null) {
+            JOptionPane.showMessageDialog(null, parser.parse("showRestoreManagerMsg"), parser.parse("showRestoreManagerMsgTitle"), JOptionPane.WARNING_MESSAGE);
             new RestoreManager(logger, adbController, settings, selectedDevice, debug, parser).setVisible(true); // Sort out later. Do settings, first... (07.05.2014, 00:29)
-        else
+        } else
             logger.log(Level.ERROR, "[Backup Manager] No device was selected. Please select a device and try again...");
     }//GEN-LAST:event_restoreDevice_androidButtonActionPerformed
 
@@ -1658,35 +1659,67 @@ public class UAT extends javax.swing.JFrame {
 
     //# =============== Toolkit → Settings Events =============== #\\
     private void refreshDevices_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshDevices_settingsButtonActionPerformed
+        if (debug)
+            logger.log(Level.DEBUG, "Setting preference \"refreshDevices\" from " + settings.refreshDevices() + " to " + refreshDevices_settingsButton.isSelected() + "\n"
+                    + "Old refresh interval: " + settings.getDeviceRefreshInterval() + ", new refresh interval: " + Integer.valueOf(refreshInterval_settingsTextField.getText()) * 1000);
         settings.setRefreshDevices(refreshDevices_settingsButton.isSelected());
-        settings.setDeviceRefreshInterval(Integer.valueOf(refreshInterval_settingsTextField.getText()));
+        settings.setDeviceRefreshInterval(Integer.valueOf(refreshInterval_settingsTextField.getText()) * 1000);
     }//GEN-LAST:event_refreshDevices_settingsButtonActionPerformed
 
     private void checkForUpdates_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkForUpdates_settingsButtonActionPerformed
+        if (debug)        
+            logger.log(Level.DEBUG, "Setting preference \"checkForUpdates\" from " + settings.checkForUpdatesOnStartup() + " to " + checkForUpdates_settingsButton.isSelected());
         settings.setCheckForUpdatesOnStartup(checkForUpdates_settingsButton.isSelected());
     }//GEN-LAST:event_checkForUpdates_settingsButtonActionPerformed
 
     private void autoUpdate_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoUpdate_settingsButtonActionPerformed
+        if (debug)        
+            logger.log(Level.DEBUG, "Setting preference \"autoUpdate\" from " + settings.autoUpdate() + " to " + autoUpdate_settingsButton.isSelected());
         settings.setAutoUpdate(autoUpdate_settingsButton.isSelected());
     }//GEN-LAST:event_autoUpdate_settingsButtonActionPerformed
 
     private void sendLogs_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendLogs_settingsButtonActionPerformed
+        if (debug)        
+            logger.log(Level.DEBUG, "Setting preference \"sendLogs\" from " + settings.sendLogs() + " to " + sendLogs_settingsButton.isSelected());
         settings.setSendLogs(sendLogs_settingsButton.isSelected());
     }//GEN-LAST:event_sendLogs_settingsButtonActionPerformed
 
     private void showLog_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showLog_settingsButtonActionPerformed
+        if (debug)        
+            logger.log(Level.DEBUG, "Setting preference \"showLog\" from " + settings.showLog() + " to " + showLog_settingsButton.isSelected());
         settings.setShowLog(showLog_settingsButton.isSelected());
     }//GEN-LAST:event_showLog_settingsButtonActionPerformed
 
     private void themeSelector_settingsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_themeSelector_settingsListValueChanged
+        if (themeSelector_settingsList.getSelectedValue() == null) return;
+        if (debug)        
+            logger.log(Level.DEBUG, "Setting preference \"lookAndFeel\" from " + settings.getLookAndFeel() + " to " + themeSelector_settingsList.getSelectedValue().toString());
         settings.setLookAndFeel(themeSelector_settingsList.getSelectedValue().toString());
     }//GEN-LAST:event_themeSelector_settingsListValueChanged
 
     private void langSelector_settingsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_langSelector_settingsListValueChanged
-        settings.setLanguage(langSelector_settingsList.getSelectedValue().toString());
+        if (langSelector_settingsList.getSelectedValue() == null)
+                return;
+        String newLang = langSelector_settingsList.getSelectedValue().toString();
         try {
+            if (debug)        
+                logger.log(Level.DEBUG, "Setting preference \"language\" from " + settings.getLanguage() + " to " + newLang);
+            settings.setLanguage(newLang);
             parser.parse(settings.getLanguage(), logger, debug);
             loadTranslation();
+            deviceManager.loadTranslations();
+            switch (Language.valueOf(newLang)) {
+                case en_gb:
+                    this.setSize(800, 500);
+                    return;
+                case sp_la:
+                    this.setSize(990, 500);
+            }
+            setVisible(true);
+            if (SHOW_LANG_MSG) 
+                JOptionPane.showMessageDialog(null, parser.parse("langChangedMsg"), parser.parse("langChangedMsgTitle"), JOptionPane.INFORMATION_MESSAGE);
+            else
+                SHOW_LANG_MSG = true;
         } catch (IOException ex) {
             logger.log(Level.ERROR, "An error occurred while loading the new language: " + ex.toString() + "\n"
                     + "Please save the settings and restart Universal Android Toolkit.\n"
@@ -1697,6 +1730,9 @@ public class UAT extends javax.swing.JFrame {
 
     private void saveButton_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButton_settingsButtonActionPerformed
         try {
+            if (debug)
+                logger.log(Level.DEBUG, "Saving preferences...");
+            settings.setDeviceRefreshInterval(Integer.valueOf(refreshInterval_settingsTextField.getText()) * 1000);
             settings.saveSettings();
         } catch (IOException ex) {
             logger.log(Level.ERROR, "An error occurred while attempting to save the settings: " + ex.toString() + "\n"
@@ -1833,6 +1869,7 @@ public class UAT extends javax.swing.JFrame {
     
     //<editor-fold defaultstate="collapsed" desc="Variables">
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea aboutUAT_aboutTab;
     private javax.swing.JMenuItem about_uatMenu;
     private javax.swing.JMenu adbMenu;
     private javax.swing.JPanel adbTCPPanel_androidPanel;
@@ -1920,7 +1957,6 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JList langSelector_settingsList;
     private javax.swing.JPanel language_settingsPanel;

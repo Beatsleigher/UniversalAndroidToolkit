@@ -58,12 +58,7 @@ public class BackupManager extends JFrame {
         this.device = device;
         this.debug = debug;
         this.parser = parser;
-        try {
-            loadTranslations();
-        } catch (IOException ex) {
-            logger.log(Level.ERROR, "An error occurred while loading the translations for the Backup Manager: " + ex.toString() + "\n"
-                       + "The error stack trace will be printed to the console...");
-        }
+        loadTranslations();
         jList1.setCellRenderer(new BackupCellRenderer());
         backupTitleLabel1.setText("backup-" + device.getSerial() + "-");
         int amount = new File(System.getProperty("user.home") + "/.androidtoolkit/backups").listFiles().length;
@@ -71,39 +66,31 @@ public class BackupManager extends JFrame {
         loadBackups();
     }
 
-    private IOException exception = null;
-
-    private void loadTranslations() throws IOException {
+    private void loadTranslations() {
         new Thread() {
             @Override
             public void run() {
-                try {
-                    setTitle("Universal Android Toolkit | " + parser.parse("backupManager:title"));
-                    listLabel.setText(parser.parse("backupManager:listLabel1"));
-                    listLabel1 = listLabel.getText();
-                    listLabel2 = parser.parse("backupManager:listLabel2");
-                    backupNameLabel.setText(parser.parse("backupManager:backupNameLabel"));
-                    workingLabel.setText(parser.parse("backupManager:workingLabel1"));
-                    workingLabel1 = workingLabel.getText();
-                    workingLabel2 = parser.parse("backupManager:workingLabel2");
-                    optionsLabel.setText(parser.parse("backupManager:optionsLabel"));
-                    addSystemLabel.setText(parser.parse("backupManager:addSystemLabel"));
-                    addSystemLabel.setToolTipText(parser.parse("backupManager:addSystemLabelToolTip"));
-                    addStorageLabel.setText(parser.parse("backupManager:addStorageLabel"));
-                    addStorageLabel.setToolTipText(parser.parse("backupManager:addStorageLabelToolTip"));
-                    addApplicationsLabel.setText(parser.parse("backupManager:addApplicationsLabel"));
-                    addApplicationsLabel.setToolTipText(parser.parse("backupManager:addApplicationsLabelToolTip"));
-                    addEFSLabel.setText(parser.parse("backupManager:addEFSLabel"));
-                    addEFSLabel.setToolTipText(parser.parse("backupManager:addEFSLabelToolTip"));
-                    backupButton.setText(parser.parse("backupManager:backupButton"));
-                } catch (IOException ex) {
-                    exception = ex;
-                }
+                setTitle("Universal Android Toolkit | " + parser.parse("backupManager:title"));
+                listLabel.setText(parser.parse("backupManager:listLabel1"));
+                listLabel1 = listLabel.getText();
+                listLabel2 = parser.parse("backupManager:listLabel2");
+                backupNameLabel.setText(parser.parse("backupManager:backupNameLabel"));
+                workingLabel.setText(parser.parse("backupManager:workingLabel1"));
+                workingLabel1 = workingLabel.getText();
+                workingLabel2 = parser.parse("backupManager:workingLabel2");
+                optionsLabel.setText(parser.parse("backupManager:optionsLabel"));
+                addSystemLabel.setText(parser.parse("backupManager:addSystemLabel"));
+                addSystemLabel.setToolTipText(parser.parse("backupManager:addSystemLabelToolTip"));
+                addStorageLabel.setText(parser.parse("backupManager:addStorageLabel"));
+                addStorageLabel.setToolTipText(parser.parse("backupManager:addStorageLabelToolTip"));
+                addApplicationsLabel.setText(parser.parse("backupManager:addApplicationsLabel"));
+                addApplicationsLabel.setToolTipText(parser.parse("backupManager:addApplicationsLabelToolTip"));
+                addEFSLabel.setText(parser.parse("backupManager:addEFSLabel"));
+                addEFSLabel.setToolTipText(parser.parse("backupManager:addEFSLabelToolTip"));
+                backupButton.setText(parser.parse("backupManager:backupButton"));
                 interrupt();
             }
         }.start();
-        if (exception != null)
-            throw exception;
     }
 
     private void loadBackups() {

@@ -20,6 +20,7 @@ package eu.m4gkbeatz.androidtoolkit.language;
 
 
 import eu.m4gkbeatz.androidtoolkit.logging.*;
+import static eu.m4gkbeatz.androidtoolkit.logging.Logger.Level;
 import java.io.*;
 import java.net.*;
 
@@ -32,8 +33,10 @@ public class LangFileParser {
         
         //# =============== Variables =============== #\\
         String translationFile = null;
+        private Logger logger = null;
         
         public void parse(Language lang, Logger logger, boolean debug) throws IOException {
+            this.logger = logger;
             URL languageFile = this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/langs/" + lang + ".lang");
             if (debug)
                 logger.log(Logger.Level.DEBUG, "Attempting translation from file: " + languageFile);
@@ -41,22 +44,27 @@ public class LangFileParser {
             StringBuilder strBuilder = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null)
-                strBuilder.append(line + "\n");
+                strBuilder.append(line).append("\n");
             reader.close();
             translationFile = strBuilder.toString();
         }
         
-        public String parse(String item) throws IOException {
-            BufferedReader reader = new BufferedReader(new StringReader(translationFile));
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                if (line.trim().startsWith("#")) continue;
-                if (line.contains(item)) {
-                    String[] arr = line.split("=");
-                    return arr[1];
+        public String parse(String item) {
+            try {
+                BufferedReader reader = new BufferedReader(new StringReader(translationFile));
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    if (line.trim().startsWith("#")) continue;
+                    if (line.contains(item)) {
+                        String[] arr = line.split("=");
+                        return arr[1];
+                    }
                 }
+            } catch (IOException ex) {
+                logger.log(Level.ERROR, "An Error occurred while loading the translation for " + item + ": " + ex.toString());
+                ex.printStackTrace(System.err);
             }
-            return "???";
+            return "n/a (507)";
         }
         
     }

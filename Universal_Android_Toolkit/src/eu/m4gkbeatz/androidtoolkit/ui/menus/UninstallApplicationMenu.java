@@ -28,12 +28,9 @@ import eu.m4gkbeatz.androidtoolkit.settings.*;
 import static eu.m4gkbeatz.androidtoolkit.logging.Logger.Level;
 
 import java.awt.*;
-import java.util.*;
 import javax.swing.*;
 import java.io.*;
 import java.util.List;
-import javax.swing.border.*;
-
 
 /**
  *
@@ -60,13 +57,7 @@ public class UninstallApplicationMenu extends javax.swing.JFrame {
         this.settings = settings;
         this.parser = parser;
         this.device = device;
-        try {
-            loadTranslations();
-        } catch (IOException ex) {
-            logger.log(Level.ERROR, "An error occurred while loading the translations for UninstallApplicationMenu: " + ex.toString() + "\n"
-                    + "The stack trace will be printed to the console...");
-            ex.printStackTrace(System.err);
-        }
+        loadTranslations();
         jList1.setCellRenderer(new ApplicationListCellRenderer());
         try {
             getApps();
@@ -77,25 +68,18 @@ public class UninstallApplicationMenu extends javax.swing.JFrame {
         }
     }
     
-    private IOException exception = null;
-    private void loadTranslations() throws IOException {
+    private void loadTranslations() {
         new Thread() {
             @Override
             public void run() {
-                try {
-                    setTitle("Universal Android Toolkit | " + parser.parse("uninstallApp:title"));
-                    selectPackage.setText(parser.parse("uninstallApp:selectAppLabel"));
-                    removeApp.setText(parser.parse("uninstallApp:removeAppButton"));
-                    CONFIRM_MSG = parser.parse("uninstallApp:confirmMsg");
-                    CONFIRM_MSG_TITLE = parser.parse("uninstallApp:confirmMsgTitle");
-                } catch (IOException ex) {
-                    exception = ex;
-                }
+                setTitle("Universal Android Toolkit | " + parser.parse("uninstallApp:title"));
+                selectPackage.setText(parser.parse("uninstallApp:selectAppLabel"));
+                removeApp.setText(parser.parse("uninstallApp:removeAppButton"));
+                CONFIRM_MSG = parser.parse("uninstallApp:confirmMsg");
+                CONFIRM_MSG_TITLE = parser.parse("uninstallApp:confirmMsgTitle");
                 interrupt();
             }
         }.start();
-        if (exception != null)
-            throw exception;
     }
     
     private void getApps() throws IOException {

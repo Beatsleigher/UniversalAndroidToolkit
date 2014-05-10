@@ -71,31 +71,18 @@ public class InstallApplicationMenu extends javax.swing.JFrame {
         this.settings = settings;
         this.parser = parser;
         device = dev;
-        try {
-            loadTranslations();
-        } catch (IOException ex) {
-            logger.log(Level.ERROR, "Error occurred while loading translations for Application Installer: " + ex.toString() + "\n"
-                    + "The error stack trace will be printed to the console...");
-            ex.printStackTrace(System.err);
-        }
+        loadTranslations();
     }
     
-    private IOException exception = null; // Because Java's inner-class rules are fucking stupid...
-    private void loadTranslations() throws IOException {
+    private void loadTranslations() {
         new Thread() {
             @Override
             public void run() {
-                try {
-                    setTitle("Universal Android Toolkit | " + parser.parse("installApp:title"));
-                    jButton2.setText(parser.parse("installApp:installButton"));
-                } catch (IOException ex) {
-                    exception = ex;
-                }
+                setTitle("Universal Android Toolkit | " + parser.parse("installApp:title"));
+                jButton2.setText(parser.parse("installApp:installButton"));
                 interrupt();
             }
         }.start();
-        if (exception != null)
-            throw exception;
     }
 
     /**
@@ -168,16 +155,9 @@ public class InstallApplicationMenu extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFileChooser apkChooser = new JFileChooser();
-        try {
             apkChooser.setFileFilter(new APKFilter());
             apkChooser.setDialogTitle(parser.parse("installApp:chooserTitle"));
             apkChooser.setApproveButtonText(parser.parse("installApp_chooserAcceptButton"));
-        } catch (IOException ex) {
-            logger.log(Level.ERROR, "Error occurred while opening file chooser: " + ex.toString() + ".\n"
-                    + "The error stack trace will be printed to the console...");
-            ex.printStackTrace(System.err);
-            return;
-        }
         int result = apkChooser.showOpenDialog(null);
         if (result == JOptionPane.OK_OPTION)
             jTextField1.setText(apkChooser.getSelectedFile().getAbsolutePath());
@@ -212,13 +192,7 @@ public class InstallApplicationMenu extends javax.swing.JFrame {
 
         @Override
         public String getDescription() {
-            try {
-                return parser.parse("installApp:apkDescription");
-            } catch (IOException ex) {
-                logger.log(Level.ERROR, "Error while loading translation for description of file type!");
-                ex.printStackTrace(System.err);
-                return "Android Application Packages";
-            }
+            return parser.parse("installApp:apkDescription");
         }
         
     }
