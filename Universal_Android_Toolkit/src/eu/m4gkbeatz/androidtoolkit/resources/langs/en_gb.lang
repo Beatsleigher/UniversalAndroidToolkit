@@ -201,4 +201,8 @@
 	  restoreManager:restoreEFSButtonToolTip=Restores the device's EFS-Partition. (WARNING: Flashing this to the wrong device WILL cause severe damage and WILL brick your device!)
 	  restoreManager:restoreAppsButton=Restore Apps
 	  restoreManager:restoreAppsButtonToolTip=Restores all the device's applications that were backed up with this backup...
+	  restoreManager:noBackupSelectedMsg=No backup was selected! Please select a backup and try again!
+	  restoreManager:noBackupSelectedMsgTitle=No Backup Selected!
+	  restoreManager:noOptionsSelectedMsg=No options were selected! Please select at least one option before continuing!
+	  restoreManager:noOptionsSelectedMsgTitle=No Options Selected!
 	  

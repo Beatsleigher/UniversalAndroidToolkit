@@ -29,6 +29,7 @@ import eu.m4gkbeatz.androidtoolkit.settings.*;
 
 import javax.swing.*;
 import java.awt.Component;
+import java.awt.event.*;
 import java.util.*;
 import java.io.*;
 
@@ -121,17 +122,22 @@ public class RestoreManager extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jList1.setCellRenderer(new BackupCellRenderer());
+        jList1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jList1KeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jList1);
 
         selectBackupLabel.setText("Select a backup below:");
 
         restoreDeviceButton.setText("Restore Device...");
+        restoreDeviceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                restoreDeviceButtonActionPerformed(evt);
+            }
+        });
 
         restoreSystemButton.setText("Restore System");
 
@@ -190,6 +196,30 @@ public class RestoreManager extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void restoreDeviceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restoreDeviceButtonActionPerformed
+        if (jList1.getSelectedValue() == null) {
+            JOptionPane.showMessageDialog(null, parser.parse("restoreManager:noBackupSelectedMsg"), parser.parse("restoreManager:noBackupSelectedMsgTitle"), JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (!(restoreSystemButton.isSelected() || restoreStorageButton.isSelected() || restoreEFSButton.isSelected() || restoreAppsButton.isSelected())) {
+            JOptionPane.showMessageDialog(null, parser.parse("restoreManager:noOptionsSelectedMsg"), parser.parse("restoreManager:noOptionsSelectedMsgTitle"), JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+            
+        if (debug)
+            logger.log(Level.DEBUG, "Restoring files to device: " + device.toString() + ". Backup selected: " + jList1.getSelectedValue());
+        
+    }//GEN-LAST:event_restoreDeviceButtonActionPerformed
+
+    private void jList1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jList1KeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE && jList1.getSelectedValue() != null) {
+            logger.log(Level.INFO, "Resetting backup selection...");
+            jList1.clearSelection();
+        }
+            
+    }//GEN-LAST:event_jList1KeyPressed
     
     private class BackupCellRenderer extends DefaultListCellRenderer {
 
