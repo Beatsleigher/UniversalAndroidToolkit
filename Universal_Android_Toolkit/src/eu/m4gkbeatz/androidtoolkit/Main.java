@@ -147,8 +147,8 @@ public class Main {
         
         if (settings.showLog())
             logger.setVisible(true);
-        if (settings.checkForUpdatesOnStartup()) 
-            updateAvailable = checkForUpdates(logger);
+        /*if (settings.checkForUpdatesOnStartup()) 
+            updateAvailable = checkForUpdates(logger);*/
         
         // Launch JDroidLib main class
         if (debug)
@@ -157,7 +157,7 @@ public class Main {
         try {
             adbController = new ADBController();
         } catch (IOException | ZipException | InterruptedException ex) {
-            logger.log(level.ERROR, "Error while initializing JDroidLib!\n\t\tLaunch will abort (Error code 3!)");
+            logger.log(level.ERROR, "Error while initializing JDroidLib!\n\tLaunch will abort (Error code 3!)");
             ex.printStackTrace(System.err);
             System.exit(3);
         }
@@ -190,7 +190,7 @@ public class Main {
         try {
             reader = new BufferedReader(new InputStreamReader(new URL("https://raw.githubusercontent.com/Beatsleigher/UniversalAndroidToolkit/master/version").openStream()));
             String line = reader.readLine();
-            returnVal = (line.startsWith("Version") && line.contains(VERSION_NO));
+            returnVal = !(line.startsWith("Version") && line.contains(VERSION_NO));
         } catch (IOException ex) {
             logger.log(Logger.Level.ERROR, "Error occurred while checking for updates!\n\tStack trace was printed to console!");
             ex.printStackTrace(System.err);
