@@ -205,4 +205,7 @@
 	  restoreManager:noBackupSelectedMsgTitle=No Backup Selected!
 	  restoreManager:noOptionsSelectedMsg=No options were selected! Please select at least one option before continuing!
 	  restoreManager:noOptionsSelectedMsgTitle=No Options Selected!
+	  restoreManager:deviceNotInRecoveryModeMsg=Your device is not in RECOVERY! Please reboot your device into RECOVERY mode before attempting a restore!
+	  restoreManager:deviceNotInRecoveryModeMsgTitle=Device Not in RECOVERY!
+	  restoreManager:bootToRecoveryButton=Boot to Recovery...
 	  

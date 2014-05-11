@@ -30,9 +30,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="selectBackupLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jProgressBar1" pref="185" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="restoreDeviceButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="jProgressBar1" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -41,10 +39,14 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="restoreAppsButton" min="-2" max="-2" attributes="0"/>
-                          <Component id="restoreStorageButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="restoreStorageButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="restoreAppsButton" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace pref="74" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="bootToRecoveryButton" max="32767" attributes="0"/>
+                          <Component id="restoreDeviceButton" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -58,22 +60,21 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="restoreSystemButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="restoreStorageButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bootToRecoveryButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="restoreEFSButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="restoreAppsButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="restoreDeviceButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="selectBackupLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="restoreDeviceButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="selectBackupLabel" min="-2" max="-2" attributes="0"/>
                   <Component id="jProgressBar1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="130" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="135" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -136,6 +137,14 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JProgressBar" name="jProgressBar1">
+    </Component>
+    <Component class="javax.swing.JButton" name="bootToRecoveryButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Boot to Recovery"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bootToRecoveryButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

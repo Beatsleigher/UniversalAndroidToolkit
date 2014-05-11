@@ -21,6 +21,8 @@ package eu.m4gkbeatz.androidtoolkit.ui.menus;
 
 import JDroidLib.android.controllers.*;
 import JDroidLib.android.device.*;
+import JDroidLib.enums.*;
+import JDroidLib.exceptions.*;
 
 import eu.m4gkbeatz.androidtoolkit.language.*;
 import eu.m4gkbeatz.androidtoolkit.logging.*;
@@ -30,7 +32,6 @@ import eu.m4gkbeatz.androidtoolkit.settings.*;
 import javax.swing.*;
 import java.awt.Component;
 import java.awt.event.*;
-import java.util.*;
 import java.io.*;
 
 public class RestoreManager extends javax.swing.JFrame {
@@ -72,6 +73,7 @@ public class RestoreManager extends javax.swing.JFrame {
                 restoreEFSButton.setToolTipText(parser.parse("restoreManager:restoreEFSButtonToolTip"));
                 restoreAppsButton.setText(parser.parse("restoreManager:restoreAppsButton"));
                 restoreAppsButton.setToolTipText(parser.parse("restoreManager:restoreAppsButtonToolTip"));
+                bootToRecoveryButton.setText(parser.parse("restoreManager:bootToRecoveryButton"));
                 interrupt();
             }
         }.start();
@@ -119,6 +121,7 @@ public class RestoreManager extends javax.swing.JFrame {
         restoreEFSButton = new javax.swing.JCheckBox();
         restoreAppsButton = new javax.swing.JCheckBox();
         jProgressBar1 = new javax.swing.JProgressBar();
+        bootToRecoveryButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -147,6 +150,13 @@ public class RestoreManager extends javax.swing.JFrame {
 
         restoreAppsButton.setText("Restore Apps");
 
+        bootToRecoveryButton.setText("Boot to Recovery");
+        bootToRecoveryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bootToRecoveryButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -158,18 +168,19 @@ public class RestoreManager extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(selectBackupLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(restoreDeviceButton))
+                        .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(restoreSystemButton)
                             .addComponent(restoreEFSButton))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(restoreAppsButton)
-                            .addComponent(restoreStorageButton))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(restoreStorageButton)
+                            .addComponent(restoreAppsButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(bootToRecoveryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(restoreDeviceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -178,19 +189,19 @@ public class RestoreManager extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(restoreSystemButton)
-                    .addComponent(restoreStorageButton))
+                    .addComponent(restoreStorageButton)
+                    .addComponent(bootToRecoveryButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(restoreEFSButton)
-                    .addComponent(restoreAppsButton))
+                    .addComponent(restoreAppsButton)
+                    .addComponent(restoreDeviceButton))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(selectBackupLabel)
-                        .addComponent(restoreDeviceButton))
+                    .addComponent(selectBackupLabel)
                     .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -198,6 +209,21 @@ public class RestoreManager extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void restoreDeviceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restoreDeviceButtonActionPerformed
+        try {
+            if (device.getState() != DeviceState.RECOVERY) {
+                logger.log(Level.INFO, "This message is just meant to be a log, so its level is INFO. It's actually an error... The device's state is NOT RECOVERY.\n"
+                        + "\tAs a matter of fact, it's actually: " + device.getState());
+                JOptionPane.showMessageDialog(null, parser.parse("restoreManager:deviceNotInRecoveryModeMsg"), parser.parse("restoreManager:deviceMotInRecoveryModeMsgTitle"),
+                                                                                                               JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while loading the device's (" + device.toString() + ") current state!: " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+            return;
+        }
+        
         if (jList1.getSelectedValue() == null) {
             JOptionPane.showMessageDialog(null, parser.parse("restoreManager:noBackupSelectedMsg"), parser.parse("restoreManager:noBackupSelectedMsgTitle"), JOptionPane.ERROR_MESSAGE);
             return;
@@ -220,6 +246,16 @@ public class RestoreManager extends javax.swing.JFrame {
         }
             
     }//GEN-LAST:event_jList1KeyPressed
+
+    private void bootToRecoveryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bootToRecoveryButtonActionPerformed
+        try {
+            device.reboot(DeviceState.RECOVERY);
+        } catch (IOException | InvalidModeException ex) {
+            logger.log(Level.ERROR, "An error occurred while rebooting the device (" + device.toString() + "): " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
+    }//GEN-LAST:event_bootToRecoveryButtonActionPerformed
     
     private class BackupCellRenderer extends DefaultListCellRenderer {
 
@@ -242,6 +278,7 @@ public class RestoreManager extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bootToRecoveryButton;
     private javax.swing.JList jList1;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
