@@ -431,14 +431,9 @@ public class BackupManager extends JFrame {
                 String line = null;
                 BufferedReader reader = null;
                 try {
+                    adbController.rootServer();
+                    adbController.remountDevice(device);
                     workingLabel.setText(workingLabel2);
-                    process = new ProcessBuilder(adbController.getADB().getAbsolutePath(), "-s", device.toString(), "root");
-                    pr = process.start();
-                    reader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-                    while ((line = reader.readLine()) != null) {
-                    } // Wait
-                    pr.destroy();
-                    reader.close();
 
                     File f = new File(backupDir + "/" + backupTitleLabel1.getText() + backupTitleText.getText() + "/data");
                     f.mkdirs();

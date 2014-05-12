@@ -52,10 +52,10 @@ public class Main {
     private static boolean ignorePrefs = false;
     private static String lafToUse = "Nimbus";
     private static boolean forceUpdate = false;
-    public static final String VERSION = "Universal Android Toolkit version: 1.0\n"
-            + "\tDesigned, Created and Compiled by Beatsleigher.\n"
-            + "\thttp://team-m4gkbeatz.eu";
     public static final String VERSION_NO = "1.0";
+    public static final String VERSION = "Universal Android Toolkit version: " + VERSION_NO + "\n"
+            + "Designed, Created and Compiled by Beatsleigher.\n"
+            + "http://team-m4gkbeatz.eu";
     static Logger logger = null;
     static Logger.Level level = null;
     static SettingsManager settings = null;
@@ -89,7 +89,12 @@ public class Main {
                     lafToUse = args[1]; break;
                 case ARG_FORCE_UPDATE:
                     forceUpdate = true; break;
-                case ARG_ANNOY: return;
+                case ARG_ANNOY: 
+                    System.out.println(":p NENENENENENE! I don't like you!");
+                    return;
+                case ARG_HELP:
+                    printHelp();
+                    return;
             }
         }
         try {
@@ -199,6 +204,19 @@ public class Main {
         }
         logger.log(Logger.Level.INFO, "A new update has been found! You will be notified when you have reached the control window.");
         return returnVal;
+    }
+    
+    private static void printHelp() {
+        String help = VERSION + "\n"
+                + "Usage:\n"
+                + "\t" + ARG_DEBUG + "\t\t makes UAT enter debug-mode\n"
+                + "\t" + ARG_VERSION + "\t prints UAT's version\n"
+                + "\t" + ARG_NO_SETTINGS + "\t overrides all UAT's preferences and forces the defaults to be used\n"
+                + "\t" + ARG_OVERRIDE_LAF + "\t override the set look and feel and goes to the default look and feel\n"
+                + "\t" + ARG_FORCE_UPDATE + "\t overrides any settings preventing automatic updates and forcibly installs any and all patches available\n"
+                + "\t" + ARG_HELP + "\t\t prints this message\n"
+                + "\t<empty/no args>\t starts Universal Android Toolkit using all user-specified options and settings.";
+        System.out.println(help);
     }
     
 }

@@ -96,7 +96,7 @@ public final class SettingsManager {
                 + "# Datatype: boolean\n"
                 + "pref::(data=boolean){\n"
                 + "\tpref::[name=refreshDevices, value=" + refreshDevices + "];\n"
-                + "\tpref::[name=checkForUpdatesOnStartup. value=" + checkForUpdatesOnStartup + "];\n"
+                + "\tpref::[name=checkForUpdatesOnStartup, value=" + checkForUpdatesOnStartup + "];\n"
                 + "\tpref::[name=autoUpdate, value=" + autoUpdate + "];\n"
                 + "\tpref::[name=sendLogs, value=" + sendLogs + "];\n"
                 + "\tpref::[name=showLog, value=" + showLog + "];\n"

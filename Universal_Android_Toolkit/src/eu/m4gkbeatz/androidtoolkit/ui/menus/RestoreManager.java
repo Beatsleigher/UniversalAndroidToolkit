@@ -33,6 +33,7 @@ import javax.swing.*;
 import java.awt.Component;
 import java.awt.event.*;
 import java.io.*;
+import java.util.*;
 
 public class RestoreManager extends javax.swing.JFrame {
     
@@ -42,6 +43,7 @@ public class RestoreManager extends javax.swing.JFrame {
     private final Device device;
     private final SettingsManager settings;
     private final boolean debug;
+    private String selectedBackup = null;
 
     public RestoreManager(Logger logger, ADBController adbController, SettingsManager settings, Device device, boolean debug, LangFileParser parser) {
         initComponents();
@@ -129,6 +131,11 @@ public class RestoreManager extends javax.swing.JFrame {
         jList1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jList1KeyPressed(evt);
+            }
+        });
+        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList1ValueChanged(evt);
             }
         });
         jScrollPane1.setViewportView(jList1);
@@ -234,9 +241,278 @@ public class RestoreManager extends javax.swing.JFrame {
             return;
         }
             
-        if (debug)
+        if (debug) {
             logger.log(Level.DEBUG, "Restoring files to device: " + device.toString() + ". Backup selected: " + jList1.getSelectedValue());
+            logger.log(Level.DEBUG, "Preparing threads...");
+        }
         
+        final Thread systemThread = new Thread() {
+            @Override
+            public void run() {
+                setName("restoreSystemThread");
+                if (debug)
+                    logger.log(Level.DEBUG, "Preparing system restore. Selected backup: " + selectedBackup);
+                
+                ProcessBuilder process = new ProcessBuilder();
+                Process pr = null;
+                BufferedReader prReader = null;
+                List<String> adbArgs = new ArrayList<>();
+                String line = null;
+                
+                adbArgs.add("-s");
+                adbArgs.add(device.toString());
+                adbArgs.add("push");
+                adbArgs.add("\"" + selectedBackup + "/system\""); // Wrap quotation marks around location, so that paths with spaces will also be pushed by ADB
+                adbArgs.add("/system/");
+                // Manually execute ADB process
+                process.command(adbArgs);
+                process.redirectErrorStream(true);
+                
+                try {
+                    adbController.rootServer();
+                    adbController.remountDevice(device);
+                    pr = process.start();
+                    prReader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+                    jProgressBar1.setIndeterminate(true);
+                    while ((line = prReader.readLine()) != null) {
+                        if (debug)
+                            logger.log(Level.DEBUG, "ADB Output: " + line);
+                    }
+                    prReader.close();
+                    pr.destroy();
+                } catch (IOException ex) {
+                    logger.log(Level.ERROR, "An error occurred while executing ADB process: " + ex.toString() + "\n"
+                            + "\tThe error stack trace will be printed to the console...");
+                    ex.printStackTrace(System.err);
+                }
+                jProgressBar1.setIndeterminate(false);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    logger.log(Level.ERROR, "An error occurred while sleeping!: " + ex.toString() + "\n"
+                            + "The error stack trace will be printed to the console...");
+                    ex.printStackTrace(System.err);
+                }
+                interrupt();
+            }
+        };
+        
+        final Thread storageThread = new Thread() {
+          @Override
+          public void run() {
+              setName("restoreStorageThread");
+              if (debug)
+                    logger.log(Level.DEBUG, "Preparing system restore. Selected backup: " + selectedBackup);
+                
+                ProcessBuilder process = new ProcessBuilder();
+                Process pr = null;
+                BufferedReader prReader = null;
+                List<String> adbArgs = new ArrayList<>();
+                String line = null;
+                logger.log(Level.INFO, "Preparing to restore internal storage card data...");
+                adbArgs.add("push");
+                adbArgs.add("\"" + selectedBackup + "/storage/internal\""); // Wrap quotation marks around location, so that paths with spaces will also be pushed by ADB
+                adbArgs.add("/mnt/sdcard/");
+                // Manually execute ADB process
+                process.command(adbArgs);
+                process.redirectErrorStream(true);
+                
+                try {
+                    pr = process.start();
+                    prReader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+                    jProgressBar1.setIndeterminate(true);
+                    while ((line = prReader.readLine()) != null) {
+                        if (debug)
+                            logger.log(Level.DEBUG, "ADB Output: " + line);
+                    }
+                    prReader.close();
+                    pr.destroy();
+                } catch (IOException ex) {
+                    logger.log(Level.ERROR, "An error occurred while executing ADB process: " + ex.toString() + "\n"
+                            + "\tThe error stack trace will be printed to the console...");
+                    ex.printStackTrace(System.err);
+                }
+                if (debug)
+                    logger.log(Level.DEBUG, "Preparing system restore. Selected backup: " + selectedBackup);
+                
+                process = new ProcessBuilder();
+                pr = null;
+                prReader = null;
+                adbArgs = new ArrayList<>();
+                line = null;
+                
+                adbArgs.add("-s");
+                adbArgs.add(device.toString());
+                adbArgs.add("push");
+                adbArgs.add("\"" + selectedBackup + "/storage/sd_card\""); // Wrap quotation marks around location, so that paths with spaces will also be pushed by ADB
+                adbArgs.add("/extSdCard");
+                // Manually execute ADB process
+                process.command(adbArgs);
+                process.redirectErrorStream(true);
+                
+                try {
+                    pr = process.start();
+                    prReader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+                    jProgressBar1.setIndeterminate(true);
+                    while ((line = prReader.readLine()) != null) {
+                        if (debug)
+                            logger.log(Level.DEBUG, "ADB Output: " + line);
+                    }
+                } catch (IOException ex) {
+                    logger.log(Level.ERROR, "An error occurred while executing ADB process: " + ex.toString() + "\n"
+                            + "\tThe error stack trace will be printed to the console...");
+                    ex.printStackTrace(System.err);
+                
+                }
+                
+                jProgressBar1.setIndeterminate(false);
+                
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    logger.log(Level.ERROR, "An error occurred while sleeping!: " + ex.toString() + "\n"
+                            + "The error stack trace will be printed to the console...");
+                    ex.printStackTrace(System.err);
+                }
+                interrupt();
+          }
+        };
+        
+        final Thread efsThread = new Thread() {
+            @Override
+            public void run() {
+                setName("restoreEFSThread");
+                if (debug)
+                    logger.log(Level.DEBUG, "Preparing system restore. Selected backup: " + selectedBackup);
+                
+                ProcessBuilder process = new ProcessBuilder();
+                Process pr = null;
+                BufferedReader prReader = null;
+                List<String> adbArgs = new ArrayList<>();
+                String line = null;
+                
+                adbArgs.add("-s");
+                adbArgs.add(device.toString());
+                adbArgs.add("push");
+                adbArgs.add("\"" + selectedBackup + "/efs\""); // Wrap quotation marks around location, so that paths with spaces will also be pushed by ADB
+                adbArgs.add("/efs/");
+                // Manually execute ADB process
+                process.command(adbArgs);
+                process.redirectErrorStream(true);
+                
+                try {
+                    adbController.rootServer();
+                    adbController.remountDevice(device);
+                    pr = process.start();
+                    prReader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+                    jProgressBar1.setIndeterminate(true);
+                    while ((line = prReader.readLine()) != null) {
+                        if (debug)
+                            logger.log(Level.DEBUG, "ADB Output: " + line);
+                    }
+                    prReader.close();
+                    pr.destroy();
+                } catch (IOException ex) {
+                    logger.log(Level.ERROR, "An error occurred while executing ADB process: " + ex.toString() + "\n"
+                            + "\tThe error stack trace will be printed to the console...");
+                    ex.printStackTrace(System.err);
+                }
+                jProgressBar1.setIndeterminate(false);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    logger.log(Level.ERROR, "An error occurred while sleeping!: " + ex.toString() + "\n"
+                            + "The error stack trace will be printed to the console...");
+                    ex.printStackTrace(System.err);
+                }
+                interrupt();
+            }
+        };
+        
+        final Thread appsThread = new Thread() {
+          @Override
+          public void run() {
+              setName("restoreAppsThread");
+              if (debug)
+                    logger.log(Level.DEBUG, "Preparing system restore. Selected backup: " + selectedBackup);
+                
+                ProcessBuilder process = new ProcessBuilder();
+                Process pr = null;
+                BufferedReader prReader = null;
+                List<String> adbArgs = new ArrayList<>();
+                String line = null;
+                
+                adbArgs.add("-s");
+                adbArgs.add(device.toString());
+                adbArgs.add("push");
+                adbArgs.add("\"" + selectedBackup + "/data\""); // Wrap quotation marks around location, so that paths with spaces will also be pushed by ADB
+                adbArgs.add("/data/");
+                // Manually execute ADB process
+                process.command(adbArgs);
+                process.redirectErrorStream(true);
+                
+                try {
+                    adbController.rootServer();
+                    adbController.remountDevice(device);
+                    pr = process.start();
+                    prReader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+                    jProgressBar1.setIndeterminate(true);
+                    while ((line = prReader.readLine()) != null) {
+                        if (debug)
+                            logger.log(Level.DEBUG, "ADB Output: " + line);
+                    }
+                    prReader.close();
+                    pr.destroy();
+                } catch (IOException ex) {
+                    logger.log(Level.ERROR, "An error occurred while executing ADB process: " + ex.toString() + "\n"
+                            + "\tThe error stack trace will be printed to the console...");
+                    ex.printStackTrace(System.err);
+                }
+                jProgressBar1.setIndeterminate(false);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    logger.log(Level.ERROR, "An error occurred while sleeping!: " + ex.toString() + "\n"
+                            + "The error stack trace will be printed to the console...");
+                    ex.printStackTrace(System.err);
+                }
+                interrupt();
+          }
+        };
+        
+        if (restoreSystemButton.isSelected()) {
+            logger.log(Level.INFO, "Restoring system backup...");
+            new Thread() {
+                @Override
+                public void run() {
+                    if (restoreSystemButton.isSelected()) {
+                        systemThread.start();
+                        while (systemThread.isAlive()) {} // Wait
+                        systemThread.interrupt();
+                    }
+                    
+                    if (restoreStorageButton.isSelected()) {
+                        storageThread.start();
+                        while (storageThread.isAlive()) {} // Wait
+                        storageThread.interrupt();
+                    }
+                    
+                    if (restoreEFSButton.isSelected()) {
+                        efsThread.start();
+                        while (efsThread.isAlive()) {} // Wait
+                        efsThread.interrupt();
+                    }
+                    
+                    if (restoreAppsButton.isSelected()) {
+                        appsThread.start();
+                        while (appsThread.isAlive()) {} // Wait
+                        appsThread.interrupt();
+                    }
+                    
+                    interrupt();                    
+                }
+            }.start();
+        }
     }//GEN-LAST:event_restoreDeviceButtonActionPerformed
 
     private void jList1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jList1KeyPressed
@@ -250,12 +526,44 @@ public class RestoreManager extends javax.swing.JFrame {
     private void bootToRecoveryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bootToRecoveryButtonActionPerformed
         try {
             device.reboot(DeviceState.RECOVERY);
+            adbController.executeADBCommand(false, false, device, new String[]{"wait-for-device"});
         } catch (IOException | InvalidModeException ex) {
             logger.log(Level.ERROR, "An error occurred while rebooting the device (" + device.toString() + "): " + ex.toString() + "\n"
                     + "The error stack trace will be printed to the console...");
             ex.printStackTrace(System.err);
         }
     }//GEN-LAST:event_bootToRecoveryButtonActionPerformed
+
+    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
+        if (jList1.getSelectedValue() == null)
+            return;
+        
+        if (debug)
+            logger.log(Level.DEBUG, "New backup selected: " + jList1.getSelectedValue());
+        
+        selectedBackup = System.getProperty("user.home") + "/.androidtoolkit/backups/" + jList1.getSelectedValue();
+        
+        if (!(new File(selectedBackup + "/system").exists() && new File(selectedBackup + "/system").list().length == 0)) {
+            restoreSystemButton.setEnabled(false);
+            restoreSystemButton.setSelected(false);
+        }
+        
+        if (!(new File(selectedBackup + "/storage").exists() && new File(selectedBackup + "/storage").list().length == 0)) {
+            restoreStorageButton.setEnabled(false);
+            restoreStorageButton.setSelected(false);
+        }
+        
+        if (!(new File(selectedBackup + "/efs").exists() && new File(selectedBackup + "/efs").list().length == 0)) {
+            restoreEFSButton.setEnabled(false);
+            restoreEFSButton.setSelected(false);
+        }
+        
+        if (!(new File(selectedBackup + "/data").exists() && new File(selectedBackup + "/data").list().length == 0)) {
+            restoreAppsButton.setEnabled(false);
+            restoreAppsButton.setSelected(false);
+        }
+            
+    }//GEN-LAST:event_jList1ValueChanged
     
     private class BackupCellRenderer extends DefaultListCellRenderer {
 
