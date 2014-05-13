@@ -78,23 +78,25 @@ public class Main {
         for (String str : args)
             System.out.println("Found argument: " + str);
         if (args.length != 0) {
-            switch (args[0].toLowerCase()) {
-                case ARG_DEBUG:
-                    debug = true; break;
-                case ARG_VERSION:
-                    System.err.println(VERSION); return;
-                case ARG_NO_SETTINGS:
-                    ignorePrefs = true; break;
-                case ARG_OVERRIDE_LAF:
-                    lafToUse = args[1]; break;
-                case ARG_FORCE_UPDATE:
-                    forceUpdate = true; break;
-                case ARG_ANNOY: 
-                    System.out.println(":p NENENENENENE! I don't like you!");
-                    return;
-                case ARG_HELP:
-                    printHelp();
-                    return;
+            for (String str : args) {
+                switch (str.toLowerCase()) {
+                    case ARG_DEBUG:
+                        debug = true; break;
+                    case ARG_VERSION:
+                        System.err.println(VERSION); return;
+                    case ARG_NO_SETTINGS:
+                        ignorePrefs = true; break;
+                    case ARG_OVERRIDE_LAF:
+                        lafToUse = args[1]; break;
+                    case ARG_FORCE_UPDATE:
+                        forceUpdate = true; break;
+                    case ARG_ANNOY: 
+                        System.out.println(":p NENENENENENE! I don't like you!");
+                        return;
+                    case ARG_HELP:
+                        printHelp();
+                        return;
+                }
             }
         }
         try {
