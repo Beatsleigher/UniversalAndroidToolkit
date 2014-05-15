@@ -214,7 +214,7 @@
 	  
  # ========== Connection Manager ========== #
           
-          connectionManager:title=Device Connection Manager
-          connectionManager:ip1=Enter the IP-address of the device you wish to connect to:
-          connectionManager:port=Now enter the device's port (leave blank if unknown/default):
-          connectionManager:ip2=Enter the IP of the device you'd like to disconnect:
+          connectionManager:title=Administrador de Conexión del Dispositivo
+          connectionManager:ip1=Ingrese la dirección IP del dispositivo al que quiere conectarse:
+          connectionManager:port=Ahora ingrese el puerto (déjelo en blanco si no lo sabe o quiere usar el puerto por defecto):
+          connectionManager:ip2=Ingrese la dirección IP del dispositivo del que se va a desconectar:
