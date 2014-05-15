@@ -48,19 +48,28 @@ public class UAT extends javax.swing.JFrame {
     private boolean debug;
     private boolean getLogcat = true;
     private boolean getDMESG = true;
-    //========== Class instances ==========
-    private Logger logger;
-    private Logger.Level level;
-    private SettingsManager settings;
-    private ADBController adbController;
-    private Devices deviceManager = null;
-    private LangFileParser parser = null;
     private boolean ALREADY_ACTIVATED = false;
     private boolean SHOW_LANG_MSG = false;
-    
+    //========== Class instances ==========
+    private final Logger logger;
+    private final Logger.Level level;
+    private final SettingsManager settings;
+    private final ADBController adbController;
+    private final Devices deviceManager;
+    private LangFileParser parser = null;
     public Device selectedDevice = null;
+    Thread gcThread;
 
-    public UAT(boolean debug, Logger logger, Level lvl, SettingsManager settings, ADBController adbController) {
+    public UAT(final boolean debug, final Logger logger, final Level lvl, final SettingsManager settings, final ADBController adbController) {
+        this.gcThread = new Thread() {
+            @Override
+            public void run() {
+                while (true) {
+                    System.gc();
+                    for (int i = 0; i < settings.getGCInterval(); i++) {} // Occupy thread for set amount of time
+                }
+            }
+        };
         try {
             parser = new LangFileParser();
             parser.parse(settings.getLanguage(), logger, debug);
@@ -1583,15 +1592,19 @@ public class UAT extends javax.swing.JFrame {
     }//GEN-LAST:event_restoreDevice_androidButtonActionPerformed
 
     private void exploreRoot_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exploreRoot_androidButtonActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, parser.parse("comingSoon"), parser.parse("comingSoon"), JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_exploreRoot_androidButtonActionPerformed
 
     private void connectDevice_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectDevice_androidButtonActionPerformed
-        // TODO add your handling code here:
+        final ConnectionManager manager = new ConnectionManager(parser, debug, adbController, logger);
+        manager.setTab(0);
+        manager.setVisible(true);
     }//GEN-LAST:event_connectDevice_androidButtonActionPerformed
 
     private void disconnectDevice_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectDevice_androidButtonActionPerformed
-        // TODO add your handling code here:
+        final ConnectionManager manager = new ConnectionManager(parser, debug, adbController, logger);
+        manager.setTab(1);
+        manager.setVisible(true);
     }//GEN-LAST:event_disconnectDevice_androidButtonActionPerformed
 
     private void more_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_more_androidButtonActionPerformed

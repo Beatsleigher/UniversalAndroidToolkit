@@ -130,6 +130,7 @@
 	  langChangedMsgTitle=Please restart Universal Android Toolkit!
 	  showRestoreManagerMsg=Please reboot your device into a custom recovery mode (e.g.: CWM, TWRP) before continuing, as this process can severely damage your device!
 	  showRestoreManagerMsgTitle=Reboot your device to recovery!
+          comingSoon=Coming Soon!
 	  
  # ========== Devices Menu ========== #
 	  
@@ -208,4 +209,11 @@
 	  restoreManager:deviceNotInRecoveryModeMsg=Your device is not in RECOVERY! Please reboot your device into RECOVERY mode before attempting a restore!
 	  restoreManager:deviceNotInRecoveryModeMsgTitle=Device Not in RECOVERY!
 	  restoreManager:bootToRecoveryButton=Boot to Recovery...
+
+ # ========== Connection Manager ========== #
+          
+          connectionManager:title=Device Connection Manager
+          connectionManager:ip1=Enter the IP-address of the device you wish to connect to:
+          connectionManager:port=Now enter the device's port (leave blank if unknown/default):
+          connectionManager:ip2=Enter the IP of the device you'd like to disconnect:
 	  

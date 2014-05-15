@@ -131,6 +131,7 @@
 	  langChangedMsgTitle=Por favor reinicie Universal Android Toolkit!
 	  showRestoreManagerMsg=Por favor, reinicie su dispositivo en modo recovery (sólo custom recovery, como CWM, TWRP, etc.) antes de continuar. Este proceso pude dañar severamente su aparato, de otro modo.
 	  showRestoreManagerMsgTitle=Reinicie su dispositivo en modo recovery!
+          comingSoon = Próximamente!
       
  # Needs translating! :)
  # ========== Devices Menu ========== #
@@ -211,3 +212,9 @@
 	  restoreManager:deviceNotInRecoveryModeMsgTitle=El dispositivo no se encuentra en modo RECOVERY!
 	  restoreManager:bootToRecoveryButton=Reiniciando en modo Recovery...
 	  
+ # ========== Connection Manager ========== #
+          
+          connectionManager:title=Device Connection Manager
+          connectionManager:ip1=Enter the IP-address of the device you wish to connect to:
+          connectionManager:port=Now enter the device's port (leave blank if unknown/default):
+          connectionManager:ip2=Enter the IP of the device you'd like to disconnect:

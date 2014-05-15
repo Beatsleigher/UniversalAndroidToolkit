@@ -106,6 +106,8 @@ public final class SettingsManager {
                 + "# Datatype: int\n"
                 + "pref::(data=int){\n"
                 + "\tpref::[name=deviceRefreshInterval, value=" + deviceRefreshInterval + "];\n"
+                + "\t# DON'T TOUCH THIS UNLESS YOU KNOW WHAT YOU'RE DOING!\n"
+                + "\tpref::[name=gcInterval, value=" + gcInterval + "];\n"
                 + "}\n\n"
                 //
                 + "# Preference block 03.\n"
@@ -140,6 +142,7 @@ public final class SettingsManager {
     private static boolean sendLogs = true;
     private static Language language = Language.en_gb;
     private static boolean showLog = true;
+    private static int gcInterval = 60000;
     /*Misc. Vars*/
     private boolean debug = false;
     private File prefsFile = null;
@@ -229,6 +232,12 @@ public final class SettingsManager {
                         if (debug)
                             logger.log(level.DEBUG, "Found pref: deviceRefreshInterval == " + arr[0]);
                     }
+                    if (line.contains("name=gcInterval") && line.endsWith(";")) {
+                        String[] arr = line.split("value="); arr = arr[1].split("]");
+                        gcInterval = Integer.valueOf(arr[0]);
+                        if (debug)
+                            logger.log(level.DEBUG, "Found pref: gcInterval == " + arr[0]);
+                    }
                     line = reader.readLine();
                     
                 } while (!line.equals("}"));
@@ -294,6 +303,8 @@ public final class SettingsManager {
     
     public Language getLanguage() { return language; }
     
+    public int getGCInterval() { return gcInterval; }
+    
     //# =============== Setter Methods =============== #\\
     public void setRefreshDevices(boolean val) { refreshDevices = val; }
     
@@ -310,5 +321,7 @@ public final class SettingsManager {
     public void setLookAndFeel(String val) { lookAndFeel = val; }
     
     public void setLanguage(String lang) { language = Language.valueOf(lang); }
+    
+    public void setGCInterval(int int_) { gcInterval = int_; }
     
 }
