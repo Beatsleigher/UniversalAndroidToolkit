@@ -98,7 +98,9 @@ public class Main {
                         return;
                 }
             }
+            System.out.println("==================== Application Output Following ====================");
         }
+        
         try {
             logger = new Logger(debug);
         } catch (IOException ex) {

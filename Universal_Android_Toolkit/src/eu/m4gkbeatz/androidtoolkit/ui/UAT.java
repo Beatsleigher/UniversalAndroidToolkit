@@ -65,11 +65,22 @@ public class UAT extends javax.swing.JFrame {
             @Override
             public void run() {
                 while (true) {
+                    if (debug)
+                        logger.log(Level.DEBUG, "Running garbage collector...");
                     System.gc();
-                    for (int i = 0; i < settings.getGCInterval(); i++) {} // Occupy thread for set amount of time
+                    try {
+                        Thread.sleep(settings.getGCInterval());
+                    } catch (InterruptedException ex) {
+                        logger.log(Level.ERROR, "An error occurred while sleeping in the GC-Thread: " + ex.toString() + "\n"
+                                + "The error stack trace will be printed to the console...");
+                        ex.printStackTrace(System.err);
+                    }
                 }
             }
         };
+        this.gcThread.setName("GC-Thread");
+        this.gcThread.setPriority(Thread.MAX_PRIORITY);
+        
         try {
             parser = new LangFileParser();
             parser.parse(settings.getLanguage(), logger, debug);
@@ -507,7 +518,7 @@ public class UAT extends javax.swing.JFrame {
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
         );
 
         jTabbedPane2.addTab("Logcat", null, jPanel9, "CTRL+S = Save Log...\nCTRL+C = Clear Log...\nCTRL+S = Start/Stop Logging\n");
@@ -524,7 +535,7 @@ public class UAT extends javax.swing.JFrame {
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
         );
 
         jTabbedPane2.addTab("DMESG", null, jPanel10, "CTRL+S = Save Log...\nCTRL+C = Clear Log...\nCTRL+S = Start/Stop Logging\n");
@@ -611,7 +622,7 @@ public class UAT extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addComponent(more_androidButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane2)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -811,7 +822,7 @@ public class UAT extends javax.swing.JFrame {
                         .addComponent(bootPanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(flashingPanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lockStatePanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addContainerGap(141, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab(parser.parse("fastbootTab"), fastbootTab);
@@ -1382,7 +1393,7 @@ public class UAT extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(changelog_updatesLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(updatesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(downloadJar_updatesButton)
@@ -1430,7 +1441,7 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 77, Short.MAX_VALUE)
+                        .addGap(0, 79, Short.MAX_VALUE)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1532,7 +1543,7 @@ public class UAT extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -1551,6 +1562,9 @@ public class UAT extends javax.swing.JFrame {
                 getLogcat(selectedDevice);
                 getDMESG(selectedDevice);
             }
+            if (debug)
+                logger.log(Level.DEBUG, "Starting thread: " + gcThread.getName());
+            gcThread.start();
             
             ALREADY_ACTIVATED = true;
         }
@@ -1613,19 +1627,27 @@ public class UAT extends javax.swing.JFrame {
 
     //# =============== Fastboot Tab Events =============== #\\
     private void formatPartition_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formatPartition_fastbootButtonActionPerformed
-        // TODO add your handling code here:
+        PartitionManager pManager = new PartitionManager(adbController, debug, logger, parser, deviceManager.getSelectedFastbootDevice(), false);
+        pManager.setTab(0);
+        pManager.setVisible(true);
     }//GEN-LAST:event_formatPartition_fastbootButtonActionPerformed
 
     private void erasePartition_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_erasePartition_fastbootButtonActionPerformed
-        // TODO add your handling code here:
+        PartitionManager pManager = new PartitionManager(adbController, debug, logger, parser, deviceManager.getSelectedFastbootDevice(), false);
+        pManager.setTab(1);
+        pManager.setVisible(true);
     }//GEN-LAST:event_erasePartition_fastbootButtonActionPerformed
 
     private void flashPartition_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_flashPartition_fastbootButtonActionPerformed
-        // TODO add your handling code here:
+        PartitionManager pManager = new PartitionManager(adbController, debug, logger, parser, deviceManager.getSelectedFastbootDevice(), false);
+        pManager.setTab(2);
+        pManager.setVisible(true);
     }//GEN-LAST:event_flashPartition_fastbootButtonActionPerformed
 
     private void cleanFlashPartition_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cleanFlashPartition_fastbootButtonActionPerformed
-        // TODO add your handling code here:
+        PartitionManager pManager = new PartitionManager(adbController, debug, logger, parser, deviceManager.getSelectedFastbootDevice(), false);
+        pManager.setTab(2);
+        pManager.setVisible(true);
     }//GEN-LAST:event_cleanFlashPartition_fastbootButtonActionPerformed
 
     private void bootKernel_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bootKernel_fastbootButtonActionPerformed

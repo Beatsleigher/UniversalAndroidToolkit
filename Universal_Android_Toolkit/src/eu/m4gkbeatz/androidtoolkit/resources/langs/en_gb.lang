@@ -217,3 +217,20 @@
           connectionManager:port=Now enter the device's port (leave blank if unknown/default):
           connectionManager:ip2=Enter the IP of the device you'd like to disconnect:
 	  
+ # ========== Partition Manager ========== #
+
+          partitionManager:title=Device Partition Manager
+          partitionManager:formatPartitionTab=Format Partition
+          partitionManager:warningLabel=Please note: This might render your device useless. Proceed with caution!
+          partitionManager:selectPartitionLabel=Select one or more partitions to format from below:
+          partitionManager:formatPartitionsButton=Format Partition(s)...
+          partitionManager:erasePartitionTab=Erase Partition
+          partitionManager:selectPartitionLabel2=Select one or more partitions to erase below:
+          partitionManager:erasePartitionsButton=Erase Partition(s)...
+          partitionManager:flashPartitionTab=Flash Partition
+          partitionManager:flashPartitionButton=Flash Partition...
+          partitionManager:imgFilter=Linux System Images (*.img)
+          partitionManager:imgChooserTitle=Select a Linux System Image to Flash to Your Device...
+          partitionManager:imgChooserApproveButton=Flash this Image
+          partitionManager:customPartitionMsg=Please enter the custom partition you'd like to flash to...
+          partitionManager:customPartitionMsgTitle=Enter the new Partition...

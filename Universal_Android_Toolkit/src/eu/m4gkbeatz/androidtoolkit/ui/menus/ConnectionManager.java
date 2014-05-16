@@ -223,7 +223,7 @@ public class ConnectionManager extends javax.swing.JFrame {
             } else {
                 args.add(jFormattedTextField1.getText());
             }
-            adbController.executeADBCommand(false, false, "", (String[]) args.toArray());
+            logger.log(Level.INFO, "ADB Output: " + adbController.executeADBCommand(false, false, "", (String[]) args.toArray()));
         } catch (IOException ex) {
             logger.log(Level.ERROR, "An error occurred while trying to disconnect from the device: " +  ex.toString() + "\n"
                     + "The error stack trace will be printed to the console...");
@@ -240,7 +240,7 @@ public class ConnectionManager extends javax.swing.JFrame {
             } else {
                 args.add(jFormattedTextField1.getText());
             }
-            adbController.executeADBCommand(false, false, "", (String[]) args.toArray());
+            logger.log(Level.INFO, "ADB Output: " + adbController.executeADBCommand(false, false, "", (String[]) args.toArray()));
         } catch (IOException ex) {
             logger.log(Level.ERROR, "An error occurred while trying to connect to the device: " +  ex.toString() + "\n"
                     + "The error stack trace will be printed to the console...");

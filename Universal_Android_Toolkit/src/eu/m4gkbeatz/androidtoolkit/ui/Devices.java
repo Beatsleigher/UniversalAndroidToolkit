@@ -112,6 +112,7 @@ public final class Devices extends javax.swing.JFrame {
             }
         });
 
+        jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jList1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 form_keyPressed(evt);
@@ -157,6 +158,7 @@ public final class Devices extends javax.swing.JFrame {
 
         jButton1.setText(parser.parse("deviceMenu:refreshButton"));
 
+        jList2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(jList2);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -241,6 +243,13 @@ public final class Devices extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    public String getSelectedFastbootDevice() {
+        if (jList2.getSelectedValue() != null)
+            return (String) jList2.getSelectedValue();
+        else
+            return null;
+    }
+    
     private void reloadTimer() {
         new Thread() {
             @Override

@@ -218,3 +218,11 @@
           connectionManager:ip1=Ingrese la dirección IP del dispositivo al que quiere conectarse:
           connectionManager:port=Ahora ingrese el puerto (déjelo en blanco si no lo sabe o quiere usar el puerto por defecto):
           connectionManager:ip2=Ingrese la dirección IP del dispositivo del que se va a desconectar:
+	  
+ # ========== Partition Manager ========== #
+
+          partitionManager:title=Device Partition Manager
+          partitionManager:formatPartitionTab=Format Partition
+          partitionManager:warningLabel=Please note: This might render your device useless. Proceed with caution!
+          partitionManager:selectPartitionLabel=Select one or more partitions to format from below:
+          partitionManager:formatPartitionsButton=Format Partition(s)...
