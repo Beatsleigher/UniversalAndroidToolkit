@@ -221,6 +221,7 @@
 	  
  # ========== Partition Manager ========== #
 
+<<<<<<< HEAD
           partitionManager:title=Device Partition Manager
           partitionManager:formatPartitionTab=Format Partition
           partitionManager:warningLabel=Please note: This might render your device useless. Proceed with caution!
@@ -241,3 +242,20 @@
 
           bootKernel:title=Select an image to boot from...
           bootKernel:approveButton=Boot this Image
+=======
+          partitionManager:title=Administrador de Particiones del Dispositivo
+          partitionManager:formatPartitionTab=Formatear Partición
+          partitionManager:warningLabel=Aviso: esto podría dejar su dispositivo inusable. Proceda con precaución!
+          partitionManager:selectPartitionLabel=Elija una o más particiones para formatear:
+          partitionManager:formatPartitionsButton=Formatear Partición(es)...
+          partitionManager:erasePartitionTab=Eliminar Partición
+          partitionManager:selectPartitionLabel2=Elija una o más particiones para eliminar:
+          partitionManager:erasePartitionsButton=Eliminar Partición(es)...
+          partitionManager:flashPartitionTab=Flashear Partición
+          partitionManager:flashPartitionButton=Flashear Partición...
+          partitionManager:imgFilter=Imágenes de Sistema de Linux (*.img)
+          partitionManager:imgChooserTitle=Elija una Imágen de Sistema de Linux para Flashear en su Dispositivo...
+          partitionManager:imgChooserApproveButton=Flashear ésta imágen
+          partitionManager:customPartitionMsg=Por favor ingrese la partición en la que quiere flashear la imágen...
+          partitionManager:customPartitionMsgTitle=Ingrese la nueva Partición...
+>>>>>>> origin/master
