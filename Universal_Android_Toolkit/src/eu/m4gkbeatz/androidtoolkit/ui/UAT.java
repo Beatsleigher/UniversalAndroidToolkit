@@ -1622,7 +1622,7 @@ public class UAT extends javax.swing.JFrame {
     }//GEN-LAST:event_disconnectDevice_androidButtonActionPerformed
 
     private void more_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_more_androidButtonActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, parser.parse("comingSoon"), parser.parse("comingSoon"), JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_more_androidButtonActionPerformed
 
     //# =============== Fastboot Tab Events =============== #\\
@@ -1651,11 +1651,38 @@ public class UAT extends javax.swing.JFrame {
     }//GEN-LAST:event_cleanFlashPartition_fastbootButtonActionPerformed
 
     private void bootKernel_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bootKernel_fastbootButtonActionPerformed
-        // TODO add your handling code here:
+        JFileChooser imgChooser = new JFileChooser();
+        imgChooser.setDialogTitle(parser.parse("bootKernel:title"));
+        imgChooser.setApproveButtonText(parser.parse("bootKernel:approveButton"));
+        imgChooser.setFileFilter(new IMGFilter());
+        imgChooser.setMultiSelectionEnabled(false);
+        imgChooser.setDialogType(JFileChooser.FILES_ONLY);
+        int result = imgChooser.showOpenDialog(null);
+        if (result == JOptionPane.OK_OPTION)
+            try {
+                logger.log(Level.INFO, "Fastboot output: " + adbController.getFastbootController().executeFastbootCommand(deviceManager.getSelectedFastbootDevice(), new String[]{"boot", imgChooser.getSelectedFile().getAbsolutePath()}));
+            } catch (IOException ex) {
+                logger.log(Level.ERROR, "An error has occurred while attempting to boot from the image " + imgChooser.getSelectedFile() + ": " + ex.toString() + "\n"
+                        + "The error stack trace will be printed to the console...");
+                ex.printStackTrace(System.err);
+            }
     }//GEN-LAST:event_bootKernel_fastbootButtonActionPerformed
 
     private void unlockBootloader_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unlockBootloader_fastbootButtonActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, parser.parse("unlockBootldr:msg"), parser.parse("unllockBootldr:msgTitle"), JOptionPane.INFORMATION_MESSAGE);
+        String serial = deviceManager.getSelectedFastbootDevice();
+        if (serial == null || serial.equals("")) {
+            logger.log(Level.ERROR, "No device was found! Please connect and select an Android device booted into Fastboot-mode!");
+            return;
+        }
+        
+        try {
+            adbController.getFastbootController().executeFastbootCommand(serial, new String[]{"oem-unlock"});
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while attempting to unlock " + serial + ":" + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
     }//GEN-LAST:event_unlockBootloader_fastbootButtonActionPerformed
 
     private void relockBootloader_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relockBootloader_fastbootButtonActionPerformed
@@ -2041,4 +2068,18 @@ public class UAT extends javax.swing.JFrame {
 //</editor-fold>
     
     //# =============== Custom Classes =============== #\\
+    
+    private class IMGFilter extends javax.swing.filechooser.FileFilter {
+
+        @Override
+        public boolean accept(File f) {
+            return f.isDirectory() || f.getAbsolutePath().toLowerCase().endsWith(".img");
+        }
+
+        @Override
+        public String getDescription() {
+            return parser.parse("partitionManager:imgFilter");
+        }
+            
+    }
 }

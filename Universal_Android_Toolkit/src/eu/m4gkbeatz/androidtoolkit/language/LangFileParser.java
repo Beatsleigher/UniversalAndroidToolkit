@@ -57,14 +57,18 @@ public class LangFileParser {
                     if (line.trim().startsWith("#")) continue;
                     if (line.contains(item)) {
                         String[] arr = line.split("=");
-                        return arr[1];
+                        String toReturn = "";
+                        arr = arr[1].split("\\n");
+                        for (String str : arr)
+                            toReturn += str + "\n";
+                        return toReturn;
                     }
                 }
             } catch (IOException ex) {
                 logger.log(Level.ERROR, "An Error occurred while loading the translation for " + item + ": " + ex.toString());
                 ex.printStackTrace(System.err);
             }
-            return "n/a (507)";
+            return item + "n/a (507)";
         }
         
     }

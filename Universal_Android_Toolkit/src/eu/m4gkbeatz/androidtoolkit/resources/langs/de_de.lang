@@ -1,0 +1,247 @@
+ # English (Great Britain), default language for Universal Android Toolkit
+ # Note: To add a new line to a translation, add »\n« to the location of the new line and continue on that same line.
+ 
+ # ========== Buttons and Labels ========== #
+ 
+ # Android tab
+	  installButton=Installieren
+	  uninstallButton=Deinstallieren
+	  fileManagerButton=Datei-Manager
+	  backupButton=Sichern
+	  restoreButton=Wiederherstellen
+	  exploreRootButton=Erkunden!
+	  connectButton=Verbinden...
+	  disconnectButton=Verbindung Trennen...
+	  moreButton=Mehr...
+ # Fastboot tab
+	  formatPartitionButton=Partition Formattieren
+	  erasePartitionButton=Partition Reinigen
+	  flashPartitionButton=Partition Flashen
+	  cleanFlashPartitionButton=Partition Sauber-Flashen
+	  bootKernelButton=Kernel Hochfahren
+	  unlockBootloaderButton=Bootloader Entsperren
+	  relockBootloaderButton=Bootloader Sperren
+	  updateDeviceButton=Gerät Updaten
+ # Battery tab
+	  batteryLevelLabel=Akkustand:
+	  batteryHealthLabel=Akku-Gesundheit:
+	  isInsertedLabel=Ist Vorhanden:
+	  isPoweredByLabel=Angeschlossen an:
+	  batteryStatusLabel=Akku Status:
+	  batteryScaleLabel=Akku Scala:
+	  batteryVoltageLabel=Akku Spannung:
+	  batteryCurrentLabel=Akku Stärke:
+	  batteryTempLabel=Akku Temperatur:
+	  batteryTechLabel=Akku Technologie:
+ # Root tab
+	  superUserLabel=Super User:
+	  suVersionLabel=SU Version:
+	  busyboxLabel=Busybox:
+	  busyboxVersionLabel=Busybox Version:
+	  cpuUsageLabel=CPU Verbrauch:
+ # Build Prop tab
+	  reloadButton=Neu Laden...
+	  saveAsButton=Speichern Als...
+	  saveToDeviceButton=Zum Gerät Speichern
+ # File Manager tab
+	      # Nothing here, just yet.
+ # Preference tab
+	  refreshButton=Neu Laden
+	  intervalLabel=Interval:
+	  secondsLabel=sek.
+	  checkForUpdatesButton=Überprüfen...
+	  autoUpdateButton=Auto-Update
+	  sendLogsButton=Logs Senden
+	  showLogButton=Log Anzeigen
+          saveButton=Speichern...
+ # Update tab
+	  updateStatus_nonFound=Keine Updates Gefunden...
+	  updateStatus_found=Ein Update ist Verfügbar!
+	  changelogLabel=Changes:
+	  downloadJarButton=Jar Datei(n) Herunterladen...
+	  downloadRPMButton=Installer (.RPM) Herunterladen
+	  downloadDEBButton=Installer (.DEB) Herunterladen
+	  downloadEXEButton=Bin (.EXE) Herunterladen
+
+ # ========== Menus ========== #
+ # ADB menu
+	  startServerItem=Server Starten
+	  stopServerItem=Server Stoppen
+	  restartServerItem=Server Neu Starten
+	  connectDeviceItem=Mit Gerät Verbinden...
+	  rebootItem=Neu Starten...
+	  toAndroidItem=zu Android
+	  toFastbootItem=zu Fastboot
+	  toRecoveryItem=zu Recovery
+# Fastboot menu
+	  rebootItem=Neu Starten...
+	  toAndroidItem=zu Android
+	  toFastbootItem=zu Fastboot
+# UAT menu
+	  checkForUpdatesItem=Nach Updates Überprüfen...
+	  installADBItem=ADB zum Benutzerdefinierten Speicherort Installieren...
+	  aboutItem=Über
+	  exitItem=UAT Beenden.
+
+ # ========== Tabs ========== #
+	  
+          androidTab=Android
+          fastbootTab=Fastboot
+          deviceTab=Device
+          toolkitTab=Toolkit
+          logcatTab=Logcat
+          dmesgTab=DMESG
+          batteryTab=Akku
+          rootTab=Root und CPU
+          buildPropTab=Build Prop Manager
+          fileManagerTab=Datei-Manager
+          settingsTab=Einstellungen
+          updatesTab=Updates
+          aboutTab=Über
+
+ # ========== Panels ========== #
+ # Android tab
+	  applicationsPanel=Anwendungen
+	  filesPanel=Datei
+	  backupsPanel=Sicherungen
+	  rootingPanel=Rooten
+	  adbTCPPanel=ADB via TCP
+ # Fastboot tab
+	  formattingPanel=Formattieren
+	  flashingPanel=Flashen
+	  bootPanel=Booten
+	  lockStatePanel=Boot-Loader
+	  updatePanel=Update
+ # Settings tab
+	  devicesPanel=Geräte
+	  updatesPanel=Updates
+	  logsPanel=Logs
+	  themePanel=Aussehen
+	  languagePanel=Sprache
+
+ # ========== Toolbar ========== #  
+	  
+          showDevicesButton=Geräte Anzeigen
+
+ # ========== Other and Messages ========== #
+          
+	  # Note: Please leave a space after the welcome message below...
+	  title=Universal Android Toolkit | Willkommen, 
+	  langChangedMsg=Achtung: Ein Neustart vom Universal Android Toolkit is erforderlich, damit die Einstellungen alle sichtbar werden!
+	  langChangedMsgTitle=Universal Android Toolkit bitte Neu Starten!
+	  showRestoreManagerMsg=Starten Sie Ihr Gerät bitte in den Recovery-Modus (CWM, TWRP, etc.) neu!
+	  showRestoreManagerMsgTitle=Gerät Neu Starten!
+          comingSoon=Kommt Bald!
+	  
+ # ========== Devices Menu ========== #
+	  
+	  deviceMenu:title=Geräte Manager
+	  deviceMenu:refreshButton=Neu Laden (F5)
+	  deviceMenu:adbTab=via ADB
+	  deviceMenu:fastbootTab=via Fastboot
+	  
+ # ========== Install Application Menu ========== #
+	  
+	  installApp:title=Anwendungs-Installierer
+	  installApp:installButton=Anwendung Installieren...
+	  installApp:apkDescription=Android-Anwendungspackete
+	  installApp:chooserTitle=Wählen Sie ein Anwendungspacket (*.apk) zum Installieren...
+	  installApp:chooserAcceptButton=Diese Anwendung Installieren...
+	  installApp:optionsLabel=Optionen:
+	  # App installation options: (Obsolete, no translation required)
+	  installApp:forwardLockCheckBox=Forward Lock
+	  installApp:forwardLockToolTip=Prevent application sharing
+	  installApp:reinstallCheckBox=Reinstall
+	  installApp:reinstallToolTip=Reinstall the application, keeping the old application's data.
+	  installApp:allowTestAPKsCheckBox=Allow Test.apks
+	  installApp:allowTestAPKsTooltip=Allow test.apk-applications to be installed to the device. (Developers only)
+	  installApp:installLocation1CheckBox=Install to Internal Flash
+	  installApp:installLocation1ToolTip=Installs the application to the device's internal flash memory.
+	  installApp:installLocation2CheckBox=Install to SD Card
+	  installApp:installLocation2ToolTip=Installs the application to the device's external memory (SD Card) if inserted.
+	  installApp:allowDowngradeCheckBox=Allow Downgrade
+	  installApp:allowDowngradeToolTip=If the to-be-installed application is a lower version than the already present version, the newer version will be replaced.
+	  
+ # ========== Uninstall Application Menu ========== #
+ 
+	  uninstallApp:title=AAnwendungs-Entferner
+	  uninstallApp:selectAppLabel=Wählen Sie eine Anwendung aus...
+	  uninstallApp:removeAppButton=App Löschen...
+	  uninstallApp:confirmMsg=Diese Anwendung wird nun von Ihrem Gerät gelöscht. Dies kann nicht rückgängig gemacht werden\nSind Sie sicher?
+	  uninstallApp:confirmMsgTitle=Sind Sie Sicher?
+	  
+ # ========== Backup Manager ========== #
+	  
+	  backupManager:title=Sicherungs-Manager
+	  backupManager:listLabel1=Sicherungen werden geladen. Bitte warten...
+	  backupManager:listLabel2=Liste von Sicherungen (Auswähl. für Optionen)
+	  backupManager:backupNameLabel=Sicherungs-Name:
+	  backupManager:showHelpButton=Hilfe?
+	  backupManager:workingLabel1=Untätig
+	  backupManager:workingLabel2=Arbeiten...
+	  backupManager:optionsLabel=Optionen:
+	  backupManager:addSystemLabel= + System
+	  backupManager:addSystemLabelToolTip=Sichert System-Anwendungen und Datein.
+	  backupManager:addStorageLabel= + Speicher
+	  backupManager:addStorageLabelToolTip=Sichert den Benutzerspeicher (Kann bis zu mehreren Stunden dauern, um fertig zu werden...)
+	  backupManager:addApplicationsLabel= + Apps
+	  backupManager:addApplicationsLabelToolTip=Sichert alle Anwendungen auf diesem Gerät (4.0+!)
+	  backupManager:addEFSLabel= + EFS
+	  backupManager:addEFSLabelToolTip=Sichert die EFS-Partition (Nur LG- und Samsung-Geräte!)
+	  backupManager:backupButton=Sichern...
+	  
+ # ========== Restore Manager ========== #  
+	  
+	  restoreManager:title=Wiederherstellungs-Manager
+	  restoreManager:selectBackupLabel=Wählen Sie eine Sicherung...
+	  restoreManager:restoreDeviceButton=Gerät Wiederherstellen...
+	  restoreManager:restoreSystemButton= + System
+	  restoreManager:restoreSystemButtonToolTip=Stellt alle gesicherten System-Apps und Datein wieder her
+	  restoreManager:restoreStorageButton= + Speicher
+	  restoreManager:restoreStorageButtonToolTip= Stellt den gesamten gesicherten Speicher wieder her.\n(Kann meherer Stunden dauern, um fertiggestellt zu werden)
+	  restoreManager:restoreEFSButton= + EFS
+	  restoreManager:restoreEFSButtonToolTip=Stellt die EFS-Partition wieder her.
+	  restoreManager:restoreAppsButton= + Apps
+	  restoreManager:restoreAppsButtonToolTip=Stellt alle gesicherten Apps wieder her...
+	  restoreManager:noBackupSelectedMsg=Es wurde keine Sicherung ausgewählt! Bitte wählen Sie eine Sicherung und versuchen Sie es erneut!
+	  restoreManager:noBackupSelectedMsgTitle=Keine Sicherung Ausgewählt!
+	  restoreManager:noOptionsSelectedMsg=Es wurden keine Optionen ausgewählt! Bitte wählen Sie mind. eine Option, um fortzufahren!
+	  restoreManager:noOptionsSelectedMsgTitle=Keine Optionen Ausgewählt
+	  restoreManager:deviceNotInRecoveryModeMsg=Ihr Gerät ist nicht im RECOVERY-Modus! Bitte starten Sie es in den RECOVERY-Modus, um fortzufahren!
+	  restoreManager:deviceNotInRecoveryModeMsgTitle=Gerät Nicht im RECOVERY-Modus!
+	  restoreManager:bootToRecoveryButton=In Recovery Booten...
+
+ # ========== Connection Manager ========== #
+          
+          connectionManager:title=Geräte-Verbindungs Manager
+          connectionManager:ip1=Geben Sie die IP-Adresse von dem zu-verbindenden Gerät ein:
+          connectionManager:port=Geben Sie jetzt den Port ein (Leer wenn nicht bekannt/standard verwenden):
+          connectionManager:ip2=Geben Sie die IP-Adresse von dem zu-trennenden Gerät ein:
+	  
+ # ========== Partition Manager ========== #
+
+          partitionManager:title=Partitions-Manager
+          partitionManager:formatPartitionTab=Partition Formattieren
+          partitionManager:warningLabel=Achtung: Diese Funktionen können Ihr Gerät bis zur völligen Vernichtung zerstören!\nFahren Sie mit Vorsicht fort!
+          partitionManager:selectPartitionLabel=Wählen Sie eine oder mehrere Partitionen aus...
+          partitionManager:formatPartitionsButton=Partition(en) Formattieren...
+          partitionManager:erasePartitionTab=Partition Reinigen
+          partitionManager:selectPartitionLabel2=Wählen Sie eine oder mehrere Partitionen zum Reinigen aus...
+          partitionManager:erasePartitionsButton=Partition(en) Reinigen...
+          partitionManager:flashPartitionTab=Partition Flashen
+          partitionManager:flashPartitionButton=Partition Beschreiben...
+          partitionManager:imgFilter=Linux-Systemabbilder (*.img)
+          partitionManager:imgChooserTitle=Wählen Sie ein Linux-Systemabbild aus, den Sie auf das Gerät schreiben wollen...
+          partitionManager:imgChooserApproveButton=Dieses Abbild Flashen
+          partitionManager:customPartitionMsg=Bitte geben Sie die benutzerdefinierte Partition ein:
+          partitionManager:customPartitionMsgTitle=Neue Partition Eingeben...
+
+ # ========== Boot Kernel ========== #
+
+          bootKernel:title=Wählen Sie ein Abbild aus, von dem Sie booten wollen...
+          bootKernel:approveButton=Von diesem Abbild Booten
+
+ # ========== Unlock Bootloader =========== #
+
+          unlockBootldr:msg=Diese Funktion funktioniert möglicherweise NICHT auf allen Geräten; sobald mehr Methoden mir bekannt werden, werde ich sie hinzufügen.
+          unlockBootldr:msgTitle=Achtung

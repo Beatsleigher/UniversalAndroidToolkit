@@ -33,6 +33,11 @@ public enum Language {
     /**
      * Español (Latino América)
      */
-    sp_la;
+    sp_la,
+    
+    /**
+     * Deutsch (Germany)
+     */
+    de_de;
 
 }
