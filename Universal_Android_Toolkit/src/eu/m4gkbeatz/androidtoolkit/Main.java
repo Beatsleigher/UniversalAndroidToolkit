@@ -18,14 +18,15 @@
 package eu.m4gkbeatz.androidtoolkit;
 
 import JDroidLib.android.controllers.*;
+
 import eu.m4gkbeatz.androidtoolkit.logging.Logger;
 import eu.m4gkbeatz.androidtoolkit.settings.SettingsManager;
 import eu.m4gkbeatz.androidtoolkit.splash.*;
 import eu.m4gkbeatz.androidtoolkit.ui.*;
+import eu.m4gkbeatz.androidtoolkit.gc.GarbageCollector;
 
 import java.io.*;
 import java.net.*;
-import java.util.logging.*;
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 import net.lingala.zip4j.exception.*;
@@ -128,6 +129,8 @@ public class Main {
         
         if (debug)
             logger.log(level.DEBUG, "Settings locked and loaded. Ready to commence launch...");
+        
+        GarbageCollector.init(settings, debug, logger);
         
         // Load settings that can be applied here
         logger.log(level.INFO, "Applying settings...");

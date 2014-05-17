@@ -58,28 +58,8 @@ public class UAT extends javax.swing.JFrame {
     private final Devices deviceManager;
     private LangFileParser parser = null;
     public Device selectedDevice = null;
-    Thread gcThread;
 
     public UAT(final boolean debug, final Logger logger, final Level lvl, final SettingsManager settings, final ADBController adbController) {
-        this.gcThread = new Thread() {
-            @Override
-            public void run() {
-                while (true) {
-                    if (debug)
-                        logger.log(Level.DEBUG, "Running garbage collector...");
-                    System.gc();
-                    try {
-                        Thread.sleep(settings.getGCInterval());
-                    } catch (InterruptedException ex) {
-                        logger.log(Level.ERROR, "An error occurred while sleeping in the GC-Thread: " + ex.toString() + "\n"
-                                + "The error stack trace will be printed to the console...");
-                        ex.printStackTrace(System.err);
-                    }
-                }
-            }
-        };
-        this.gcThread.setName("GC-Thread");
-        this.gcThread.setPriority(Thread.MAX_PRIORITY);
         
         try {
             parser = new LangFileParser();
@@ -1562,9 +1542,6 @@ public class UAT extends javax.swing.JFrame {
                 getLogcat(selectedDevice);
                 getDMESG(selectedDevice);
             }
-            if (debug)
-                logger.log(Level.DEBUG, "Starting thread: " + gcThread.getName());
-            gcThread.start();
             
             ALREADY_ACTIVATED = true;
         }
@@ -1754,6 +1731,7 @@ public class UAT extends javax.swing.JFrame {
 
     private void themeSelector_settingsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_themeSelector_settingsListValueChanged
         if (themeSelector_settingsList.getSelectedValue() == null) return;
+        if (((String) themeSelector_settingsList.getSelectedValue()).equals(settings.getLookAndFeel())) return;
         if (debug)        
             logger.log(Level.DEBUG, "Setting preference \"lookAndFeel\" from " + settings.getLookAndFeel() + " to " + themeSelector_settingsList.getSelectedValue().toString());
         settings.setLookAndFeel(themeSelector_settingsList.getSelectedValue().toString());
@@ -1762,9 +1740,13 @@ public class UAT extends javax.swing.JFrame {
     private void langSelector_settingsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_langSelector_settingsListValueChanged
         if (langSelector_settingsList.getSelectedValue() == null)
                 return;
+        
+        String oldLang = String.valueOf(settings.getLanguage());
+        
         String newLang = langSelector_settingsList.getSelectedValue().toString();
+        
         try {
-            if (debug)        
+            if (debug && !oldLang.equals(newLang))        
                 logger.log(Level.DEBUG, "Setting preference \"language\" from " + settings.getLanguage() + " to " + newLang);
             settings.setLanguage(newLang);
             parser.parse(settings.getLanguage(), logger, debug);
@@ -1776,8 +1758,9 @@ public class UAT extends javax.swing.JFrame {
                     return;
                 case sp_la:
                     this.setSize(990, 500);
+                case de_de:
+                    setSize(850, 500);
             }
-            setVisible(true);
             if (SHOW_LANG_MSG) 
                 JOptionPane.showMessageDialog(null, parser.parse("langChangedMsg"), parser.parse("langChangedMsgTitle"), JOptionPane.INFORMATION_MESSAGE);
             else
