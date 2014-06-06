@@ -18,6 +18,7 @@
 package eu.m4gkbeatz.androidtoolkit;
 
 import JDroidLib.android.controllers.*;
+import JDroidLib.exceptions.*;
 
 import eu.m4gkbeatz.androidtoolkit.logging.Logger;
 import eu.m4gkbeatz.androidtoolkit.settings.SettingsManager;
@@ -168,8 +169,8 @@ public class Main {
         
         try {
             adbController = new ADBController();
-        } catch (IOException | ZipException | InterruptedException ex) {
-            logger.log(level.ERROR, "Error while initializing JDroidLib!\n\tLaunch will abort (Error code 3!)");
+        } catch (IOException | ZipException | InterruptedException | OSNotSupportedException ex) {
+            logger.log(level.ERROR, "Error while initializing JDroidLib!\n\tLaunch will abort (Error code 3!): " + ex.toString());
             ex.printStackTrace(System.err);
             System.exit(3);
         }

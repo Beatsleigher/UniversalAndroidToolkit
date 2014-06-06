@@ -245,3 +245,8 @@
 
           unlockBootldr:msg=Diese Funktion funktioniert möglicherweise NICHT auf allen Geräten; sobald mehr Methoden mir bekannt werden, werde ich sie hinzufügen.
           unlockBootldr:msgTitle=Achtung
+
+ # ========== More-UI ========== #
+          
+          moreUI:title=Enhanced ADB Mode
+          moreUI:taskManagerTab=Task Manager

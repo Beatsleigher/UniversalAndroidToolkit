@@ -60,7 +60,7 @@ public class Logger extends javax.swing.JFrame {
             writer.write(log);
             writer.flush();
             if (level == Level.ERROR)
-                JOptionPane.showMessageDialog(null, log, "Error: Universal Android Toolkit Logger", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, msg, "Error: Universal Android Toolkit Logger", JOptionPane.ERROR_MESSAGE);
         } catch (IOException ex) {
             System.err.println("ERROR: Error while logging to file!");
             ex.printStackTrace(System.err);

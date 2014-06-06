@@ -21,6 +21,9 @@ package eu.m4gkbeatz.androidtoolkit.ui;
 
 import JDroidLib.android.controllers.*;
 import JDroidLib.android.device.*;
+import static JDroidLib.android.device.Battery.BatteryStatus;
+import static JDroidLib.android.device.Battery.BatteryHealth;
+import JDroidLib.exceptions.*;
 
 import eu.m4gkbeatz.androidtoolkit.*;
 import eu.m4gkbeatz.androidtoolkit.language.*;
@@ -28,11 +31,14 @@ import eu.m4gkbeatz.androidtoolkit.logging.*;
 import static eu.m4gkbeatz.androidtoolkit.logging.Logger.Level;
 import eu.m4gkbeatz.androidtoolkit.settings.*;
 import eu.m4gkbeatz.androidtoolkit.ui.customui.*;
+import eu.m4gkbeatz.androidtoolkit.ui.dialogs.*;
 import eu.m4gkbeatz.androidtoolkit.ui.menus.*;
+import java.awt.*;
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
-
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -50,6 +56,7 @@ public class UAT extends javax.swing.JFrame {
     private boolean getDMESG = true;
     private boolean ALREADY_ACTIVATED = false;
     private boolean SHOW_LANG_MSG = false;
+    private boolean getDeviceInfo = true;
     //========== Class instances ==========
     private final Logger logger;
     private final Logger.Level level;
@@ -60,7 +67,6 @@ public class UAT extends javax.swing.JFrame {
     public Device selectedDevice = null;
 
     public UAT(final boolean debug, final Logger logger, final Level lvl, final SettingsManager settings, final ADBController adbController) {
-        
         try {
             parser = new LangFileParser();
             parser.parse(settings.getLanguage(), logger, debug);
@@ -211,8 +217,6 @@ public class UAT extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToolBar1 = new javax.swing.JToolBar();
-        showDevices_toolbarButton = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         androidTab = new javax.swing.JPanel();
         applicationsPanel_androidPanel = new javax.swing.JPanel();
@@ -272,7 +276,7 @@ public class UAT extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         cpuUsage_rootLabel = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        cpuUsageList_rootList = new javax.swing.JList();
         buildPropTab = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -280,14 +284,16 @@ public class UAT extends javax.swing.JFrame {
         saveAs_buildPropButton = new javax.swing.JButton();
         saveToDevice_buildPropButton = new javax.swing.JButton();
         fileManagerTab = new javax.swing.JPanel();
+        newFile_fileManagerButton = new javax.swing.JButton();
+        newFolder_fileManagerButton = new javax.swing.JButton();
+        deleteFolder_fileManagerButton = new javax.swing.JButton();
+        deleteFile_fileManagerButton = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
-        pushToDevice_fileManagerButton = new javax.swing.JButton();
-        pullFromDevice_fileManagerButton = new javax.swing.JButton();
+        jList1 = new javax.swing.JList();
+        directoryLabel_fileManagerLabel = new javax.swing.JLabel();
+        pullFile_fileManagerButton = new javax.swing.JButton();
+        pushFile_fileManagerButton = new javax.swing.JButton();
         goHome_fileManagerButton = new javax.swing.JButton();
-        jProgressBar1 = new javax.swing.JProgressBar();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList();
         jPanel4 = new javax.swing.JPanel();
         jTabbedPane4 = new javax.swing.JTabbedPane();
         preferenceTab = new javax.swing.JPanel();
@@ -325,6 +331,8 @@ public class UAT extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jToolBar2 = new javax.swing.JToolBar();
+        showDevices_toolbarButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         adbMenu = new javax.swing.JMenu();
         startServer_adbMenu = new javax.swing.JMenuItem();
@@ -351,14 +359,6 @@ public class UAT extends javax.swing.JFrame {
                 formWindowActivated(evt);
             }
         });
-
-        jToolBar1.setFloatable(false);
-
-        showDevices_toolbarButton.setText("Show Devices");
-        showDevices_toolbarButton.setFocusable(false);
-        showDevices_toolbarButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        showDevices_toolbarButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(showDevices_toolbarButton);
 
         applicationsPanel_androidPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Applications"));
 
@@ -494,11 +494,11 @@ public class UAT extends javax.swing.JFrame {
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 761, Short.MAX_VALUE)
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
         );
 
         jTabbedPane2.addTab("Logcat", null, jPanel9, "CTRL+S = Save Log...\nCTRL+C = Clear Log...\nCTRL+S = Start/Stop Logging\n");
@@ -511,11 +511,11 @@ public class UAT extends javax.swing.JFrame {
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 761, Short.MAX_VALUE)
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
         );
 
         jTabbedPane2.addTab("DMESG", null, jPanel10, "CTRL+S = Save Log...\nCTRL+C = Clear Log...\nCTRL+S = Start/Stop Logging\n");
@@ -602,7 +602,7 @@ public class UAT extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addComponent(more_androidButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2)
                 .addContainerGap())
         );
 
@@ -787,7 +787,7 @@ public class UAT extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lockStatePanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(updatePanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(169, Short.MAX_VALUE))
         );
         fastbootTabLayout.setVerticalGroup(
             fastbootTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -802,7 +802,7 @@ public class UAT extends javax.swing.JFrame {
                         .addComponent(bootPanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(flashingPanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lockStatePanel_fastbootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(150, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab(parser.parse("fastbootTab"), fastbootTab);
@@ -814,6 +814,7 @@ public class UAT extends javax.swing.JFrame {
         isInserted_batteryLabel.setText("Is Inserted:  true");
 
         isPoweredBy_batteryLabel.setText("Is Powered By: USB");
+        isPoweredBy_batteryLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         batteryStatus_batteryLabel.setText("Battery Status: CHARGING");
 
@@ -848,7 +849,7 @@ public class UAT extends javax.swing.JFrame {
                     .addComponent(batteryVoltage_batteryLabel)
                     .addComponent(batteryScale_batteryLabel)
                     .addComponent(batteryStatus_batteryLabel))
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         batteryTabLayout.setVerticalGroup(
             batteryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -859,19 +860,21 @@ public class UAT extends javax.swing.JFrame {
                     .addComponent(isInserted_batteryLabel)
                     .addComponent(batteryStatus_batteryLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(batteryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(batteryHealth_batteryLabel)
-                    .addComponent(isPoweredBy_batteryLabel)
-                    .addComponent(batteryScale_batteryLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(batteryVoltage_batteryLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(batteryCurrent_batteryLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(batteryTemp_batteryLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(batteryTech_batteryLabel)
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addGroup(batteryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(batteryTabLayout.createSequentialGroup()
+                        .addGroup(batteryTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(batteryHealth_batteryLabel)
+                            .addComponent(batteryScale_batteryLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(batteryVoltage_batteryLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(batteryCurrent_batteryLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(batteryTemp_batteryLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(batteryTech_batteryLabel))
+                    .addComponent(isPoweredBy_batteryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab(parser.parse("batteryTab"), batteryTab);
@@ -888,7 +891,7 @@ public class UAT extends javax.swing.JFrame {
 
         cpuUsage_rootLabel.setText("CPU Usage: 1000 / 1000 / 1000");
 
-        jScrollPane3.setViewportView(jList1);
+        jScrollPane3.setViewportView(cpuUsageList_rootList);
 
         javax.swing.GroupLayout rootTabLayout = new javax.swing.GroupLayout(rootTab);
         rootTab.setLayout(rootTabLayout);
@@ -909,7 +912,7 @@ public class UAT extends javax.swing.JFrame {
                         .addGroup(rootTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(busyboxStatus_rootLabel)
                             .addComponent(busyboxVersion_rootLabel))
-                        .addGap(0, 168, Short.MAX_VALUE))
+                        .addGap(0, 267, Short.MAX_VALUE))
                     .addComponent(jScrollPane3))
                 .addContainerGap())
         );
@@ -932,7 +935,7 @@ public class UAT extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cpuUsage_rootLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -974,7 +977,7 @@ public class UAT extends javax.swing.JFrame {
                 .addGroup(buildPropTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(reload_buildPropButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(saveAs_buildPropButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(saveToDevice_buildPropButton, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                    .addComponent(saveToDevice_buildPropButton, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE))
                 .addContainerGap())
         );
         buildPropTabLayout.setVerticalGroup(
@@ -988,39 +991,78 @@ public class UAT extends javax.swing.JFrame {
                         .addComponent(saveAs_buildPropButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(saveToDevice_buildPropButton)
-                        .addGap(0, 183, Short.MAX_VALUE))
+                        .addGap(0, 192, Short.MAX_VALUE))
                     .addComponent(jScrollPane4))
                 .addContainerGap())
         );
 
         jTabbedPane3.addTab(parser.parse("buildPropTab"), buildPropTab);
 
-        jScrollPane5.setViewportView(jList2);
-
-        pushToDevice_fileManagerButton.setText(">>");
-        pushToDevice_fileManagerButton.addActionListener(new java.awt.event.ActionListener() {
+        newFile_fileManagerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/new_file.png"))); // NOI18N
+        newFile_fileManagerButton.setToolTipText(parser.parse("fileManager:newFile"));
+        newFile_fileManagerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pushToDevice_fileManagerButtonActionPerformed(evt);
+                newFile_fileManagerButtonActionPerformed(evt);
             }
         });
 
-        pullFromDevice_fileManagerButton.setText("<<");
-        pullFromDevice_fileManagerButton.addActionListener(new java.awt.event.ActionListener() {
+        newFolder_fileManagerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/new_folder.png"))); // NOI18N
+        newFolder_fileManagerButton.setToolTipText(parser.parse("fileManager:newFolder_fileManagerButton"));
+        newFolder_fileManagerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pullFromDevice_fileManagerButtonActionPerformed(evt);
+                newFolder_fileManagerButtonActionPerformed(evt);
             }
         });
 
-        goHome_fileManagerButton.setText("⌂ ");
+        deleteFolder_fileManagerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/delete_folder_1.png"))); // NOI18N
+        deleteFolder_fileManagerButton.setToolTipText(parser.parse("fileManager:deleteFolder"));
+        deleteFolder_fileManagerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteFolder_fileManagerButtonActionPerformed(evt);
+            }
+        });
+
+        deleteFile_fileManagerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/delete_file_1.png"))); // NOI18N
+        deleteFile_fileManagerButton.setToolTipText(parser.parse("fileManager:deleteFile"));
+        deleteFile_fileManagerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteFile_fileManagerButtonActionPerformed(evt);
+            }
+        });
+
+        jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jList1.setCellRenderer(new FileSystemCellRenderer());
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(jList1);
+
+        directoryLabel_fileManagerLabel.setText("/");
+
+        pullFile_fileManagerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/pull.png"))); // NOI18N
+        pullFile_fileManagerButton.setToolTipText(parser.parse("fileManager:pull"));
+        pullFile_fileManagerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pullFile_fileManagerButtonActionPerformed(evt);
+            }
+        });
+
+        pushFile_fileManagerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/push.png"))); // NOI18N
+        pushFile_fileManagerButton.setToolTipText(parser.parse("fileManager:push"));
+        pushFile_fileManagerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pushFile_fileManagerButtonActionPerformed(evt);
+            }
+        });
+
+        goHome_fileManagerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/home.png"))); // NOI18N
         goHome_fileManagerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 goHome_fileManagerButtonActionPerformed(evt);
             }
         });
-
-        jProgressBar1.setOrientation(1);
-
-        jScrollPane6.setViewportView(jList3);
 
         javax.swing.GroupLayout fileManagerTabLayout = new javax.swing.GroupLayout(fileManagerTab);
         fileManagerTab.setLayout(fileManagerTabLayout);
@@ -1028,32 +1070,44 @@ public class UAT extends javax.swing.JFrame {
             fileManagerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fileManagerTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(fileManagerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pushToDevice_fileManagerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pullFromDevice_fileManagerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(goHome_fileManagerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+                .addGroup(fileManagerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 737, Short.MAX_VALUE)
+                    .addGroup(fileManagerTabLayout.createSequentialGroup()
+                        .addComponent(newFile_fileManagerButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(newFolder_fileManagerButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(deleteFile_fileManagerButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(deleteFolder_fileManagerButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(pullFile_fileManagerButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(pushFile_fileManagerButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(goHome_fileManagerButton)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(directoryLabel_fileManagerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         fileManagerTabLayout.setVerticalGroup(
             fileManagerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fileManagerTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(fileManagerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane6)
-                    .addGroup(fileManagerTabLayout.createSequentialGroup()
-                        .addComponent(pushToDevice_fileManagerButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pullFromDevice_fileManagerButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(goHome_fileManagerButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
-                    .addComponent(jScrollPane5))
+                .addGroup(fileManagerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(fileManagerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(fileManagerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(newFolder_fileManagerButton)
+                            .addComponent(deleteFile_fileManagerButton)
+                            .addComponent(deleteFolder_fileManagerButton))
+                        .addComponent(newFile_fileManagerButton)
+                        .addComponent(pullFile_fileManagerButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(pushFile_fileManagerButton)
+                    .addComponent(goHome_fileManagerButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(directoryLabel_fileManagerLabel)
                 .addContainerGap())
         );
 
@@ -1072,8 +1126,8 @@ public class UAT extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTabbedPane3)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab(parser.parse("deviceTab"), jPanel3);
@@ -1361,7 +1415,7 @@ public class UAT extends javax.swing.JFrame {
                                 .addComponent(downloadDEB_updatesButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(downloadEXE_updatesButton)))
-                        .addGap(0, 34, Short.MAX_VALUE))
+                        .addGap(0, 133, Short.MAX_VALUE))
                     .addComponent(jScrollPane9))
                 .addContainerGap())
         );
@@ -1373,7 +1427,7 @@ public class UAT extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(changelog_updatesLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(updatesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(downloadJar_updatesButton)
@@ -1407,7 +1461,7 @@ public class UAT extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
@@ -1421,7 +1475,7 @@ public class UAT extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 79, Short.MAX_VALUE)
+                        .addGap(0, 88, Short.MAX_VALUE)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1451,6 +1505,15 @@ public class UAT extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab(parser.parse("toolkitTab"), jPanel4);
+
+        jToolBar2.setFloatable(false);
+        jToolBar2.setRollover(true);
+
+        showDevices_toolbarButton.setText("Show Devices");
+        showDevices_toolbarButton.setFocusable(false);
+        showDevices_toolbarButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        showDevices_toolbarButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar2.add(showDevices_toolbarButton);
 
         adbMenu.setText("ADB");
 
@@ -1517,23 +1580,23 @@ public class UAT extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jTabbedPane1)
+            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //# =============== Event Listeners =============== #\\
+    //<editor-fold defaultstate="collapsed" desc="//# =============== Event Listeners =============== #\\">
     
-    //# =============== Window Events =============== #\\
+    //<editor-fold defaultstate="collapsed" desc="//# =============== Window Events =============== #\\">
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         if (!ALREADY_ACTIVATED) {
             if (debug)
@@ -1541,13 +1604,27 @@ public class UAT extends javax.swing.JFrame {
             if (selectedDevice != null) {
                 getLogcat(selectedDevice);
                 getDMESG(selectedDevice);
+                getBatteryInfo();
+                getRootInfo();
+                getCPUUsage();
+                
+                DefaultListModel model = new DefaultListModel();
+                
+                for (String obj : listFiles(directoryLabel_fileManagerLabel.getText())) {
+                    if (obj.equals("extSdCard") || obj.equals("external_sd") || obj.equals("sdcard"))
+                        obj += "/";
+                    model.addElement(obj);
+                }
+                
+                jList1.setModel(model);
             }
             
             ALREADY_ACTIVATED = true;
         }
     }//GEN-LAST:event_formWindowActivated
-
-    //# =============== Android Tab Events =============== #\\
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="//# =============== Android Tab Events =============== #\\">
     private void installApplication_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_installApplication_androidButtonActionPerformed
         if (selectedDevice != null)
             new InstallApplicationMenu(logger, debug, adbController, settings, parser, selectedDevice).setVisible(true);
@@ -1599,10 +1676,11 @@ public class UAT extends javax.swing.JFrame {
     }//GEN-LAST:event_disconnectDevice_androidButtonActionPerformed
 
     private void more_androidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_more_androidButtonActionPerformed
-        JOptionPane.showMessageDialog(null, parser.parse("comingSoon"), parser.parse("comingSoon"), JOptionPane.INFORMATION_MESSAGE);
+        new MoreUI(logger, parser, adbController, debug, deviceManager).setVisible(true);
     }//GEN-LAST:event_more_androidButtonActionPerformed
-
-    //# =============== Fastboot Tab Events =============== #\\
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="//# =============== Fastboot Tab Events =============== #\\">
     private void formatPartition_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formatPartition_fastbootButtonActionPerformed
         PartitionManager pManager = new PartitionManager(adbController, debug, logger, parser, deviceManager.getSelectedFastbootDevice(), false);
         pManager.setTab(0);
@@ -1646,7 +1724,7 @@ public class UAT extends javax.swing.JFrame {
     }//GEN-LAST:event_bootKernel_fastbootButtonActionPerformed
 
     private void unlockBootloader_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unlockBootloader_fastbootButtonActionPerformed
-        JOptionPane.showMessageDialog(null, parser.parse("unlockBootldr:msg"), parser.parse("unllockBootldr:msgTitle"), JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, parser.parse("unlockBootldr:msg"), parser.parse("unlockBootldr:msgTitle"), JOptionPane.INFORMATION_MESSAGE);
         String serial = deviceManager.getSelectedFastbootDevice();
         if (serial == null || serial.equals("")) {
             logger.log(Level.ERROR, "No device was found! Please connect and select an Android device booted into Fastboot-mode!");
@@ -1663,40 +1741,254 @@ public class UAT extends javax.swing.JFrame {
     }//GEN-LAST:event_unlockBootloader_fastbootButtonActionPerformed
 
     private void relockBootloader_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relockBootloader_fastbootButtonActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, parser.parse("relockBootldr:msg"), parser.parse("lockBootldr:msgTitle"), JOptionPane.INFORMATION_MESSAGE);
+        String serial = deviceManager.getSelectedFastbootDevice();
+        if (serial == null || serial.equals("")) {
+            logger.log(Level.ERROR, "No device was found! Please connect and select an Android device booted into Fastboot-mode!");
+            return;
+        }
+        
+        try {
+            adbController.getFastbootController().executeFastbootCommand(serial, new String[]{"oem-lock"});
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while attempting to re-lock " + serial + ":" + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
     }//GEN-LAST:event_relockBootloader_fastbootButtonActionPerformed
 
     private void updateDevice_fastbootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDevice_fastbootButtonActionPerformed
-        // TODO add your handling code here:
+        String serial = deviceManager.getSelectedFastbootDevice();
+        if (serial == null || serial.equals("")) {
+            logger.log(Level.ERROR, "No device was found! Please connect and select an Android device booted into Fastboot-mode!");
+            return;
+        }
+        
+        final JFileChooser zipChooser = new JFileChooser();
+        zipChooser.setDialogTitle(parser.parse("updateDevice:zipChooserTitle"));
+        zipChooser.setDialogTitle(parser.parse("updateDevice:zipChooserApproveButton"));
+        zipChooser.setFileFilter(new ZipFilter());
+        int result = zipChooser.showOpenDialog(null);
+        if (result == JOptionPane.OK_OPTION)
+            new Thread() {
+            @Override
+            public void run() {
+                UpdateDeviceDialog dialog = new UpdateDeviceDialog(parser.parse("updateDevice:updating"));
+                dialog.setVisible(true);
+                logger.log(Level.INFO, "Updating device " + selectedDevice.getSerial() + " using zip file: " + zipChooser.getSelectedFile().getAbsolutePath());
+                try {
+                    logger.log(Level.INFO, "ADB Output: " + adbController.getFastbootController().executeFastbootCommand(deviceManager.getSelectedFastbootDevice(), 
+                                                                                                                     new String[]{"update", zipChooser.getSelectedFile().getAbsolutePath()}));
+                } catch (IOException ex) {
+                    logger.log(Level.ERROR, "An error occurred while updating the device " + deviceManager.getSelectedFastbootDevice() + "\n"
+                            + "The error stack trace will be printed to the console...");
+                    ex.printStackTrace(System.err);
+                }
+                dialog.setVisible(false);
+                dialog.dispose();
+                interrupt();
+            }
+        }.start();
     }//GEN-LAST:event_updateDevice_fastbootButtonActionPerformed
-
-    //# =============== Device → Build Prop Manager Events =============== #\\
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="//# =============== Device → Build Prop Manager Events =============== #\\">
     private void reload_buildPropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reload_buildPropButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            jTextArea1.setText(selectedDevice.getBuildProp().getProp());
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while attempting to load the build properties from the device " + selectedDevice.getSerial() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
     }//GEN-LAST:event_reload_buildPropButtonActionPerformed
 
     private void saveAs_buildPropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAs_buildPropButtonActionPerformed
-        // TODO add your handling code here:
+        JFileChooser buildChooser = new JFileChooser();
+        buildChooser.setDialogTitle(parser.parse("buildProp:saveAs_title"));
+        buildChooser.setApproveButtonText(parser.parse("buildProp:saveAs_approveButton"));
+        int result = buildChooser.showSaveDialog(null);
+        if (result == JOptionPane.OK_OPTION)
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(buildChooser.getSelectedFile()));
+                writer.write(jTextArea1.getText());
+                writer.close();
+            } catch (IOException ex) {
+                logger.log(Level.ERROR, "An error occurred while attempting to save the build.prop file to the hard drive: " + ex.toString() + "\n"
+                        + "The error stack trace will be printed to the console...");
+                ex.printStackTrace(System.err);
+            }
     }//GEN-LAST:event_saveAs_buildPropButtonActionPerformed
 
     private void saveToDevice_buildPropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveToDevice_buildPropButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            BuildProp bProp = selectedDevice.getBuildProp();
+            BufferedReader reader = new BufferedReader(new StringReader(jTextArea1.getText()));
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                String[] arr = line.split("=");
+                bProp.setProp(arr[0], arr[1], false);
+            }
+            reader.close();
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while attempting to save the build properties to the device " + selectedDevice.getSerial() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
     }//GEN-LAST:event_saveToDevice_buildPropButtonActionPerformed
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="//# =============== Device → File Manager Events =============== #\\">
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        if (jList1.getSelectedValue() != null && !((String) jList1.getSelectedValue()).equals("")) {
+            String selectedItem = (String) jList1.getSelectedValue();
 
-    //# =============== Device → File Manager Events =============== #\\
-    private void pushToDevice_fileManagerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pushToDevice_fileManagerButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pushToDevice_fileManagerButtonActionPerformed
+            boolean listItems = false;
+            
+            if (selectedItem.equals("../")) {
+                String[] dirs = directoryLabel_fileManagerLabel.getText().split("[/]");
+                String newDir = "/";
+                for (int i = 0; i < dirs.length; i++) {
+                    if (!dirs[i].equals("") && i != (dirs.length - 1))
+                        newDir += dirs[i] + "/";
+                }
+                directoryLabel_fileManagerLabel.setText(newDir);
+                listItems = true;
+                
+            } else if (selectedItem.endsWith("/")) {
+                String path = directoryLabel_fileManagerLabel.getText();
+                path += selectedItem;
+                directoryLabel_fileManagerLabel.setText(path);
+                listItems = true;
+            }
 
-    private void pullFromDevice_fileManagerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pullFromDevice_fileManagerButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pullFromDevice_fileManagerButtonActionPerformed
+            if (listItems) {
+                if (debug)
+                    logger.log(Level.DEBUG, "Listing files in directory: " + directoryLabel_fileManagerLabel.getText() + " on device: " + selectedDevice.getSerial());
+                DefaultListModel model = new DefaultListModel();
+                
+                for (Object obj : listFiles(directoryLabel_fileManagerLabel.getText())) {
+                    if (obj.equals("extSdCard") || obj.equals("external_sd") || obj.equals("sdcard"))
+                        obj += "/";
+                    model.addElement(obj);
+                }
+                
+                jList1.setModel(model);
+            }
+            
+        }
+    }//GEN-LAST:event_jList1MouseClicked
 
+    private void newFile_fileManagerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newFile_fileManagerButtonActionPerformed
+        try {
+            selectedDevice.getFileSystem().touch(directoryLabel_fileManagerLabel.getText(), 
+                                                 JOptionPane.showInputDialog(this, parser.parse("fileManager:newFileMsg"), parser.parse("fileManager:newFileMsgTitle"), 
+                                                                                                                        JOptionPane.QUESTION_MESSAGE));
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while creating a new file on device " + selectedDevice.getSerial() + " in dir " + directoryLabel_fileManagerLabel.getText() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
+    }//GEN-LAST:event_newFile_fileManagerButtonActionPerformed
+
+    private void newFolder_fileManagerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newFolder_fileManagerButtonActionPerformed
+        try {
+            selectedDevice.getFileSystem().touch(directoryLabel_fileManagerLabel.getText(), 
+                                                 JOptionPane.showInputDialog(this, parser.parse("fileManager:newDirMsg"), parser.parse("fileManager:newDirMsgTitle"), 
+                                                                                                                        JOptionPane.QUESTION_MESSAGE));
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while creating a new file on device " + selectedDevice.getSerial() + " in dir " + directoryLabel_fileManagerLabel.getText() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
+    }//GEN-LAST:event_newFolder_fileManagerButtonActionPerformed
+
+    private void deleteFile_fileManagerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteFile_fileManagerButtonActionPerformed
+        try {
+            selectedDevice.getFileSystem().delete(directoryLabel_fileManagerLabel.getText() + jList1.getSelectedValue());
+        } catch (IOException | DeleteFailedException ex) {
+            logger.log(Level.ERROR, "An error occurred while deleting a file (" + jList1.getSelectedValue() + ") on device " + selectedDevice.getSerial() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
+    }//GEN-LAST:event_deleteFile_fileManagerButtonActionPerformed
+
+    private void deleteFolder_fileManagerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteFolder_fileManagerButtonActionPerformed
+        try {
+            selectedDevice.getFileSystem().delete(directoryLabel_fileManagerLabel.getText() + jList1.getSelectedValue());
+        } catch (IOException | DeleteFailedException ex) {
+            logger.log(Level.ERROR, "An error occurred while deleting a folder (" + jList1.getSelectedValue() + ") on device " + selectedDevice.getSerial() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
+    }//GEN-LAST:event_deleteFolder_fileManagerButtonActionPerformed
+
+    private void pullFile_fileManagerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pullFile_fileManagerButtonActionPerformed
+        String location = directoryLabel_fileManagerLabel.getText();
+        String name = (String) jList1.getSelectedValue();
+        boolean pullDir = false;
+        File localLocation = null;
+        
+        if (name == null || name.equals("") || name.equals("./"))
+            pullDir = true;
+        
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle(parser.parse("fileManager:pullFileDialogTitle"));
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.setMultiSelectionEnabled(false);
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JOptionPane.OK_OPTION)
+            localLocation = fileChooser.getSelectedFile();
+        else return;
+        
+        try {
+            logger.log(Level.INFO, "ADB Output: " + selectedDevice.getFileSystem().pull((location + name), localLocation));
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while pulling a file from the device " + selectedDevice.getSerial() + ": " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
+    }//GEN-LAST:event_pullFile_fileManagerButtonActionPerformed
+
+    private void pushFile_fileManagerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pushFile_fileManagerButtonActionPerformed
+        File source = null;
+        String dest = directoryLabel_fileManagerLabel.getText();
+        
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle(parser.parse("fileManager:pushFileDialogTitle"));
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.setMultiSelectionEnabled(false);
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JOptionPane.OK_OPTION)
+            source = fileChooser.getSelectedFile();
+        else return;
+        
+        try {
+            logger.log(Level.INFO, "ADB Output: " + selectedDevice.getFileSystem().push(source, dest));
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while pushing a file to the device " + selectedDevice.getSerial() + ": " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
+        
+    }//GEN-LAST:event_pushFile_fileManagerButtonActionPerformed
+    
     private void goHome_fileManagerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goHome_fileManagerButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_goHome_fileManagerButtonActionPerformed
+        DefaultListModel model = new DefaultListModel();
+        
+        directoryLabel_fileManagerLabel.setText("/");
+                
+        for (Object obj : listFiles(directoryLabel_fileManagerLabel.getText())) {
+            if (obj.equals("extSdCard") || obj.equals("external_sd") || obj.equals("sdcard"))
+                        obj += "/";
+            model.addElement(obj);
+        }
 
-    //# =============== Toolkit → Settings Events =============== #\\
+        jList1.setModel(model);
+    }//GEN-LAST:event_goHome_fileManagerButtonActionPerformed
+    //</editor-fold>
+       
+    //<editor-fold defaultstate="collapsed" desc="//# =============== Toolkit → Settings Events =============== #\\">
     private void refreshDevices_settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshDevices_settingsButtonActionPerformed
         if (debug)
             logger.log(Level.DEBUG, "Setting preference \"refreshDevices\" from " + settings.refreshDevices() + " to " + refreshDevices_settingsButton.isSelected() + "\n"
@@ -1785,8 +2077,9 @@ public class UAT extends javax.swing.JFrame {
             ex.printStackTrace(System.err);
         }
     }//GEN-LAST:event_saveButton_settingsButtonActionPerformed
-
-    //# =============== Toolkit → Updates Events =============== #\\
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="//# =============== Toolkit → Updates Events =============== #\\">
     private void downloadJar_updatesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadJar_updatesButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_downloadJar_updatesButtonActionPerformed
@@ -1802,9 +2095,10 @@ public class UAT extends javax.swing.JFrame {
     private void downloadEXE_updatesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadEXE_updatesButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_downloadEXE_updatesButtonActionPerformed
-    //# =============== End Of Event Listeners =============== #\\
+    //</editor-fold>
+    //</editor-fold>
     
-    //# =============== Logcat and DMESG =============== #\\
+    //<editor-fold defaultstate="collapsed" desc="//# =============== Logcat and DMESG =============== #\\">
     private void getLogcat(final Device device) {
         new Thread() {
             @Override
@@ -1891,8 +2185,9 @@ public class UAT extends javax.swing.JFrame {
         getDMESG = true;
         getDMESG(device);
     }
+    //</editor-fold>
     
-    //# =============== Preferences =============== #\\
+    //<editor-fold defaultstate="collapsed" desc="//# =============== Preferences =============== #\\">
     private void getPrefs() {
         refreshDevices_settingsButton.setSelected(settings.refreshDevices());
         refreshInterval_settingsTextField.setText(String.valueOf((settings.getDeviceRefreshInterval() / 1000)));
@@ -1911,6 +2206,210 @@ public class UAT extends javax.swing.JFrame {
         langSelector_settingsList.setModel(model);
         langSelector_settingsList.setSelectedValue((Object) settings.getLanguage(), true);
     }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="//# =============== Device Information =============== #\\">
+    private void getBatteryInfo() {
+        new Thread() {
+            @Override
+            public void run() {
+                setName("Battery Info Thread");
+                setPriority(Thread.MIN_PRIORITY);
+                while (getDeviceInfo) {
+//                    if (debug)
+//                        logger.log(Level.DEBUG, "Gathering device battery information...");
+                    Battery battery = selectedDevice.getBattery();
+                    
+                    boolean isACPowered = false;
+                    boolean isUSBPowered = false;
+                    boolean isWirelessPowered = false;
+                    boolean isPresent = false;
+                    
+                    BatteryStatus batStatus = null;
+                    BatteryHealth batHealth = null;
+                    
+                    
+                    int batLevel = 0;
+                    int batScale = 0;
+                    int batVoltage = 0;
+                    int batCurrent = 0;
+                    
+                    double batTemp = 0;
+                    
+                    String batTech = null;
+                    String poweredBy = "<html>" + parser.parse("isPoweredByLabel") + " ";
+//                    if (debug)
+//                        logger.log(Level.DEBUG, "Fetching info...");
+                    //<editor-fold defaultstate="collapsed" desc="Fetch all information...">
+                    try {
+                        isACPowered = battery.isACPowered();
+                        isUSBPowered = battery.isUSBPowered();
+                        isWirelessPowered = battery.isWirelessPowered();
+                        isPresent = battery.isPresent();
+                        
+                        batStatus = battery.getStatus();
+                        batHealth = battery.getHealth();
+                        
+                        batLevel = battery.getLevel();
+                        batScale = battery.getScale();
+                        batVoltage = battery.getVoltage();
+                        batCurrent = battery.getCurrent();
+                        
+                        batTemp = battery.getTemp();
+                        
+                        batTech = battery.getTechnology();
+                        
+                        
+                    } catch (IOException ex) {
+                        logger.log(Level.ERROR, "An error occurred while attempting to gather information from the device " + selectedDevice.getSerial() + "\n"
+                                + "The error stackt trace will be printed to the console...");
+                        ex.printStackTrace(System.err);
+                        JOptionPane.showMessageDialog(null, parser.parse("batStatusInterrupted"), parser.parse("batStatusInterruptedTitle"), JOptionPane.INFORMATION_MESSAGE);
+                        interrupt();
+                    }
+                    //</editor-fold>
+                    
+                    // Set values:
+                    // TO-DO: Add icon logic...
+                    batteryLevel_batteryLabel.setText(parser.parse("batteryLevelLabel") + " " + batLevel + "%");
+                    batteryHealth_batteryLabel.setText(parser.parse("batteryHealthLabel") + " " + parser.parse(String.valueOf(batHealth)));
+                    
+                    isInserted_batteryLabel.setText("<html>" + parser.parse("isInsertedLabel") + parser.parse(String.valueOf(isPresent)) + "</html>");
+                    if (isACPowered) poweredBy += parser.parse("poweredBy:AC") + "<br>";
+                    if (isUSBPowered) poweredBy += parser.parse("poweredBy:USB") + "<br>";
+                    if (isWirelessPowered) poweredBy += parser.parse("poweredBy:wireless") + "</html>";
+                    isPoweredBy_batteryLabel.setText(poweredBy);
+                    batteryStatus_batteryLabel.setText(parser.parse("batteryStatusLabel") + " " + parser.parse(String.valueOf(batStatus)));
+                    batteryScale_batteryLabel.setText(parser.parse("batteryScaleLabel") + " " + batScale);
+                    batteryVoltage_batteryLabel.setText(parser.parse("batteryVoltageLabel") + " " + batVoltage + "mV");
+                    batteryCurrent_batteryLabel.setText(parser.parse("batteryCurrentLabel") + " " + batCurrent + "mA");
+                    double tempF = (batTemp * 1.8 + 32); // Fahrenheit conversion for the Americans. God, I'm a nice developer, ain't I?
+                    batteryTemp_batteryLabel.setText(parser.parse("batteryTempLabel") + " " + batTemp + "°C (" + tempF + "°F)");
+                    batteryTech_batteryLabel.setText(parser.parse("batteryTechLabel") + " " + batTech);
+                    
+                }
+            }
+        }.start();
+    }
+    
+    private void getRootInfo() {
+        new Thread() {
+            @Override
+            public void run() {
+                setName("Root Info Thread");
+                setPriority(Thread.MIN_PRIORITY);
+                while (getDeviceInfo) {
+//                    if (debug)
+//                        logger.log(Level.DEBUG, "Loading device root info...");
+                    SU su = selectedDevice.getSU();
+                    BusyBox busybox = selectedDevice.getBusybox();
+
+                    boolean su_isInstalled = false; // Generally assume that this is false!
+                    String su_version = null;
+
+                    boolean busybox_isInstalled = false; // Same rules apply here!
+                    String busybox_version = null;
+
+                    try {
+                        su_isInstalled = su.isInstalled();
+                        su_version = su.getSUVersion();
+                        busybox_isInstalled = busybox.isInstalled();
+                        busybox_version = busybox.getVersion();
+                    } catch (IOException ex) {
+                        logger.log(Level.ERROR, "An error occurred while loading the device's root information: " + ex.toString() + "\n"
+                                + "The error stack trace will be printed to the console...");
+                        ex.printStackTrace(System.err);
+                        interrupt();
+                    }
+
+                    if (su_isInstalled) {
+                        superUserStatus_rootLabel.setText(parser.parse("superUserLabel") + " " + parser.parse("true"));
+                        superUserVersion_rootLabel.setText(parser.parse("suVersionLabel") + " " + su_version);
+                    } else {
+                        superUserStatus_rootLabel.setText(parser.parse("superUserLabel") + " " + parser.parse("false"));
+                        superUserVersion_rootLabel.setText(parser.parse("suVersionLabel") + " ---");
+                    }
+
+                    if (busybox_isInstalled) {
+                        busyboxStatus_rootLabel.setText(parser.parse("busyboxLabel") + " " + parser.parse("true"));
+                        busyboxVersion_rootLabel.setText(parser.parse("busyboxVersionLabel") + " " + busybox_version);
+                    } else {
+                        busyboxStatus_rootLabel.setText(parser.parse("busyboxLabel") + " " + parser.parse("false"));
+                        busyboxVersion_rootLabel.setText(parser.parse("busyboxVersionLabel") + " ---");
+                    }
+                }
+                
+            }
+        }.start();
+    }
+    
+    private void getCPUUsage() {
+        new Thread() {
+            @Override
+            public void run() {
+                setName("CPU Info Thread");
+                setPriority(Thread.MIN_PRIORITY);
+                while (getDeviceInfo) {
+//                    if (debug)
+//                        logger.log(Level.DEBUG, "Loading device CPU info...");
+                    CPU cpu = selectedDevice.getCPU();
+                    String[] load = null;
+                    List<String> usage = null;
+                    ListModel model = cpuUsageList_rootList.getModel();
+                    DefaultListModel _model = new DefaultListModel();
+                    
+                    try {
+                        load = cpu.getCPULoad();
+                        usage = cpu.getCPUUsage();
+                    } catch (IOException ex) {
+                        logger.log(Level.ERROR, "An error occurred while loading the CPU load and usage: " + ex.toString() + "\n"
+                                + "The error stack trace will be printed to the console...");
+                        ex.printStackTrace(System.err);
+                        interrupt();
+                    }
+                    
+                    String loadString = "";
+                    for (int i = 0; i < load.length; i++) {
+                        loadString += load[i];
+                        if (i == 0 || i == 1)
+                            loadString += " / ";
+                    }
+                    
+                    for (int i = 0; i < model.getSize(); i++) 
+                        _model.addElement(model.getElementAt(i));
+                    
+                    for (String str : usage)
+                        _model.addElement(str);
+                    
+                    cpuUsage_rootLabel.setText(parser.parse("cpuUsageLabel") + loadString);
+                    cpuUsageList_rootList.setModel(_model);
+                }
+            }
+        }.start();
+    }
+    
+    public void setGetDeviceInfo(boolean newVal) { getDeviceInfo = newVal; if (getDeviceInfo) { getBatteryInfo(); getRootInfo(); getCPUUsage(); } }
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="//# =============== Device Filesystem =============== #\\">
+    private List<String> listFiles(String location) {
+        List<String> output = new ArrayList<>();
+        output.add("error");
+        try {
+            output = selectedDevice.getFileSystem().list(location, true);
+            if (debug)
+                logger.log(Level.DEBUG, "ADB (ls) output: " + "\n" + output);
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while attempting to get the requested file from device " + selectedDevice.getSerial() + ": " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+            return null;
+        }
+        
+        return output;
+    }
+    //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Variables">
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1943,8 +2442,12 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JButton cleanFlashPartition_fastbootButton;
     private javax.swing.JButton connectDevice_androidButton;
     private javax.swing.JMenuItem connectToDevice_adbMenu;
+    private javax.swing.JList cpuUsageList_rootList;
     private javax.swing.JLabel cpuUsage_rootLabel;
+    private javax.swing.JButton deleteFile_fileManagerButton;
+    private javax.swing.JButton deleteFolder_fileManagerButton;
     private javax.swing.JPanel devices_settingsPanel;
+    private javax.swing.JLabel directoryLabel_fileManagerLabel;
     private javax.swing.JButton disconnectDevice_androidButton;
     private javax.swing.JTextArea dmesg_androidTextArea;
     private javax.swing.JButton downloadDEB_updatesButton;
@@ -1972,8 +2475,6 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
-    private javax.swing.JList jList3;
     private javax.swing.JList jList6;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -1983,7 +2484,6 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JProgressBar jProgressBar2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
@@ -1991,7 +2491,6 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
@@ -2002,7 +2501,7 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar jToolBar2;
     private javax.swing.JList langSelector_settingsList;
     private javax.swing.JPanel language_settingsPanel;
     private javax.swing.JPanel lockStatePanel_fastbootPanel;
@@ -2010,9 +2509,11 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JPanel logs_settingsPanel;
     private javax.swing.JPanel lookAndFeel_settingsPanel;
     private javax.swing.JButton more_androidButton;
+    private javax.swing.JButton newFile_fileManagerButton;
+    private javax.swing.JButton newFolder_fileManagerButton;
     private javax.swing.JPanel preferenceTab;
-    private javax.swing.JButton pullFromDevice_fileManagerButton;
-    private javax.swing.JButton pushToDevice_fileManagerButton;
+    private javax.swing.JButton pullFile_fileManagerButton;
+    private javax.swing.JButton pushFile_fileManagerButton;
     private javax.swing.JMenu reboot_adbMenu;
     private javax.swing.JMenu reboot_fastbootMenu;
     private javax.swing.JToggleButton refreshDevices_settingsButton;
@@ -2064,5 +2565,69 @@ public class UAT extends javax.swing.JFrame {
             return parser.parse("partitionManager:imgFilter");
         }
             
+    }
+    
+    private class ZipFilter extends javax.swing.filechooser.FileFilter {
+
+        @Override
+        public boolean accept(File f) {
+            return f.isDirectory() || f.getAbsolutePath().toLowerCase().endsWith(".zip");
+        }
+
+        @Override
+        public String getDescription() {
+            return parser.parse("updateDevice:zipFileDesc");
+        }
+        
+    }
+    
+    private class FileSystemCellRenderer extends DefaultListCellRenderer {
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            String val = ((String) value).toLowerCase();
+            
+            if (val.equals("") || val == null)
+                return label;
+            
+            if (val.contains("alarms") && val.endsWith("/"))
+                label.setIcon(new ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/alarms.png")));
+            else if (val.contains("android") && val.endsWith("/"))
+                label.setIcon(new ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/android.png")));
+            else if (val.contains("dcim") && val.endsWith("/"))
+                label.setIcon(new ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/dcim.png")));
+            else if (val.contains("documents") && val.endsWith("/"))
+                label.setIcon(new ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/documents.png")));
+            else if (val.contains("download") && val.endsWith("/"))
+                label.setIcon(new ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/download.png")));
+            else if (val.contains("games") && val.endsWith("/"))
+                label.setIcon(new ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/games.png")));
+            else if (val.contains("media") && val.endsWith("/"))
+                label.setIcon(new ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/media.png")));
+            else if (val.contains("movies") && val.endsWith("/"))
+                label.setIcon(new ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/movies.png")));
+            else if (val.contains("music") && val.endsWith("/"))
+                label.setIcon(new ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/music.png")));
+            else if (val.contains("notifications") && val.endsWith("/"))
+                label.setIcon(new ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/notifications.png")));
+            else if (val.contains("pictures") && val.endsWith("/"))
+                label.setIcon(new ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/pictures.png")));
+            else if (val.contains("podcasts") && val.endsWith("/"))
+                label.setIcon(new ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/podcasts.png")));
+            else if (val.contains("whatsapp") && val.endsWith("/"))
+                label.setIcon(new ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/whatsapp.png")));
+            else if (val.toLowerCase().endsWith(".apk"))
+                label.setIcon(new ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/apk.png")));
+            else {
+                if (!val.endsWith("/"))
+                    label.setIcon(new ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/file.png")));
+                else
+                    label.setIcon(new ImageIcon(getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/fs/folder.png")));
+            }
+            
+            return label;
+        }
+
     }
 }

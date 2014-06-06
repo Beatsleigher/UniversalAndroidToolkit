@@ -22,11 +22,15 @@ package eu.m4gkbeatz.androidtoolkit.ui.menus;
 import JDroidLib.android.controllers.*;
 
 import eu.m4gkbeatz.androidtoolkit.language.*;
+import eu.m4gkbeatz.androidtoolkit.logging.*;
+import eu.m4gkbeatz.androidtoolkit.logging.Logger.Level;
 import static eu.m4gkbeatz.androidtoolkit.logging.Logger.Level;
-import eu.m4gkbeatz.androidtoolkit.logging.Logger;
+import java.awt.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.List;
+import java.util.regex.*;
 import javax.swing.*;
 
 
@@ -98,11 +102,26 @@ public class ConnectionManager extends javax.swing.JFrame {
 
         jLabel1.setText("Enter the IP-address of the device you wish to connect to:");
 
-        try {
-            jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###.###")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
+        jFormattedTextField1.setInputVerifier(new InputVerifier() {
+            Pattern pat = Pattern.compile("\\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\."+
+                "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
+                "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
+                "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b");
+            public boolean shouldYieldFocus(JComponent input) {
+                boolean inputOK = verify(input);
+                if (inputOK) {
+                    return true;
+                } else {
+                    Toolkit.getDefaultToolkit().beep();
+                    return false;
+                }
+            }
+            public boolean verify(JComponent input) {
+                JTextField field = (JTextField) input;
+                Matcher m = pat.matcher(field.getText());
+                return m.matches();
+            }
+        });
 
         jLabel2.setText("Now enter the device's port (leave blank if unknown/default):");
 
@@ -122,9 +141,8 @@ public class ConnectionManager extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jFormattedTextField1))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jFormattedTextField1)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jFormattedTextField2))
                 .addContainerGap(14, Short.MAX_VALUE))
@@ -219,11 +237,15 @@ public class ConnectionManager extends javax.swing.JFrame {
             List<String> args = new ArrayList<>();
             args.add("disconnect");
             if (!jFormattedTextField2.getText().equals("")) {
-                args.add(jFormattedTextField1.getText());
+                args.add(jFormattedTextField2.getText());
             } else {
-                args.add(jFormattedTextField1.getText());
+                args.add(jFormattedTextField2.getText());
             }
-            logger.log(Level.INFO, "ADB Output: " + adbController.executeADBCommand(false, false, "", (String[]) args.toArray()));
+            
+            String[] _args = new String[args.size()];
+            args.toArray(_args);
+            
+            logger.log(Level.INFO, "ADB Output: " + adbController.executeADBCommand(false, false, "", _args));
         } catch (IOException ex) {
             logger.log(Level.ERROR, "An error occurred while trying to disconnect from the device: " +  ex.toString() + "\n"
                     + "The error stack trace will be printed to the console...");
@@ -235,12 +257,16 @@ public class ConnectionManager extends javax.swing.JFrame {
         try {
             List<String> args = new ArrayList<>();
             args.add("connect");
-            if (!jFormattedTextField2.getText().equals("")) {
+            if (!jFormattedTextField1.getText().equals("")) {
                 args.add(jFormattedTextField1.getText() + ":" + jFormattedTextField2.getText());
             } else {
                 args.add(jFormattedTextField1.getText());
             }
-            logger.log(Level.INFO, "ADB Output: " + adbController.executeADBCommand(false, false, "", (String[]) args.toArray()));
+            
+            String[] _args = new String[args.size()];
+            args.toArray(_args);
+            
+            logger.log(Level.INFO, "ADB Output: " + adbController.executeADBCommand(false, false, "", _args));
         } catch (IOException ex) {
             logger.log(Level.ERROR, "An error occurred while trying to connect to the device: " +  ex.toString() + "\n"
                     + "The error stack trace will be printed to the console...");

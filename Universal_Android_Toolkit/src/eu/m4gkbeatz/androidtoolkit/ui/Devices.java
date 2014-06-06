@@ -229,6 +229,8 @@ public final class Devices extends javax.swing.JFrame {
             instance.stopLogcat();
             instance.startDMESG(instance.selectedDevice);
             instance.startLogcat(instance.selectedDevice);
+            instance.setGetDeviceInfo(false);
+            instance.setGetDeviceInfo(true);
         }
     }//GEN-LAST:event_jList1ValueChanged
 
@@ -307,7 +309,11 @@ public final class Devices extends javax.swing.JFrame {
 
     }
     
-    public Device getSelectedAndroidDevice() { return new Device(jList1.getSelectedValue().toString(), adbController); }
+    public Device getSelectedAndroidDevice() {
+        if (jList1.getSelectedValue() == null)
+            return null;
+        return new Device((String) jList1.getSelectedValue(), adbController);
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

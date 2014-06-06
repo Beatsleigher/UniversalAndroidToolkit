@@ -34,9 +34,9 @@
 	  batteryTempLabel=Battery Temperature:
 	  batteryTechLabel=Battery Technology:
  # Root tab
-	  superUserLabel=Super User:
+	  superUserLabel=Super User Installed:
 	  suVersionLabel=SU Version:
-	  busyboxLabel=Busybox:
+	  busyboxLabel=Busybox Installed:
 	  busyboxVersionLabel=Busybox Version:
 	  cpuUsageLabel=CPU Usage:
  # Build Prop tab
@@ -62,6 +62,9 @@
 	  downloadRPMButton=Download Installer (.RPM)
 	  downloadDEBButton=Download Installer (.DEB)
 	  downloadEXEButton=Download Bin (.EXE)
+
+ # Support tab <- Add to translations
+          
 
  # ========== Menus ========== #
  # ADB menu
@@ -98,6 +101,8 @@
           settingsTab=Preferences
           updatesTab=Updates
           aboutTab=About
+          supportTab=Support
+          # ↑ Add to translations
 
  # ========== Panels ========== #
  # Android tab
@@ -132,6 +137,8 @@
 	  showRestoreManagerMsg=Please reboot your device into a custom recovery mode (e.g.: CWM, TWRP) before continuing, as this process can severely damage your device!
 	  showRestoreManagerMsgTitle=Reboot your device to recovery!
           comingSoon=Coming Soon!
+          batStatusInterrupted=The battery monitor was interrupted due to an error. I'm sorry for any inconvenience. Please restart Universal Android Toolkit\nand try again.
+          batStatusInterruptedTitle=Battery Monitor was Interrupted!
 	  
  # ========== Devices Menu ========== #
 	  
@@ -245,3 +252,77 @@
 
           unlockBootldr:msg=This might not work on all devices; once I am familiar with more unlocking methods, I will add them.
           unlockBootldr:msgTitle=Notice
+
+# ========== Relock Bootloader ========== #
+          
+          relockBootldr:msg=This might not work on all devices; once I am familiar with all the re-locking methods, I will add them.
+          relockBootldr:msgTitle=Notice
+
+ # ========== More-UI ========== #
+          
+          moreUI:title=Enhanced ADB Mode
+          moreUI:taskManagerTab=Task Manager
+          moreUI:noDeviceMsg=No devices were found or selected! Please connect and select a device and then try again!
+          moreUI:noDeviceMsgTitle=No Device Connected
+          moreUI:context:killProcess=Kill Process
+          moreUI:context:killAllProcesses=Kill All Processes
+          moreUI:reloadButton=Reload
+          moreUI:killButton=Kill
+          moreUI:killAllButton=Kill All
+
+# ========== Update Device ========== #
+          
+          updateDevice:zipChooserTitle=Please Choose a ZIP File to update your device from...
+          updateDevice:zipChooserApproveButton=Update Using this Zip
+          updateDevice:updating=Updating Device. Please wait...
+          updateDevice:zipFileDesc=Zip-Compressed Files
+
+# ========== Battery Status =========== #
+# Don't have the time or will to think of a good syntax, here. The defaults from my enums should do the trick, though...
+          BATTERY_STATUS_UNKNOWN=Unknown
+          BATTERY_STATUS_CHARGING=Charging
+          BATTERY_STATUS_DISCHARGING=Discharging
+          BATTERY_STATUS_NOT_CHARGING=Not Charging
+          BATTERY_STATUS_FULL=Full
+
+# ========== Battery Health ========== #
+# Same applies here, as above.
+          BATTERY_HEALTH_UNKNOWN=Unknown
+          BATTERY_HEALTH_GOOD=Good
+          BATTERY_HEALTH_OVERHEAT=Overheating
+          BATTERY_HEALTH_DEAD=Dead
+          BATTERY_HEALTH_OVER_VOLTAGE=Over Voltage
+          BATTERY_HEALTH_UNSPECIFIED_FAILURE=Unspecified Failure
+          BATTERY_HEALTH_COLD=Cold
+
+# ========== Boolean Values ========= #
+
+          true=True
+          false=False
+
+# ========== Power Outlets ========== #
+
+          poweredBy:USB=USB
+          poweredBy:AC=AC
+          poweredBy:wireless=Wireless
+
+# ========== Build Prop Manager (Save As...) ========== #
+
+          buildProp:saveAs_title=Save Build Prop As...
+          buildProp:saveAs_approveButton=Save Here...
+
+# ========== File Manager ========== #
+
+          # These are the tool tips for the controls, not the actual text!
+          fileManager:newFile=Creates a new file in the current path.
+          fileManager:newFolder=Creates a new folder in the current path.
+          fileManager:deleteFile=Deletes the selected file in the current path.
+          fileManager:deleteFolder=Deletes the selected folder in the current path (folder must be empty).
+          fileManager:pull=Downloads the selected file/folder to a location on the (local) system.
+          fileManager:push=Uploads a selected file/folder to the current path on the device's filesystem.
+          fileManager:newFileMsg=Please enter the name of the new file below:
+          fileManager:newFileMsgTitle=Enter File Name
+          fileManager:newDirMsg=Please enter the name of the new folder below:
+          fileManager:newDirMsgTitle=Enter Folder Name
+          fileManager:pullFileDialogTitle=Select a Destination on your Hard Drive...
+          fileManager:pushFileDialogTitle=Select a File or Folder to Push...

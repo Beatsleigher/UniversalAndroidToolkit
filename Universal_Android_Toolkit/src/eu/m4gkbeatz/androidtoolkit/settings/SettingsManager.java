@@ -89,7 +89,7 @@ public final class SettingsManager {
                 //
                 + "#####################################################################################################\n"
                 + "# Current file location:                                                                            #\n"
-                + "# " + prefsFile.getAbsolutePath() + "\t#\n"
+                + "# " + prefsFile.getAbsolutePath() + "\t\t#\n"
                 + "#####################################################################################################\n\n"
                 //
                 + "# Preference block 01.\n"
@@ -106,8 +106,9 @@ public final class SettingsManager {
                 + "# Datatype: int\n"
                 + "pref::(data=int){\n"
                 + "\tpref::[name=deviceRefreshInterval, value=" + deviceRefreshInterval + "];\n"
-                + "\t# DON'T TOUCH THIS UNLESS YOU KNOW WHAT YOU'RE DOING!\n"
+                + "\t# ↓DON'T TOUCH THIS UNLESS YOU KNOW WHAT YOU'RE DOING!↓\n"
                 + "\tpref::[name=gcInterval, value=" + gcInterval + "];\n"
+                + "\tpref::[name=infoRefreshInterval, value=" + infoRefreshInterval + "];\n"
                 + "}\n\n"
                 //
                 + "# Preference block 03.\n"
@@ -143,6 +144,7 @@ public final class SettingsManager {
     private static Language language = Language.en_gb;
     private static boolean showLog = true;
     private static int gcInterval = 60000;
+    private static int infoRefreshInterval = 800;
     /*Misc. Vars*/
     private boolean debug = false;
     private File prefsFile = null;
@@ -305,6 +307,8 @@ public final class SettingsManager {
     
     public int getGCInterval() { return gcInterval; }
     
+    public int getInfoRefreshInterval() { return infoRefreshInterval; }
+    
     //# =============== Setter Methods =============== #\\
     public void setRefreshDevices(boolean val) { refreshDevices = val; }
     
@@ -323,5 +327,7 @@ public final class SettingsManager {
     public void setLanguage(String lang) { language = Language.valueOf(lang); }
     
     public void setGCInterval(int int_) { gcInterval = int_; }
+    
+    public void setInfoRefreshInterval(int val) { infoRefreshInterval = val; }
     
 }

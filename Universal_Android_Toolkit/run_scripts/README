@@ -1,0 +1,6 @@
+Run scripts for Universal Android Toolkit.
+
+Please provide these scripts when distributing your own version of Universal Android Toolkit, as they have specific JVM-args, that will (most likely, depending on the machine the code
+is running on) speed UAT up a notch.
+
+- Beats

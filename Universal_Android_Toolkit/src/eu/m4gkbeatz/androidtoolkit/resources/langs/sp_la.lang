@@ -258,4 +258,8 @@
           partitionManager:imgChooserApproveButton=Flashear ésta imágen
           partitionManager:customPartitionMsg=Por favor ingrese la partición en la que quiere flashear la imágen...
           partitionManager:customPartitionMsgTitle=Ingrese la nueva Partición...
->>>>>>> origin/master
+
+ # ========== More-UI ========== #
+          
+          moreUI:title=Enhanced ADB Mode
+          moreUI:taskManagerTab=Task Manager

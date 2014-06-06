@@ -57,10 +57,8 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jLabel1" max="32767" attributes="0"/>
-                              <Component id="jFormattedTextField1" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="jLabel1" max="32767" attributes="0"/>
+                          <Component id="jFormattedTextField1" max="32767" attributes="0"/>
                           <Component id="jLabel2" alignment="0" max="32767" attributes="0"/>
                           <Component id="jFormattedTextField2" alignment="0" max="32767" attributes="0"/>
                       </Group>
@@ -99,8 +97,9 @@
             </Component>
             <Component class="javax.swing.JFormattedTextField" name="jFormattedTextField1">
               <Properties>
-                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-                  <Format format="###.###.###.###" subtype="-1" type="5"/>
+                <Property name="formatterFactory" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}"/>
+                <Property name="inputVerifier" type="javax.swing.InputVerifier" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new InputVerifier() {&#xa;            Pattern pat = Pattern.compile(&quot;\\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.&quot;+&#xa;                    &quot;(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.&quot; +&#xa;                    &quot;(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.&quot; +&#xa;                    &quot;(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b&quot;);&#xa;            public boolean shouldYieldFocus(JComponent input) {&#xa;                boolean inputOK = verify(input);&#xa;                if (inputOK) {&#xa;                    return true;&#xa;                } else {&#xa;                    Toolkit.getDefaultToolkit().beep();&#xa;                    return false;&#xa;                }&#xa;            }&#xa;            public boolean verify(JComponent input) {&#xa;                JTextField field = (JTextField) input;&#xa;                Matcher m = pat.matcher(field.getText());&#xa;                return m.matches();&#xa;            }&#xa;        }" type="code"/>
                 </Property>
               </Properties>
             </Component>
