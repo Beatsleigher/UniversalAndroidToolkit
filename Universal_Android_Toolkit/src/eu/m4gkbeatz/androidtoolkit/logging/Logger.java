@@ -68,6 +68,28 @@ public class Logger extends javax.swing.JFrame {
     }
     
     public void close() throws IOException {
+        writer.write("\n"
+                + "###############################################################\n"
+                + "Universal Android Toolkit Debug Information:\n"
+                + "System:\n"
+                + " - OS Name: " + System.getProperty("os.name") + "\n"
+                + " - OS Architecture: " + System.getProperty("os.arch") + "\n"
+                + " - OS Version: " + System.getProperty("os.version") + "\n"
+                + "\nJava:\n"
+                + " - Java Home: " + System.getProperty("java.home") + "\n"
+                + " - Java Version: " + System.getProperty("java.version") + "\n"
+                + " - Java Vendor: " + System.getProperty("java.vendor") + "\n"
+                + " - Java Vendor URL: " + System.getProperty("java.vendor.url") + "\n"
+                + "\nUser:\n"
+                + " - User Dir (Working Directory): " +  System.getProperty("user.dir") + "\n"
+                + " - User Language: " + System.getProperty("user.language") + "\n"
+                + " - User Region: " + System.getProperty("user.region") + "\n"
+                + " - User Timezone: " + System.getProperty("user.timezone") + "\n\n"
+                + "The information provided here will soley be used for a better\n"
+                + "and more active development on Universal Android Toolkit.\n"
+                + "Your information will never be provided to 3rd parties.\n"
+                + "\"###############################################################\n");
+        writer.flush();
         writer.close();
     }
 

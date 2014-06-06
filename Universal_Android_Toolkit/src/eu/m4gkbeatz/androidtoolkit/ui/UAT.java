@@ -358,6 +358,9 @@ public class UAT extends javax.swing.JFrame {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
             }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
         });
 
         applicationsPanel_androidPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Applications"));
@@ -1622,6 +1625,12 @@ public class UAT extends javax.swing.JFrame {
             ALREADY_ACTIVATED = true;
         }
     }//GEN-LAST:event_formWindowActivated
+    
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            logger.close();
+        } catch (IOException ex) {}
+    }//GEN-LAST:event_formWindowClosing
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="//# =============== Android Tab Events =============== #\\">
