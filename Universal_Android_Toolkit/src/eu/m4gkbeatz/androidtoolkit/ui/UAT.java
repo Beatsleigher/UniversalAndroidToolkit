@@ -217,6 +217,8 @@ public class UAT extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        fileManagerContext = new javax.swing.JPopupMenu();
+        chmod = new javax.swing.JMenuItem();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         androidTab = new javax.swing.JPanel();
         applicationsPanel_androidPanel = new javax.swing.JPanel();
@@ -352,6 +354,14 @@ public class UAT extends javax.swing.JFrame {
         installADB_uatMenu = new javax.swing.JMenuItem();
         about_uatMenu = new javax.swing.JMenuItem();
         exit_uatMenu = new javax.swing.JMenuItem();
+
+        chmod.setText(parser.parse("fileManager:popUp:chmod"));
+        chmod.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                chmodMouseClicked(evt);
+            }
+        });
+        fileManagerContext.add(chmod);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -1035,6 +1045,7 @@ public class UAT extends javax.swing.JFrame {
 
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jList1.setCellRenderer(new FileSystemCellRenderer());
+        jList1.setComponentPopupMenu(fileManagerContext);
         jList1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jList1MouseClicked(evt);
@@ -2105,6 +2116,59 @@ public class UAT extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_downloadEXE_updatesButtonActionPerformed
     //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Device → File Manager → Context Events">
+    private void chmodMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_chmodMouseClicked
+        String file = (String) jList1.getSelectedValue();
+        String mode = null;
+        boolean useSU = false;
+        
+        if (file == null || file.equals("")) {
+            logger.log(Level.ERROR, "No file or folder was selected!");
+            return;
+        }
+        
+        mode = JOptionPane.showInputDialog(this, parser.parse("fileManager:popUp:chmodMsg"), parser.parse("fileManager:popUp:chmodMsgTitle"), JOptionPane.QUESTION_MESSAGE);
+        
+        if (mode == null || mode.equals("")) {
+            logger.log(Level.ERROR, "No mode was input!");
+            return;
+        }
+        
+        try {
+            if (!selectedDevice.getBusybox().isInstalled()) {
+                logger.log(Level.ERROR, "Busybox is not installed on device " + selectedDevice.getSerial());
+                return;
+            }
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while checking the device (" + selectedDevice.getSerial() + ") for its Busybox installation: " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+            return;
+        }
+        
+        try {
+            if (selectedDevice.getSU().isInstalled())
+                useSU = true;
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while checking the device (" + selectedDevice.getSerial() + ") for its SU installation: " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+            return;
+        }
+        
+        try {
+            if (useSU)
+                logger.log(Level.INFO, "ADB Output: " + selectedDevice.getSU().executeSUCommand(false, new String[]{"chmod", mode, file}));
+            else
+                logger.log(Level.INFO, "ADB Output: " + adbController.executeADBCommand(true, false, selectedDevice, new String[]{"chmod", mode, file})); 
+        } catch (IOException | DeviceHasNoRootException ex) {
+            logger.log(Level.ERROR, "An error occurred while changing the file's (" + file + ") mode to " + mode + " on device " + selectedDevice.getSerial() + ": " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
+    }//GEN-LAST:event_chmodMouseClicked
+    //</editor-fold>
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="//# =============== Logcat and DMESG =============== #\\">
@@ -2448,6 +2512,7 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JLabel changelog_updatesLabel;
     private javax.swing.JToggleButton checkForUpdates_settingsButton;
     private javax.swing.JMenuItem checkForUpdates_uatMenu;
+    private javax.swing.JMenuItem chmod;
     private javax.swing.JButton cleanFlashPartition_fastbootButton;
     private javax.swing.JButton connectDevice_androidButton;
     private javax.swing.JMenuItem connectToDevice_adbMenu;
@@ -2467,6 +2532,7 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JMenuItem exit_uatMenu;
     private javax.swing.JButton exploreRoot_androidButton;
     private javax.swing.JPanel fastbootTab;
+    private javax.swing.JPopupMenu fileManagerContext;
     private javax.swing.JPanel fileManagerTab;
     private javax.swing.JButton fileManager_androidButton;
     private javax.swing.JPanel filesPanel_androidPanel;
