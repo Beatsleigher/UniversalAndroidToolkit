@@ -31,21 +31,41 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Start Server"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="startServer_adbMenuActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="stopServer_adbMenu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Stop Server"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stopServer_adbMenuActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="restartServer_adbMenu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Restart Server"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="restartServer_adbMenuActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="connectToDevice_adbMenu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Connect to Device"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="connectToDevice_adbMenuActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Custom Command"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+              </Events>
             </MenuItem>
             <Menu class="javax.swing.JMenu" name="reboot_adbMenu">
               <Properties>
@@ -56,16 +76,25 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="to Android"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toAndroid_adbMenuActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="toFastboot_adbMenu">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="to Fastboot"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toFastboot_adbMenuActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="toRecovery_adbMenu">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="to Recovery"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toRecovery_adbMenuActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -76,6 +105,14 @@
             <Property name="text" type="java.lang.String" value="Fastboot"/>
           </Properties>
           <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Custom Command"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
+              </Events>
+            </MenuItem>
             <Menu class="javax.swing.JMenu" name="reboot_fastbootMenu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Reboot"/>
@@ -85,11 +122,17 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="to Android"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toAndroid_fastbootMenuActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="toFastboot_fastbootMenu">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="to Fastboot"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toFastboot_fastbootMenuActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -199,11 +242,12 @@
                               <Component id="rootingPanel_androidPanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="adbTCPPanel_androidPanel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="devModeButton" min="-2" max="-2" attributes="0"/>
+                                  <Component id="more_androidButton" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Component id="more_androidButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -214,18 +258,23 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="applicationsPanel_androidPanel" max="32767" attributes="0"/>
-                              <Component id="filesPanel_androidPanel" max="32767" attributes="0"/>
-                              <Component id="backupsPanel_androidPanel" max="32767" attributes="0"/>
-                              <Component id="rootingPanel_androidPanel" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="applicationsPanel_androidPanel" max="32767" attributes="0"/>
+                                  <Component id="filesPanel_androidPanel" max="32767" attributes="0"/>
+                                  <Component id="backupsPanel_androidPanel" max="32767" attributes="0"/>
+                                  <Component id="rootingPanel_androidPanel" max="32767" attributes="0"/>
+                              </Group>
+                              <Component id="adbTCPPanel_androidPanel" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="adbTCPPanel_androidPanel" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="devModeButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="more_androidButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                      <Component id="more_androidButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                       <Component id="jTabbedPane2" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -564,6 +613,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="more_androidButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="devModeButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Developer Mode"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="devModeButtonActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

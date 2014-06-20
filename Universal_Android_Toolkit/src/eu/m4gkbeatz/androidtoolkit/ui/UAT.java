@@ -26,6 +26,7 @@ import static JDroidLib.android.device.Battery.BatteryHealth;
 import JDroidLib.exceptions.*;
 
 import eu.m4gkbeatz.androidtoolkit.*;
+import eu.m4gkbeatz.androidtoolkit.devmode.*;
 import eu.m4gkbeatz.androidtoolkit.language.*;
 import eu.m4gkbeatz.androidtoolkit.logging.*;
 import static eu.m4gkbeatz.androidtoolkit.logging.Logger.Level;
@@ -114,6 +115,7 @@ public class UAT extends javax.swing.JFrame {
                 connectDevice_androidButton.setText(parser.parse("connectButton"));
                 disconnectDevice_androidButton.setText(parser.parse("disconnectButton"));
                 more_androidButton.setText(parser.parse("moreButton"));
+                devModeButton.setText(parser.parse("developerModeButton"));
                 // Fastboot tab
                 formatPartition_fastbootButton.setText(parser.parse("formatPartitionButton"));
                 erasePartition_fastbootButton.setText(parser.parse("erasePartitionButton"));
@@ -242,6 +244,7 @@ public class UAT extends javax.swing.JFrame {
         connectDevice_androidButton = new javax.swing.JButton();
         disconnectDevice_androidButton = new javax.swing.JButton();
         more_androidButton = new javax.swing.JButton();
+        devModeButton = new javax.swing.JButton();
         fastbootTab = new javax.swing.JPanel();
         formattingPanel_fastbootPanel = new javax.swing.JPanel();
         formatPartition_fastbootButton = new javax.swing.JButton();
@@ -341,11 +344,13 @@ public class UAT extends javax.swing.JFrame {
         stopServer_adbMenu = new javax.swing.JMenuItem();
         restartServer_adbMenu = new javax.swing.JMenuItem();
         connectToDevice_adbMenu = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         reboot_adbMenu = new javax.swing.JMenu();
         toAndroid_adbMenu = new javax.swing.JMenuItem();
         toFastboot_adbMenu = new javax.swing.JMenuItem();
         toRecovery_adbMenu = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         reboot_fastbootMenu = new javax.swing.JMenu();
         toAndroid_fastbootMenu = new javax.swing.JMenuItem();
         toFastboot_fastbootMenu = new javax.swing.JMenuItem();
@@ -577,6 +582,13 @@ public class UAT extends javax.swing.JFrame {
             }
         });
 
+        devModeButton.setText("Developer Mode");
+        devModeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                devModeButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout androidTabLayout = new javax.swing.GroupLayout(androidTab);
         androidTab.setLayout(androidTabLayout);
         androidTabLayout.setHorizontalGroup(
@@ -595,26 +607,30 @@ public class UAT extends javax.swing.JFrame {
                         .addComponent(rootingPanel_androidPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(adbTCPPanel_androidPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, androidTabLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(more_androidButton)))
+                        .addGap(18, 18, 18)
+                        .addGroup(androidTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(devModeButton)
+                            .addComponent(more_androidButton))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         androidTabLayout.setVerticalGroup(
             androidTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(androidTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(androidTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(androidTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(applicationsPanel_androidPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(filesPanel_androidPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(backupsPanel_androidPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(rootingPanel_androidPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(adbTCPPanel_androidPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
-                .addComponent(more_androidButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(androidTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(androidTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(androidTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(applicationsPanel_androidPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(filesPanel_androidPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(backupsPanel_androidPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(rootingPanel_androidPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(adbTCPPanel_androidPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(androidTabLayout.createSequentialGroup()
+                        .addComponent(devModeButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(more_androidButton)))
+                .addGap(53, 53, 53)
                 .addComponent(jTabbedPane2)
                 .addContainerGap())
         );
@@ -1532,26 +1548,69 @@ public class UAT extends javax.swing.JFrame {
         adbMenu.setText("ADB");
 
         startServer_adbMenu.setText("Start Server");
+        startServer_adbMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startServer_adbMenuActionPerformed(evt);
+            }
+        });
         adbMenu.add(startServer_adbMenu);
 
         stopServer_adbMenu.setText("Stop Server");
+        stopServer_adbMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stopServer_adbMenuActionPerformed(evt);
+            }
+        });
         adbMenu.add(stopServer_adbMenu);
 
         restartServer_adbMenu.setText("Restart Server");
+        restartServer_adbMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                restartServer_adbMenuActionPerformed(evt);
+            }
+        });
         adbMenu.add(restartServer_adbMenu);
 
         connectToDevice_adbMenu.setText("Connect to Device");
+        connectToDevice_adbMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                connectToDevice_adbMenuActionPerformed(evt);
+            }
+        });
         adbMenu.add(connectToDevice_adbMenu);
+
+        jMenuItem1.setText("Custom Command");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        adbMenu.add(jMenuItem1);
 
         reboot_adbMenu.setText("Reboot");
 
         toAndroid_adbMenu.setText("to Android");
+        toAndroid_adbMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toAndroid_adbMenuActionPerformed(evt);
+            }
+        });
         reboot_adbMenu.add(toAndroid_adbMenu);
 
         toFastboot_adbMenu.setText("to Fastboot");
+        toFastboot_adbMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toFastboot_adbMenuActionPerformed(evt);
+            }
+        });
         reboot_adbMenu.add(toFastboot_adbMenu);
 
         toRecovery_adbMenu.setText("to Recovery");
+        toRecovery_adbMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toRecovery_adbMenuActionPerformed(evt);
+            }
+        });
         reboot_adbMenu.add(toRecovery_adbMenu);
 
         adbMenu.add(reboot_adbMenu);
@@ -1560,12 +1619,30 @@ public class UAT extends javax.swing.JFrame {
 
         jMenu2.setText("Fastboot");
 
+        jMenuItem2.setText("Custom Command");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
         reboot_fastbootMenu.setText("Reboot");
 
         toAndroid_fastbootMenu.setText("to Android");
+        toAndroid_fastbootMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toAndroid_fastbootMenuActionPerformed(evt);
+            }
+        });
         reboot_fastbootMenu.add(toAndroid_fastbootMenu);
 
         toFastboot_fastbootMenu.setText("to Fastboot");
+        toFastboot_fastbootMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toFastboot_fastbootMenuActionPerformed(evt);
+            }
+        });
         reboot_fastbootMenu.add(toFastboot_fastbootMenu);
 
         jMenu2.add(reboot_fastbootMenu);
@@ -2162,12 +2239,72 @@ public class UAT extends javax.swing.JFrame {
                 logger.log(Level.INFO, "ADB Output: " + selectedDevice.getSU().executeSUCommand(false, new String[]{"chmod", mode, file}));
             else
                 logger.log(Level.INFO, "ADB Output: " + adbController.executeADBCommand(true, false, selectedDevice, new String[]{"chmod", mode, file})); 
-        } catch (IOException | DeviceHasNoRootException ex) {
+        } catch (IOException  ex) {
             logger.log(Level.ERROR, "An error occurred while changing the file's (" + file + ") mode to " + mode + " on device " + selectedDevice.getSerial() + ": " + ex.toString() + "\n"
                     + "The error stack trace will be printed to the console...");
             ex.printStackTrace(System.err);
         }
     }//GEN-LAST:event_chmodMouseClicked
+
+    private void devModeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_devModeButtonActionPerformed
+        if (DevConfirmationDialog.showConfirmDialog(parser) == DevConfirmationDialog.OPTION_CONFIRM_CORRECT) 
+            new SDKMenu(new File(System.getProperty("user.home") + "/.androidtoolkit"), logger, settings, adbController, debug, parser).setVisible(true);
+    }//GEN-LAST:event_devModeButtonActionPerformed
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="ADB Tab Events">
+    private void startServer_adbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startServer_adbMenuActionPerformed
+        try {
+            adbController.startServer();
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while starting the ADB server!");
+            
+        }
+    }//GEN-LAST:event_startServer_adbMenuActionPerformed
+
+    private void stopServer_adbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopServer_adbMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_stopServer_adbMenuActionPerformed
+
+    private void restartServer_adbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restartServer_adbMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_restartServer_adbMenuActionPerformed
+
+    private void connectToDevice_adbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectToDevice_adbMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_connectToDevice_adbMenuActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void toAndroid_adbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toAndroid_adbMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_toAndroid_adbMenuActionPerformed
+
+    private void toFastboot_adbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toFastboot_adbMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_toFastboot_adbMenuActionPerformed
+
+    private void toRecovery_adbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toRecovery_adbMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_toRecovery_adbMenuActionPerformed
+
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Fastboot Tab Events">
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void toAndroid_fastbootMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toAndroid_fastbootMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_toAndroid_fastbootMenuActionPerformed
+
+    private void toFastboot_fastbootMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toFastboot_fastbootMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_toFastboot_fastbootMenuActionPerformed
+    
     //</editor-fold>
     //</editor-fold>
     
@@ -2520,6 +2657,7 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JLabel cpuUsage_rootLabel;
     private javax.swing.JButton deleteFile_fileManagerButton;
     private javax.swing.JButton deleteFolder_fileManagerButton;
+    private javax.swing.JButton devModeButton;
     private javax.swing.JPanel devices_settingsPanel;
     private javax.swing.JLabel directoryLabel_fileManagerLabel;
     private javax.swing.JButton disconnectDevice_androidButton;
@@ -2554,6 +2692,8 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel3;

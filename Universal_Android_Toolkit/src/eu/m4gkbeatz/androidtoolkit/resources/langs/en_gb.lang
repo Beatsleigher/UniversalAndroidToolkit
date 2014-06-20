@@ -13,6 +13,8 @@
 	  connectButton=Connect...
 	  disconnectButton=Disconnect...
 	  moreButton=More...
+          developerModeButton=Developer Mode
+          customCommand=Custom Command
  # Fastboot tab
 	  formatPartitionButton=Format Partition
 	  erasePartitionButton=Erase Partition
@@ -22,6 +24,7 @@
 	  unlockBootloaderButton=Unlock Bootloader
 	  relockBootloaderButton=Relock Bootloader
 	  updateDeviceButton=Update Device
+          customCommand=Custom Command (Not really needed, but hey. Why not?)
  # Battery tab
 	  batteryLevelLabel=Battery Level:
 	  batteryHealthLabel=Battery Health:
@@ -319,7 +322,7 @@
           fileManager:deleteFile=Deletes the selected file in the current path.
           fileManager:deleteFolder=Deletes the selected folder in the current path (folder must be empty).
           fileManager:pull=Downloads the selected file/folder to a location on the (local) system.
-          fileManager:push=Uploads a selected file/folder to the current path on the device's filesystem.
+          fileManager:push=Uploads a selected file/folder to the current path on the device's file system.
           fileManager:newFileMsg=Please enter the name of the new file below:
           fileManager:newFileMsgTitle=Enter File Name
           fileManager:newDirMsg=Please enter the name of the new folder below:
@@ -330,3 +333,18 @@
           fileManager:popUp:chmodMsg=Please enter the desired mode, below:
           fileManager:popUp:chmodMsgTitle=Enter Desired Mode...
           
+
+ # ========== SDK Manager ========== #
+
+          sdkManager:download:downloading=Downloading the SDK. Please be patient...
+          sdkManager:download:title=Downloading the SDK
+          sdkManager:install:installing=Installing the SDK. Please be patient...
+          sdkManager:install:title=Installing the SDK
+          sdkManager:successMsg=The Android SDK has successfully been installed to your system!\nWARNING: Do not drink coffee when it's freshly boiled. It tends to be hot.
+          sdkManager:successMsgTitle=SDK was Installed
+          sdkManager:devConfirm:title=Please Confirm that you are a Developer.
+          sdkManager:devConfirm:descLabel=Please confirm that you are a developer by selecting the correct answer below and clicking OK...
+          sdkManager:devConfirm:correct1=Java is the preferred language to develop Android apps.
+          sdkManager:devConfirm:false1=C# is the preferred language to develop Android apps.
+          sdkManager:devConfirm:false2=Python is the preferred language to develop Android apps.
+          sdkManager:devConfirm:false3=Android XML is the preferred language to develop Android apps.
