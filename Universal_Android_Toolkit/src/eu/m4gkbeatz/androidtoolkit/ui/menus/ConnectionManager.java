@@ -54,6 +54,7 @@ public class ConnectionManager extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setIconImage(new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/UniversalAndroidToolkit_logo.png")).getImage());
         loadTranslations();
+        setVisible(true);
     }
     
     private void loadTranslations() {

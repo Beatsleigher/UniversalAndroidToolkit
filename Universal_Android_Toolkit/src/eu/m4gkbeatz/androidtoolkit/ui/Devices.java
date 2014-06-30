@@ -263,7 +263,7 @@ public final class Devices extends javax.swing.JFrame {
                     } catch (InterruptedException | IOException ex) {
                         logger.log(level.ERROR, "Error occurred while reloading devices! Error stack trace will be printed to the console...");
                         ex.printStackTrace(System.err);
-                        interrupt();
+                        break;
                     }
                 }
                 interrupt();
@@ -271,30 +271,44 @@ public final class Devices extends javax.swing.JFrame {
         }.start();
     }
     
+    private IOException exception = null;
     private void reload() throws IOException {
-        if (debug)
-            logger.log(level.DEBUG, "Reloading devices...");
         
-        // Load ADB devices
-        deviceMap.clear();
-        DefaultListModel model = new DefaultListModel();
-        for (Device dev : adbController.getConnectedDevices()) {
-            model.addElement(dev.toString());
-            deviceMap.put(dev, new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/device/status_" + String.valueOf(dev.getState()).toLowerCase() + ".png")));
-        }
-        jList1.setModel(model);
-        
-        // Load fastboot devices.
-        model = new DefaultListModel();
-        for (String str : adbController.getFastbootController().getConnectedDevices())
-            model.addElement(str);
-        jList2.setModel(model);
-        
-        jList1.setSelectedIndex(SELECTED_DEVICE);
-        
-        
-        if (jList2.getSelectedValue() == null || jList2.getSelectedIndex() == -1 && jList2.getModel().getSize() != 0)
-            jList2.setSelectedIndex(0);
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                if (debug)
+                    logger.log(Level.DEBUG, "Reloading devices...");
+
+                // Load ADB devices
+                deviceMap.clear();
+                DefaultListModel model = new DefaultListModel();
+                for (Device dev : adbController.getConnectedDevices()) {
+                    model.addElement(dev.toString());
+                    deviceMap.put(dev, new ImageIcon(this.getClass().getResource("/eu/m4gkbeatz/androidtoolkit/resources/device/status_" + String.valueOf(dev.getState()).toLowerCase() + ".png")));
+                }
+                jList1.setModel(model);
+
+                // Load fastboot devices.
+                model = new DefaultListModel();
+                for (String str : adbController.getFastbootController().getConnectedDevices())
+                    model.addElement(str);
+                jList2.setModel(model);
+
+                jList1.setSelectedIndex(SELECTED_DEVICE);
+
+
+                if (jList2.getSelectedValue() == null || jList2.getSelectedIndex() == -1 && jList2.getModel().getSize() != 0)
+                    jList2.setSelectedIndex(0);
+                } catch (IOException ex) {
+                    exception = ex;
+                }
+                interrupt();
+            }
+        }.start();
+        if(exception != null)
+            throw exception;
     }
     
     private class DeviceListRenderer extends DefaultListCellRenderer {

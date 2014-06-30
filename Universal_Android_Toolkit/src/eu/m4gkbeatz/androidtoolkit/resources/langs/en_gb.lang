@@ -1,5 +1,6 @@
  # English (Great Britain), default language for Universal Android Toolkit
  # Note: To add a new line to a translation, add »\n« to the location of the new line and continue on that same line.
+ # Should you see <html></html> tags anywhere, DO NOT CHANGE THE TAGS! ONLY THE TEXT INSIDE THEM!
  
  # ========== Buttons and Labels ========== #
  
@@ -142,6 +143,9 @@
           comingSoon=Coming Soon!
           batStatusInterrupted=The battery monitor was interrupted due to an error. I'm sorry for any inconvenience. Please restart Universal Android Toolkit\nand try again.
           batStatusInterruptedTitle=Battery Monitor was Interrupted!
+          notImplementedMsg=Sorry, this feature has not yet been implemented. Please wait until the next release.\nShould you feel this is an error, please visit: http://bit.ly/1yUKGWI
+          notImplementedMsgTitle=Not Yet Implemented
+          adbInstallChooserTitle=Select a Location to Install ADB To...
 	  
  # ========== Devices Menu ========== #
 	  
@@ -348,3 +352,11 @@
           sdkManager:devConfirm:false1=C# is the preferred language to develop Android apps.
           sdkManager:devConfirm:false2=Python is the preferred language to develop Android apps.
           sdkManager:devConfirm:false3=Android XML is the preferred language to develop Android apps.
+
+ # ========== Custom Command ========== #
+
+          customCmd:title=Execute a Custom Command...
+          customCmd:enterCmdLabel=<html><b>Enter a command below:</b></html>
+          customCmd:executeButton=Execute Command...
+          customCmd:fbMode=Fastboot Mode
+          customCmd:adbMode=ADB Mode

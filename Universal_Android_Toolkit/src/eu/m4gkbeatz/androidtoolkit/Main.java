@@ -31,6 +31,7 @@ import java.io.*;
 import java.net.*;
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
+
 import net.lingala.zip4j.exception.*;
 
 /**
@@ -172,9 +173,9 @@ public class Main {
         try {
             adbController = new ADBController();
             logger.log(Level.INFO, "JDroidLib has started. Booting Android Debug Bridge server...");
-            adbController.startServer();
+            //adbController.startServer();
             logger.log(Level.INFO, "ADB server has started.");
-        } catch (IOException | ZipException | InterruptedException ex) {
+        } catch (IOException | ZipException | InterruptedException | OSNotSupportedException ex) {
             logger.log(Level.ERROR, "Error while initializing JDroidLib!\n\tLaunch will abort (Error code 3!): " + ex.toString());
             ex.printStackTrace(System.err);
             System.exit(3);

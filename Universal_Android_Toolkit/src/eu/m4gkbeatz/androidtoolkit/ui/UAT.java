@@ -23,9 +23,13 @@ import JDroidLib.android.controllers.*;
 import JDroidLib.android.device.*;
 import static JDroidLib.android.device.Battery.BatteryStatus;
 import static JDroidLib.android.device.Battery.BatteryHealth;
+import JDroidLib.enums.OS;
+import JDroidLib.enums.RebootTo;
 import JDroidLib.exceptions.*;
+import JDroidLib.util.ResourceManager;
 
 import eu.m4gkbeatz.androidtoolkit.*;
+import eu.m4gkbeatz.androidtoolkit.about.*;
 import eu.m4gkbeatz.androidtoolkit.devmode.*;
 import eu.m4gkbeatz.androidtoolkit.language.*;
 import eu.m4gkbeatz.androidtoolkit.logging.*;
@@ -42,6 +46,7 @@ import java.util.*;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
+import net.lingala.zip4j.exception.ZipException;
 
 
 /**
@@ -344,13 +349,13 @@ public class UAT extends javax.swing.JFrame {
         stopServer_adbMenu = new javax.swing.JMenuItem();
         restartServer_adbMenu = new javax.swing.JMenuItem();
         connectToDevice_adbMenu = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        executeCustomCommandMenuItem = new javax.swing.JMenuItem();
         reboot_adbMenu = new javax.swing.JMenu();
         toAndroid_adbMenu = new javax.swing.JMenuItem();
         toFastboot_adbMenu = new javax.swing.JMenuItem();
         toRecovery_adbMenu = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        customCommand_fastbootMenuItem = new javax.swing.JMenuItem();
         reboot_fastbootMenu = new javax.swing.JMenu();
         toAndroid_fastbootMenu = new javax.swing.JMenuItem();
         toFastboot_fastbootMenu = new javax.swing.JMenuItem();
@@ -1579,13 +1584,13 @@ public class UAT extends javax.swing.JFrame {
         });
         adbMenu.add(connectToDevice_adbMenu);
 
-        jMenuItem1.setText("Custom Command");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        executeCustomCommandMenuItem.setText("Custom Command");
+        executeCustomCommandMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                executeCustomCommandMenuItemActionPerformed(evt);
             }
         });
-        adbMenu.add(jMenuItem1);
+        adbMenu.add(executeCustomCommandMenuItem);
 
         reboot_adbMenu.setText("Reboot");
 
@@ -1619,13 +1624,13 @@ public class UAT extends javax.swing.JFrame {
 
         jMenu2.setText("Fastboot");
 
-        jMenuItem2.setText("Custom Command");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        customCommand_fastbootMenuItem.setText("Custom Command");
+        customCommand_fastbootMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                customCommand_fastbootMenuItemActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem2);
+        jMenu2.add(customCommand_fastbootMenuItem);
 
         reboot_fastbootMenu.setText("Reboot");
 
@@ -1652,12 +1657,27 @@ public class UAT extends javax.swing.JFrame {
         jMenu3.setText("Universal Android Toolkit");
 
         checkForUpdates_uatMenu.setText("Check for Updates");
+        checkForUpdates_uatMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkForUpdates_uatMenuActionPerformed(evt);
+            }
+        });
         jMenu3.add(checkForUpdates_uatMenu);
 
         installADB_uatMenu.setText("Install ADB to Custom Location...");
+        installADB_uatMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                installADB_uatMenuActionPerformed(evt);
+            }
+        });
         jMenu3.add(installADB_uatMenu);
 
         about_uatMenu.setText("About");
+        about_uatMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                about_uatMenuActionPerformed(evt);
+            }
+        });
         jMenu3.add(about_uatMenu);
 
         exit_uatMenu.setText("Exit");
@@ -1716,8 +1736,17 @@ public class UAT extends javax.swing.JFrame {
     
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         try {
-            logger.close();
-        } catch (IOException ex) {}
+            getDeviceInfo = false;
+            adbController.dispose();
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while attempting to dispose of ADBController: " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        } finally {
+            try {
+                logger.close();
+            } catch (IOException ex) { ex.printStackTrace(System.err); }
+        }
     }//GEN-LAST:event_formWindowClosing
     //</editor-fold>
     
@@ -2239,7 +2268,7 @@ public class UAT extends javax.swing.JFrame {
                 logger.log(Level.INFO, "ADB Output: " + selectedDevice.getSU().executeSUCommand(false, new String[]{"chmod", mode, file}));
             else
                 logger.log(Level.INFO, "ADB Output: " + adbController.executeADBCommand(true, false, selectedDevice, new String[]{"chmod", mode, file})); 
-        } catch (IOException  ex) {
+        } catch (IOException | DeviceHasNoRootException ex) {
             logger.log(Level.ERROR, "An error occurred while changing the file's (" + file + ") mode to " + mode + " on device " + selectedDevice.getSerial() + ": " + ex.toString() + "\n"
                     + "The error stack trace will be printed to the console...");
             ex.printStackTrace(System.err);
@@ -2252,58 +2281,127 @@ public class UAT extends javax.swing.JFrame {
     }//GEN-LAST:event_devModeButtonActionPerformed
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="ADB Tab Events">
+    //<editor-fold defaultstate="collapsed" desc="ADB Menu Events">
     private void startServer_adbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startServer_adbMenuActionPerformed
         try {
             adbController.startServer();
         } catch (IOException ex) {
             logger.log(Level.ERROR, "An error occurred while starting the ADB server!");
-            
+            ex.printStackTrace(System.err);
         }
     }//GEN-LAST:event_startServer_adbMenuActionPerformed
 
     private void stopServer_adbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopServer_adbMenuActionPerformed
-        // TODO add your handling code here:
+        try {
+            adbController.stopServer();
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while stopping the ADB server!");
+            ex.printStackTrace(System.err);
+        }
     }//GEN-LAST:event_stopServer_adbMenuActionPerformed
 
     private void restartServer_adbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restartServer_adbMenuActionPerformed
-        // TODO add your handling code here:
+        try {
+            adbController.restartServer();
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while restarting the ADB server!");
+            ex.printStackTrace(System.err);
+        }
     }//GEN-LAST:event_restartServer_adbMenuActionPerformed
 
     private void connectToDevice_adbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectToDevice_adbMenuActionPerformed
-        // TODO add your handling code here:
+       new ConnectionManager(parser, debug, adbController, logger).setTab(0);
     }//GEN-LAST:event_connectToDevice_adbMenuActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void executeCustomCommandMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_executeCustomCommandMenuItemActionPerformed
+        new CustomCommand(parser, debug, adbController, logger, deviceManager).setVisible(true);
+    }//GEN-LAST:event_executeCustomCommandMenuItemActionPerformed
 
     private void toAndroid_adbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toAndroid_adbMenuActionPerformed
-        // TODO add your handling code here:
+        try {
+            adbController.rebootDevice(selectedDevice, RebootTo.ANDROID);
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while rebooting device " + selectedDevice.getSerial() + " to Android: " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
     }//GEN-LAST:event_toAndroid_adbMenuActionPerformed
 
     private void toFastboot_adbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toFastboot_adbMenuActionPerformed
-        // TODO add your handling code here:
+        try {
+            adbController.rebootDevice(selectedDevice, RebootTo.BOOTLOADER);
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while rebooting device " + selectedDevice.getSerial() + " to Fastboot: " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
     }//GEN-LAST:event_toFastboot_adbMenuActionPerformed
 
     private void toRecovery_adbMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toRecovery_adbMenuActionPerformed
-        // TODO add your handling code here:
+        try {
+            adbController.rebootDevice(selectedDevice, RebootTo.RECOVERY);
+        } catch (IOException ex) {
+            logger.log(Level.ERROR, "An error occurred while rebooting device " + selectedDevice.getSerial() + " to recovery: " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
     }//GEN-LAST:event_toRecovery_adbMenuActionPerformed
 
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Fastboot Tab Events">
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    private void customCommand_fastbootMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customCommand_fastbootMenuItemActionPerformed
+        new CustomCommand(parser, debug, adbController, logger, deviceManager).setVisible(true);
+    }//GEN-LAST:event_customCommand_fastbootMenuItemActionPerformed
 
     private void toAndroid_fastbootMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toAndroid_fastbootMenuActionPerformed
-        // TODO add your handling code here:
+        try {
+            adbController.getFastbootController().rebootDeviceFastboot(deviceManager.getSelectedFastbootDevice(), RebootTo.ANDROID);
+        } catch (IOException | NullPointerException ex) {
+            logger.log(Level.ERROR, "An error occurred while rebooting device " + selectedDevice.getSerial() + " to Android: " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
     }//GEN-LAST:event_toAndroid_fastbootMenuActionPerformed
 
     private void toFastboot_fastbootMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toFastboot_fastbootMenuActionPerformed
-        // TODO add your handling code here:
+        try {
+            adbController.getFastbootController().rebootDeviceFastboot(deviceManager.getSelectedFastbootDevice(), RebootTo.BOOTLOADER);
+        } catch (IOException | NullPointerException ex) {
+            logger.log(Level.ERROR, "An error occurred while rebooting device " + selectedDevice.getSerial() + " to Fastboot: " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
     }//GEN-LAST:event_toFastboot_fastbootMenuActionPerformed
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Universal Android Toolkit Tab Events">
+    private void checkForUpdates_uatMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkForUpdates_uatMenuActionPerformed
+        JOptionPane.showMessageDialog(this, parser.parse("notImplementedMsg"), parser.parse("notImplementedMsgTitle"), JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_checkForUpdates_uatMenuActionPerformed
+
+    private void installADB_uatMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_installADB_uatMenuActionPerformed
+        JFileChooser dirChooser = new JFileChooser();
+        dirChooser.setDialogTitle(parser.parse("adbInstallChooserTitle"));
+        dirChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        File location = null;
+        int result = dirChooser.showOpenDialog(this);
+        if (result == JOptionPane.OK_OPTION)
+            location = dirChooser.getSelectedFile();
+        else return;
+        
+        try {
+            new ResourceManager().install(OS.getOS(System.getProperty("os.name")), location.getAbsolutePath());
+        } catch (IOException | ZipException | InterruptedException | OSNotSupportedException ex) {
+            logger.log(Level.ERROR, "An error occurred while installing ADB: " + ex.toString() + "\n"
+                    + "The error stack trace will be printed to the console...");
+            ex.printStackTrace(System.err);
+        }
+    }//GEN-LAST:event_installADB_uatMenuActionPerformed
+
+    private void about_uatMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_about_uatMenuActionPerformed
+        new About().setVisible(true);
+    }//GEN-LAST:event_about_uatMenuActionPerformed
     
     //</editor-fold>
     //</editor-fold>
@@ -2655,6 +2753,7 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JMenuItem connectToDevice_adbMenu;
     private javax.swing.JList cpuUsageList_rootList;
     private javax.swing.JLabel cpuUsage_rootLabel;
+    private javax.swing.JMenuItem customCommand_fastbootMenuItem;
     private javax.swing.JButton deleteFile_fileManagerButton;
     private javax.swing.JButton deleteFolder_fileManagerButton;
     private javax.swing.JButton devModeButton;
@@ -2667,6 +2766,7 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JButton downloadJar_updatesButton;
     private javax.swing.JButton downloadRPM_updatesButton;
     private javax.swing.JButton erasePartition_fastbootButton;
+    private javax.swing.JMenuItem executeCustomCommandMenuItem;
     private javax.swing.JMenuItem exit_uatMenu;
     private javax.swing.JButton exploreRoot_androidButton;
     private javax.swing.JPanel fastbootTab;
@@ -2692,8 +2792,6 @@ public class UAT extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel3;
